@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "213741867292",
+    "firebase_url": "https://lead-games.firebaseio.com",
+    "project_id": "lead-games",
+    "storage_bucket": "lead-games.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:213741867292:android:81596480e42a99b8",
+        "android_client_info": {
+          "package_name": "leadgames.cis400.leadgames"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "213741867292-p0au314q16it31o15gv1ph64291dndnr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCreEsJ2e6BucBgegqZk0rFbZzStlLjlrc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
