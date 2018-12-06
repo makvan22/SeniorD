@@ -21,7 +21,7 @@ public class MenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -48,7 +48,7 @@ public class MenuActivity extends AppCompatActivity {
                 "fonts/walterturncoat.ttf";
 
         // text view label
-        TextView welcome_msg = (TextView) findViewById(R.id.welcome_text);
+        TextView welcome_msg = findViewById(R.id.welcome_text);
 
         // Loading Font Face
         Typeface tf = Typeface.createFromAsset(getAssets(), fontPath);
@@ -56,7 +56,6 @@ public class MenuActivity extends AppCompatActivity {
         // Applying font
         welcome_msg.setTypeface(tf);
     }
-
 //    @Override
 //    public void onBackPressed() {
 //        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
