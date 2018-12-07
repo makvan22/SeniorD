@@ -59,6 +59,7 @@ public class MenuActivity extends AppCompatActivity {
         // Applying font
         welcome_msg.setTypeface(tf);
         authors_msg.setTypeface(tf);
+        FirebaseManager.writeScore(null);
 
         new Handler().postDelayed(new Runnable(){
             @Override
