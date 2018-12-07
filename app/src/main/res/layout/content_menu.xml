@@ -27,7 +27,7 @@
     <TextView
         android:id="@+id/authors"
         android:layout_width="806dp"
-        android:layout_height="389dp"
+        android:layout_height="201dp"
         android:text="@string/authors"
         android:textColor="@color/white"
         android:textSize="36sp"

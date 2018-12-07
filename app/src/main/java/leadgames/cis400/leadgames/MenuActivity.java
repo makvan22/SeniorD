@@ -1,7 +1,9 @@
 package leadgames.cis400.leadgames;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.View;
@@ -38,10 +40,10 @@ public class MenuActivity extends AppCompatActivity {
 //                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 //        drawer.addDrawerListener(toggle);
 //        toggle.syncState();
-//
+
 //        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-//        navigationView.setNavigationItemSelectedListener(this);
-//
+        //navigationView.setNavigationItemSelectedListener(this);
+
         // Font path
 
         String fontPath =
@@ -49,12 +51,24 @@ public class MenuActivity extends AppCompatActivity {
 
         // text view label
         TextView welcome_msg = findViewById(R.id.welcome_text);
+        TextView authors_msg = findViewById(R.id.authors);
 
         // Loading Font Face
         Typeface tf = Typeface.createFromAsset(getAssets(), fontPath);
 
         // Applying font
         welcome_msg.setTypeface(tf);
+        authors_msg.setTypeface(tf);
+
+        new Handler().postDelayed(new Runnable(){
+            @Override
+            public void run() {
+                /* Create an Intent that will start the Menu-Activity. */
+                Intent mainIntent = new Intent(MenuActivity.this,FishActivity.class);
+                MenuActivity.this.startActivity(mainIntent);
+                MenuActivity.this.finish();
+            }
+        }, 4000);
     }
 //    @Override
 //    public void onBackPressed() {
