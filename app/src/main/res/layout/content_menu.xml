@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_bckg"
@@ -12,16 +13,28 @@
 
     <TextView
         android:id="@+id/welcome_text"
-        android:layout_width="968dp"
-        android:layout_height="444dp"
-        android:text="Lexical Ambiguity Detection Games "
-        android:textSize="72sp"
+        android:layout_width="806dp"
+        android:layout_height="213dp"
+        android:text="@string/game_title"
         android:textColor="@color/white"
+        android:textSize="72sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.498"
-        tools:text="Lexical Ambiguity Detection Games" />
+        app:layout_constraintVertical_bias="0.193" />
+
+    <TextView
+        android:id="@+id/authors"
+        android:layout_width="806dp"
+        android:layout_height="389dp"
+        android:text="@string/authors"
+        android:textColor="@color/white"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.623" />
 
 </android.support.constraint.ConstraintLayout>
