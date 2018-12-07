@@ -47,37 +47,37 @@ public class FishActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fish);
         init();
+    }
 
-        fish4.setClickable(true);
-        fish4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (midFishDir == 1) {
-                    wins += 1;
-                    Log.d("Played",  "win");
-                }
-                plays += 1;
-                shuffle();
-            }
-        });
-
-        fish2.setClickable(true);
-        fish2.setOnClickListener(new View.OnClickListener() {
+    private void init() {
+        leftButton = (ImageView) findViewById(R.id.left_arrow);
+        leftButton.setClickable(true);
+        leftButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (midFishDir == 0) {
                     wins += 1;
-                    Log.d("Played",  "win");
+                    Log.d("Played",  "left win");
                 }
                 plays += 1;
                 shuffle();
             }
         });
-        return;
 
-    }
+        rightButton = (ImageView) findViewById(R.id.right_arrow);
+        rightButton.setClickable(true);
+        rightButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (midFishDir == 1) {
+                    wins += 1;
+                    Log.d("Played",  "right win");
+                }
+                plays += 1;
+                shuffle();
+            }
+        });
 
-    private void init() {
         fish1 = (ImageView) findViewById(R.id.fish1);
         fish2 = (ImageView) findViewById(R.id.fish2);
         fish3 = (ImageView) findViewById(R.id.fish3);
@@ -153,10 +153,10 @@ public class FishActivity extends AppCompatActivity {
             dir2 = getDirection();
             int dir3 = getDirection();
             fish3.setImageResource(dir1);
-           fish2.setImageResource(dir2);
-           fish4.setImageResource(dir2);
-           fish1.setImageResource(dir3);
-           fish5.setImageResource(dir3);
+            fish2.setImageResource(dir2);
+            fish4.setImageResource(dir2);
+            fish1.setImageResource(dir3);
+            fish5.setImageResource(dir3);
             return;
         }
         //fully randomized
