@@ -147,7 +147,7 @@ public class FishActivity extends AppCompatActivity {
             }
             return;
         }
-        //left and right not necessarily
+        //left and right not necessarily in same direction
        if (wins < 11) {
             dir1 = setMidDirection();
             dir2 = getDirection();
