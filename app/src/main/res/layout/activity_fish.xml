@@ -7,22 +7,6 @@
     android:background="@color/white"
     tools:context="leadgames.cis400.leadgames.FishActivity">
 
-    <!-- The primary full-screen view. This can be replaced with whatever view
-         is needed to present your content, e.g. VideoView, SurfaceView,
-         TextureView, etc. -->
-    <!--<TextView-->
-        <!--android:id="@+id/fullscreen_content"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:gravity="center"-->
-        <!--android:keepScreenOn="true"-->
-        <!--android:text="@string/dummy_content"-->
-        <!--android:textColor="#33b5e5"-->
-        <!--android:textSize="50sp"-->
-        <!--android:textStyle="bold" />-->
-
-    <!-- This FrameLayout insets its children based on system windows using
-         android:fitsSystemWindows. -->
     <TextView
         android:id="@+id/prompt"
         android:layout_width="700dp"
@@ -136,25 +120,5 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
-    <!--<LinearLayout-->
-        <!--android:id="@+id/fullscreen_content_controls"-->
-        <!--style="?metaButtonBarStyle"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="bottom|center_horizontal"-->
-        <!--android:background="@color/black_overlay"-->
-        <!--android:orientation="horizontal"-->
-        <!--tools:ignore="UselessParent"-->
-        <!--tools:layout_editor_absoluteX="16dp"-->
-        <!--tools:layout_editor_absoluteY="149dp">-->
-
-        <!--<Button-->
-            <!--android:id="@+id/dummy_button"-->
-            <!--style="?metaButtonBarButtonStyle"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:contentDescription="@string/fish_desc" />-->
-    <!--</LinearLayout>-->
 </android.support.constraint.ConstraintLayout>
 
