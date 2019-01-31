@@ -61,15 +61,34 @@ public class MenuActivity extends AppCompatActivity {
         authors_msg.setTypeface(tf);
         FirebaseManager.writeScore(null);
 
-        new Handler().postDelayed(new Runnable(){
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                /* Create an Intent that will start the Menu-Activity. */
+            public void onClick(View view) {
                 Intent mainIntent = new Intent(MenuActivity.this,FishActivity.class);
                 MenuActivity.this.startActivity(mainIntent);
                 MenuActivity.this.finish();
             }
-        }, 4000);
+        });
+        FloatingActionButton fab2 = findViewById(R.id.fab2);
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent mainIntent = new Intent(MenuActivity.this,PickUpActivity.class);
+                MenuActivity.this.startActivity(mainIntent);
+                MenuActivity.this.finish();
+            }
+        });
+        /*
+        new Handler().postDelayed(new Runnable(){
+            @Override
+            public void run() {
+                // Create an Intent that will start the Menu-Activity.
+                Intent mainIntent = new Intent(MenuActivity.this,FishActivity.class);
+                MenuActivity.this.startActivity(mainIntent);
+                MenuActivity.this.finish();
+            }
+        }, 4000);*/
     }
 //    @Override
 //    public void onBackPressed() {
