@@ -70,6 +70,7 @@ public class MenuActivity extends AppCompatActivity {
                 MenuActivity.this.finish();
             }
         });
+
         FloatingActionButton fab2 = findViewById(R.id.fab2);
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
