@@ -16,8 +16,8 @@ public class Trial {
         this.targetGoal = targetGoal;
         this.targetPlatform = targetPlatform;
         this.distractorAnimal = distractorAnimal;
-        this.distractorGoal = targetGoal;
-        this.distractorPlatform = targetPlatform;
+        this.distractorGoal = distractorGoal;
+        this.distractorPlatform = distractorPlatform;
     }
 
     public Integer getId (){

@@ -65,12 +65,14 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void run() {
                 /* Create an Intent that will start the Menu-Activity. */
-                Intent mainIntent = new Intent(MenuActivity.this,FishActivity.class);
+                Intent mainIntent = new Intent(MenuActivity.this, FishActivity.class);
                 MenuActivity.this.startActivity(mainIntent);
                 MenuActivity.this.finish();
             }
         }, 4000);
     }
+
+
 //    @Override
 //    public void onBackPressed() {
 //        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -89,7 +91,7 @@ public class MenuActivity extends AppCompatActivity {
 //    }
 //
 //    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
+//    public boolean onOptionsItemSelected(MenuIm item) {
 //        // Handle action bar item clicks here. The action bar will
 //        // automatically handle clicks on the Home/Up button, so long
 //        // as you specify a parent activity in AndroidManifest.xml.
