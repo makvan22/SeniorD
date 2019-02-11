@@ -1,0 +1,3 @@
+PickUpActivity.Java
+- FIXED : app crashes when you move animal more than twice
+-
