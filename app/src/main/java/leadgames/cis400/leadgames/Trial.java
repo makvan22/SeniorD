@@ -40,9 +40,7 @@ public class Trial {
         return this.id;
     }
 
-    public String getTargetAnimal() {
-        return targetAnimal;
-    }
+    public String getTargetAnimal() {return targetAnimal; }
 
     public String getTargetGoal() {
         return targetGoal;
