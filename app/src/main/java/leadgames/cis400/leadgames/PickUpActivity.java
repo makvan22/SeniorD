@@ -142,8 +142,8 @@ public class PickUpActivity extends AppCompatActivity {
     //TODO: Load trials from database
     private void loadTrials() {
         //temporary hardcoded trials
-        Trial t1 = new Trial("1", "pig", "towel", "dog",
-                "leaf", "book", "towel");
+        Trial t1 = new Trial("1", "pig", "towel", "leaf",
+                "dog", "book", "towel");
 
         Trial t2 = new Trial("2", "frog", "balloon",
                 "frog", "napkin", "box",
@@ -275,9 +275,10 @@ public class PickUpActivity extends AppCompatActivity {
                 case DragEvent.ACTION_DROP:
                     View view = (ImageView) event.getLocalState();
                     view.setVisibility(View.INVISIBLE);
-                    System.out.println("view tag: " + view.getTag());
-                    animalQ.setImageResource((int) view.getTag());
-                    animalQ.setTag(view.getTag());
+                    int tag = (int) view.getTag();
+                    System.out.println("view tag: " + tag);
+                    animalQ.setImageResource(tag);
+                    animalQ.setTag(tag);
                     animalQ.setVisibility(View.VISIBLE);
                     animalQ.setOnTouchListener(new TouchListener());
                     platformDown = (ImageView) view;
