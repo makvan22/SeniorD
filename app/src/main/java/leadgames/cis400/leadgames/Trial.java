@@ -1,7 +1,11 @@
 package leadgames.cis400.leadgames;
 
+import com.google.firebase.database.DataSnapshot;
+
+import java.util.HashMap;
+
 public class Trial {
-    private Integer id;
+    private String id;
     private String targetAnimal;
     private String targetGoal;
     private String targetPlatform;
@@ -9,8 +13,20 @@ public class Trial {
     private String distractorGoal;
     private String distractorPlatform;
 
-    public Trial (Integer id, String targetAnimal, String targetPlatform, String distractorAnimal,
-                  String distractorPlatform, String targetGoal, String distractorGoal) {
+    public Trial(DataSnapshot dataSnapshot){
+        HashMap<String, Object> object = (HashMap<String, Object>) dataSnapshot.getValue();
+        this.id = dataSnapshot.getKey();
+        this.targetAnimal=object.get("targetAnimal").toString();
+        this.targetGoal=object.get("targetGoal").toString();
+        this.targetPlatform=object.get("targetPlatform").toString();
+        this.distractorAnimal=object.get("distractorAnimal").toString();
+        this.distractorGoal=object.get("distractorGoal").toString();
+        this.distractorPlatform=object.get("distractorPlatform").toString();
+    }
+
+
+    public Trial (String id, String targetAnimal, String targetGoal, String targetPlatform,
+                  String distractorAnimal, String distractorGoal, String distractorPlatform) {
         this.id = id;
         this.targetAnimal = targetAnimal;
         this.targetGoal = targetGoal;
@@ -20,7 +36,7 @@ public class Trial {
         this.distractorPlatform = distractorPlatform;
     }
 
-    public Integer getId (){
+    public String getId (){
         return this.id;
     }
 

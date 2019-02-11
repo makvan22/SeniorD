@@ -142,17 +142,17 @@ public class PickUpActivity extends AppCompatActivity {
     //TODO: Load trials from database
     private void loadTrials() {
         //temporary hardcoded trials
-        Trial t1 = new Trial(1, "pig", "towel", "dog",
+        Trial t1 = new Trial("1", "pig", "towel", "dog",
                 "leaf", "book", "towel");
 
-        Trial t2 = new Trial(2, "frog", "balloon",
+        Trial t2 = new Trial("2", "frog", "balloon",
                 "frog", "napkin", "box",
                 "balloon");
 
-        Trial t3 = new Trial(3, "frog", "leaf", "bear",
+        Trial t3 = new Trial("3", "frog", "leaf", "bear",
                 "book", "circle", "leaf");
 
-        Trial t4 = new Trial(4, "elephant", "pan",
+        Trial t4 = new Trial("4", "elephant", "pan",
                 "elephant", "balloon", "book",
                 "pan");
         trials.add(t1);

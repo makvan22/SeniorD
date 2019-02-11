@@ -25,6 +25,7 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.app_bar_menu);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        FirebaseManager fbm = FirebaseManager.getInstance();
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -59,7 +60,7 @@ public class MenuActivity extends AppCompatActivity {
         // Applying font
         welcome_msg.setTypeface(tf);
         authors_msg.setTypeface(tf);
-        FirebaseManager.writeScore(null);
+        //FirebaseManager.writeScore(null);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
