@@ -21,6 +21,7 @@ public class FirebaseManager {
     private volatile static FirebaseManager sFirebaseManager;
 
     private DatabaseReference putGameRef;
+    private DatabaseReference putResultsRef;
     private PutGameDB mPutGame;
 
     public static synchronized FirebaseManager getInstance() {
@@ -34,9 +35,10 @@ public class FirebaseManager {
 
     private FirebaseManager(){
         putGameRef = FirebaseDatabase.getInstance().getReference("put-games");
-
         mPutGame = new PutGameDB();
         populatePutGameDb();
+
+        putResultsRef = FirebaseDatabase.getInstance().getReference("put-games");
     }
 
     public void populatePutGameDb() {
@@ -45,6 +47,10 @@ public class FirebaseManager {
 
     public List<Trial> getAllPutTrials() {
         return mPutGame.getAllPutTrials();
+    }
+
+    public void addPutResult(PutResult putResult) {
+
     }
 
     public void addValueEventListenerToDb(String db) {

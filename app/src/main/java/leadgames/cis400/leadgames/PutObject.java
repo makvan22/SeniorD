@@ -1,0 +1,7 @@
+package leadgames.cis400.leadgames;
+
+public enum PutObject {
+    TARGET_ANIMAL, TARGET_PLATFORM, TARGET_GOAL,
+    DISTRACTOR_ANIMAL, DISTRACTOR_GOAL, DISTRACTOR_PLATFORM;
+
+}
