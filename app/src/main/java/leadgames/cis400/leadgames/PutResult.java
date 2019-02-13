@@ -7,16 +7,14 @@ public class PutResult {
     private String trialId;
     private boolean correct;
     private int time;
-    private PutObject putObject;
-    private List<PutObject> path;
+    private List<PutPath> paths;
 
-    public PutResult(String trialId, boolean correct, int time, PutObject putObject,
-                     List<PutObject> path) {
+    public PutResult(String trialId, boolean correct, int time,
+                     List<PutPath> paths) {
         this.trialId = trialId;
         this.correct = correct;
         this.time = time;
-        this.putObject = putObject;
-        this.path = path;
+        this.paths = paths;
     }
 
 
