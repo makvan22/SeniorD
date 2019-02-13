@@ -12,6 +12,8 @@
     <string name="fish_prompt">Which way is the middle fish going?</string>
 
     <string name="title_activity_pick_up">PickUpActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="submit_desc">Submission button</string>
+    <string name="submit_button">Done!</string>
+
+
 </resources>

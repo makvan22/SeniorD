@@ -29,6 +29,13 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
+import static leadgames.cis400.leadgames.PutObject.DISTRACTOR_ANIMAL;
+import static leadgames.cis400.leadgames.PutObject.DISTRACTOR_GOAL;
+import static leadgames.cis400.leadgames.PutObject.DISTRACTOR_PLATFORM;
+import static leadgames.cis400.leadgames.PutObject.TARGET_ANIMAL;
+import static leadgames.cis400.leadgames.PutObject.TARGET_GOAL;
+import static leadgames.cis400.leadgames.PutObject.TARGET_PLATFORM;
+
 public class PickUpActivity extends AppCompatActivity {
 
     private ImageView q1;
@@ -41,12 +48,17 @@ public class PickUpActivity extends AppCompatActivity {
     private ImageView p3;
     private ImageView p4;
 
-    private ImageView animalUp = null;
-    private ImageView platformDown = null;
     private HashSet<ImageView> animals = new HashSet<ImageView>();
     private HashSet<ImageView> platforms = new HashSet<ImageView>();
-    private HashSet<Trial> trials = new HashSet<Trial>();
     private ArrayList<Integer> quadrants = new ArrayList<>();
+
+    private HashSet<Trial> trials = new HashSet<Trial>();
+    private Iterator<Trial> trialIterator = null;
+
+    String currTrial = "";
+    PutObject currAnimal = null;
+    PutObject currPlatform = null;
+    ArrayList<PutObject> currPath = new ArrayList<>();
 
     Integer moves = 0;
 
@@ -67,17 +79,17 @@ public class PickUpActivity extends AppCompatActivity {
             //TODO: decide on null behaviour & implement
             return;
         }
-        Iterator<Trial> trialIterator = trials.iterator();
-        while (trialIterator.hasNext()) {
-            runTrial(trialIterator.next());
+        trialIterator = trials.iterator();
+        if (trialIterator.hasNext()) {
+            startTrial(trialIterator.next());
         }
     }
 
-    private void runTrial(Trial trial) {
+    private void startTrial(Trial trial) {
         /* XML is divided into 4 quadrants
            Q1 - upper left  Q2 - upper right  Q3 - bottom left Q4 - bottom right
          */
-
+        currTrial = trial.getId();
         clearPlatforms();
         clearAnimals();
         // Shuffle quadrants to determine randomly assign position of objects
@@ -86,19 +98,41 @@ public class PickUpActivity extends AppCompatActivity {
         clearPlatforms();
         clearAnimals();
         // Update xml to display current trail's objects
-        setAnimalView(trial.getTargetAnimal(), quadrants.get(0));
-        setPlatformView(trial.getTargetPlatform(), quadrants.get(0));
+        setAnimalView(trial.getTargetAnimal(), quadrants.get(0), TARGET_ANIMAL);
+        setPlatformView(trial.getTargetPlatform(), quadrants.get(0), TARGET_PLATFORM);
 
-        setAnimalView(trial.getDistractorAnimal(), quadrants.get(1));
-        setPlatformView(trial.getDistractorPlatform(), quadrants.get(1));
+        setAnimalView(trial.getDistractorAnimal(), quadrants.get(1), DISTRACTOR_ANIMAL);
+        setPlatformView(trial.getDistractorPlatform(), quadrants.get(1), DISTRACTOR_PLATFORM);
 
-        setPlatformView(trial.getTargetGoal(), quadrants.get(2));
-        setPlatformView(trial.getDistractorGoal(), quadrants.get(3));
+        setPlatformView(trial.getTargetGoal(), quadrants.get(2), TARGET_GOAL);
+        setPlatformView(trial.getDistractorGoal(), quadrants.get(3), DISTRACTOR_GOAL);
 
-        Integer targetAnimalQ = quadrants.get(0);
-        Integer distractorAnimalQ = quadrants.get(1);
-        Integer targetGoalQ = quadrants.get(2);
-        Integer distractorGoalQ = quadrants.get(3);
+    }
+
+    public void endTrial() {
+        //Gather Trial results
+        //Determine correctness of trial
+        Boolean correct = false;
+        if (currAnimal != null && currAnimal == TARGET_ANIMAL
+                && currPlatform != null && currPlatform == TARGET_GOAL) {
+            correct = true;
+        }
+        System.out.println("Trial result:" + correct);
+        //TODO: replace time with actual trial time.
+        //TODO: decide on whether or not store putObject
+        PutResult result = new PutResult(currTrial, correct, 0, null,
+                currPath);
+        //TODO: Add game result to DB
+
+        //run next trial
+        if (trialIterator.hasNext()) {
+            startTrial(trialIterator.next());
+        } else {
+            //TODO: create an end of game display before return to menu page
+            Intent mainIntent = new Intent(PickUpActivity.this,MenuActivity.class);
+            PickUpActivity.this.startActivity(mainIntent);
+            PickUpActivity.this.finish();
+        }
     }
 
     private void initViews() {
@@ -156,12 +190,12 @@ public class PickUpActivity extends AppCompatActivity {
                 "elephant", "balloon", "book",
                 "pan");
         trials.add(t1);
-//        trials.add(t2);
-//        trials.add(t3);
-//        trials.add(t4);
+//      trials.add(t2);
+//      trials.add(t3);
+//      trials.add(t4);
     }
 
-    private void setAnimalView(String imageName, int quad) {
+    private void setAnimalView(String imageName, int quad, PutObject animalType) {
         ImageView view;
         switch (quad) {
             case 1:
@@ -178,7 +212,8 @@ public class PickUpActivity extends AppCompatActivity {
                 break;
         }
         view.setImageResource(getImageResource(imageName));
-        view.setTag(getImageResource(imageName));
+        //Tag =>  "animalType , imageName"
+        view.setTag(animalType + "," + imageName);
         view.setVisibility(View.VISIBLE);
         view.setClickable(true);
         view.setOnTouchListener(new TouchListener());
@@ -186,7 +221,7 @@ public class PickUpActivity extends AppCompatActivity {
         view.setOnDragListener(null);
     }
 
-    private void setPlatformView(String obj, int quad) {
+    private void setPlatformView(String obj, int quad, PutObject platformType) {
         ImageView view;
         ImageView animalQ;
         switch (quad) {
@@ -209,7 +244,8 @@ public class PickUpActivity extends AppCompatActivity {
         }
         view.setImageResource(getImageResource(obj));
         view.setVisibility(View.VISIBLE);
-        view.setOnDragListener(new DragListener(animalQ));
+        view.setOnDragListener(new DragListener(animalQ, platformType));
+        view.setTag(platformType);
         // Sanity check: no platform can be draggable
         view.setClickable(false);
         view.setOnTouchListener(new TouchListener());
@@ -249,13 +285,22 @@ public class PickUpActivity extends AppCompatActivity {
     private final class TouchListener implements View.OnTouchListener {
         public boolean onTouch(View view, MotionEvent motionEvent) {
             if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                //Set curr animal to view being selected
+                String tag = (String) view.getTag();
+                System.out.println("Tag: " + tag);
+                //Fetch animal type from tag
+                PutObject animalUp = PutObject.valueOf(tag.split(",")[0]);
+                currAnimal = animalUp;
+                currPath.add(animalUp);
+                System.out.println("Animal up: " + animalUp);
+                System.out.println("Currpath: " + currPath.toString());
+
+                //Start drag
                 ClipData data = ClipData.newPlainText("", "");
                 View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(
                         view);
                 view.startDrag(data, shadowBuilder, view, 0);
-                animalUp = (ImageView) view;
-                System.out.println("animal up" + view.toString());
-                //view.setVisibility(View.INVISIBLE);
+
                 return true;
             } else {
                 return false;
@@ -265,8 +310,10 @@ public class PickUpActivity extends AppCompatActivity {
 
     private final class DragListener implements View.OnDragListener {
         private ImageView animalQ;
-        public DragListener(ImageView animalQ){
+        private PutObject platformType;
+        public DragListener(ImageView animalQ, PutObject platformType){
             this.animalQ = animalQ;
+            this.platformType =  platformType;
         }
         @Override
         public boolean onDrag(View v, DragEvent event) {
@@ -275,15 +322,19 @@ public class PickUpActivity extends AppCompatActivity {
                 case DragEvent.ACTION_DROP:
                     View view = (ImageView) event.getLocalState();
                     view.setVisibility(View.INVISIBLE);
-                    int tag = (int) view.getTag();
-                    System.out.println("view tag: " + tag);
-                    animalQ.setImageResource(tag);
+
+                    //Replace old animal view with that being dropped on current platform
+                    String tag = (String) view.getTag();
+                    System.out.println("Tag: " + tag);
                     animalQ.setTag(tag);
+                    //Fetch image name from tag
+                    animalQ.setImageResource(getImageResource(tag.split(",")[1]));
                     animalQ.setVisibility(View.VISIBLE);
                     animalQ.setOnTouchListener(new TouchListener());
-                    platformDown = (ImageView) view;
+                    currPath.add(platformType);
+                    currPlatform = platformType;
+                    System.out.println("Curr path: " + currPath.toString());
                     moves += 1;
-                    System.out.println("Platform down: " + view.toString());
                     System.out.println("Moves: " + moves);
                     break;
                 default:
