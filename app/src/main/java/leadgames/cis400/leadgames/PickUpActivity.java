@@ -35,6 +35,7 @@ public class PickUpActivity extends AppCompatActivity {
     private ImageView q2;
     private ImageView q3;
     private ImageView q4;
+
     private ImageView p1;
     private ImageView p2;
     private ImageView p3;
@@ -47,7 +48,6 @@ public class PickUpActivity extends AppCompatActivity {
     private HashSet<Trial> trials = new HashSet<Trial>();
     private ArrayList<Integer> quadrants = new ArrayList<>();
 
-
     Integer moves = 0;
 
     @Override
@@ -59,7 +59,7 @@ public class PickUpActivity extends AppCompatActivity {
         for (int i = 1; i <= 4; i++) {
             quadrants.add(i);
         }
-        //initialize views
+        // Initialize views
         // Update xml to display current trail's objects
         initViews();
         loadTrials();
@@ -99,34 +99,6 @@ public class PickUpActivity extends AppCompatActivity {
         Integer distractorAnimalQ = quadrants.get(1);
         Integer targetGoalQ = quadrants.get(2);
         Integer distractorGoalQ = quadrants.get(3);
-
-        final String prompt = "Put the " + trial.getTargetAnimal() + " on the "
-                + trial.getTargetPlatform() + " on the " + trial.getTargetGoal();
-
-        final TextView promptView = findViewById(R.id.prompt);
-        promptView.setVisibility(View.VISIBLE);
-        promptView.setText(prompt);
-        promptView.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-        new Handler().postDelayed(new Runnable(){
-            @Override
-            public void run() {
-                //hide text
-                promptView.setVisibility(View.INVISIBLE);
-
-            }
-        }, 8000);
-
-
-
-
-        //update xml
-        //set target location
-//        new Handler().postDelayed(new Runnable(){
-//            @Override
-//            public void run() {
-//                return;
-//            }
-//        }, 4000);
     }
 
     private void initViews() {
@@ -170,8 +142,8 @@ public class PickUpActivity extends AppCompatActivity {
     //TODO: Load trials from database
     private void loadTrials() {
         //temporary hardcoded trials
-        Trial t1 = new Trial("1", "pig", "towel", "dog",
-                "leaf", "book", "towel");
+        Trial t1 = new Trial("1", "pig", "towel", "leaf",
+                "dog", "book", "towel");
 
         Trial t2 = new Trial("2", "frog", "balloon",
                 "frog", "napkin", "box",
@@ -189,7 +161,7 @@ public class PickUpActivity extends AppCompatActivity {
 //        trials.add(t4);
     }
 
-    private void setAnimalView(String obj, int quad) {
+    private void setAnimalView(String imageName, int quad) {
         ImageView view;
         switch (quad) {
             case 1:
@@ -205,10 +177,12 @@ public class PickUpActivity extends AppCompatActivity {
                 view = q4;
                 break;
         }
-        view.setImageResource(getImageResource(obj));
-        view.setTag(getImageResource(obj));
+        view.setImageResource(getImageResource(imageName));
+        view.setTag(getImageResource(imageName));
         view.setVisibility(View.VISIBLE);
+        view.setClickable(true);
         view.setOnTouchListener(new TouchListener());
+        // Sanity check: no animal should act as a drop zone
         view.setOnDragListener(null);
     }
 
@@ -236,7 +210,9 @@ public class PickUpActivity extends AppCompatActivity {
         view.setImageResource(getImageResource(obj));
         view.setVisibility(View.VISIBLE);
         view.setOnDragListener(new DragListener(animalQ));
+        // Sanity check: no platform can be draggable
         view.setClickable(false);
+        view.setOnTouchListener(new TouchListener());
     }
 
     private int getImageResource(String img) {
@@ -287,11 +263,7 @@ public class PickUpActivity extends AppCompatActivity {
         }
     }
 
-
     private final class DragListener implements View.OnDragListener {
-//        Drawable enterShape = getResources().getDrawable(
-//        R.drawable.shape_droptarget);
-//        Drawable normalShape = getResources().getDrawable(R.drawable.shape);
         private ImageView animalQ;
         public DragListener(ImageView animalQ){
             this.animalQ = animalQ;
@@ -303,12 +275,14 @@ public class PickUpActivity extends AppCompatActivity {
                 case DragEvent.ACTION_DROP:
                     View view = (ImageView) event.getLocalState();
                     view.setVisibility(View.INVISIBLE);
-                    System.out.println("view tag: " + view.getTag());
-                    animalQ.setImageResource((int) view.getTag());
+                    int tag = (int) view.getTag();
+                    System.out.println("view tag: " + tag);
+                    animalQ.setImageResource(tag);
+                    animalQ.setTag(tag);
                     animalQ.setVisibility(View.VISIBLE);
-                    moves += 1;
                     animalQ.setOnTouchListener(new TouchListener());
                     platformDown = (ImageView) view;
+                    moves += 1;
                     System.out.println("Platform down: " + view.toString());
                     System.out.println("Moves: " + moves);
                     break;
