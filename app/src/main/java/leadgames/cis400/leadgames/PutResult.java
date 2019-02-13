@@ -17,7 +17,4 @@ public class PutResult {
         this.paths = paths;
     }
 
-
-
-}
-;
+};
