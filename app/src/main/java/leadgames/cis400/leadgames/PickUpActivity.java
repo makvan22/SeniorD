@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.media.MediaPlayer;
 
 import org.w3c.dom.Text;
 
@@ -96,10 +97,14 @@ public class PickUpActivity extends AppCompatActivity {
         clearAnimals();
         // Shuffle quadrants to determine randomly assign position of objects
         System.out.println("Running trial: " + trial.getId());
+
         Collections.shuffle(quadrants);
         clearPlatforms();
         clearAnimals();
         // Update xml to display current trail's objects
+        MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.sample);
+        mediaPlayer.start();
+        
         setAnimalView(trial.getTargetAnimal(), quadrants.get(0), TARGET_ANIMAL);
         setPlatformView(trial.getTargetPlatform(), quadrants.get(0), TARGET_PLATFORM);
 
