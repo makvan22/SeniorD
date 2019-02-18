@@ -59,6 +59,8 @@ public class PickUpActivity extends AppCompatActivity {
     PutObject currAnimal = null;
     PutObject currPlatform = null;
     ArrayList<PutObject> currPath = new ArrayList<>();
+    ArrayList<PutPath> trialPath = new ArrayList<>();
+
 
     Integer moves = 0;
 
@@ -110,6 +112,13 @@ public class PickUpActivity extends AppCompatActivity {
     }
 
     public void endTrial() {
+
+        //Store last path animal path
+        if (currAnimal != null) {
+            PutPath animalPath = new PutPath(currAnimal, currPath);
+            trialPath.add(animalPath);
+            System.out.println("Trial path: " + trialPath.toString());
+        }
         //Gather Trial results
         //Determine correctness of trial
         Boolean correct = false;
@@ -120,8 +129,7 @@ public class PickUpActivity extends AppCompatActivity {
         System.out.println("Trial result:" + correct);
         //TODO: replace time with actual trial time.
         //TODO: decide on whether or not store putObject
-        PutResult result = new PutResult(currTrial, correct, 0, null,
-                currPath);
+        PutResult result = new PutResult(currTrial, correct, 0, trialPath);
         //TODO: Add game result to DB
 
         //run next trial
@@ -290,8 +298,17 @@ public class PickUpActivity extends AppCompatActivity {
                 System.out.println("Tag: " + tag);
                 //Fetch animal type from tag
                 PutObject animalUp = PutObject.valueOf(tag.split(",")[0]);
-                currAnimal = animalUp;
-                currPath.add(animalUp);
+                if (currAnimal == null) {
+                    currAnimal = animalUp;
+                    currPath = new ArrayList<PutObject>();
+                } else if (currAnimal != animalUp) {
+                    //previous animal's path initiate new animal's path
+                    PutPath animalPath = new PutPath(currAnimal, currPath);
+                    trialPath.add(animalPath);
+                    System.out.println("Trial path: " + trialPath.toString());
+                    currAnimal = animalUp;
+                    currPath = new ArrayList<PutObject>();
+                }
                 System.out.println("Animal up: " + animalUp);
                 System.out.println("Currpath: " + currPath.toString());
 
@@ -331,8 +348,7 @@ public class PickUpActivity extends AppCompatActivity {
                     animalQ.setImageResource(getImageResource(tag.split(",")[1]));
                     animalQ.setVisibility(View.VISIBLE);
                     animalQ.setOnTouchListener(new TouchListener());
-                    currPath.add(platformType);
-                    currPlatform = platformType;
+                    currPath.add(this.platformType);
                     System.out.println("Curr path: " + currPath.toString());
                     moves += 1;
                     System.out.println("Moves: " + moves);

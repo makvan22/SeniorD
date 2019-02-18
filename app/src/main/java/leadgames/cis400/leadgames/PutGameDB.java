@@ -14,7 +14,6 @@ public class PutGameDB {
 
     public List<Trial> getAllPutTrials() {
         return trials;
-
     }
 
     public void addPutTrial(Trial trial) {

@@ -11,4 +11,8 @@ public class PutPath {
         this.putObject = putObject;
         this.path = path;
     }
+
+    public String toString() {
+        return "Put Object: " + putObject + " Object path: " + path.toString();
+    }
 }

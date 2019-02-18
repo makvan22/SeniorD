@@ -152,10 +152,10 @@
         android:src="@drawable/dog"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.517"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline2"
-        app:layout_constraintVertical_bias="0.147" />
+        app:layout_constraintVertical_bias="0.127" />
 
     <ImageView
         android:id="@+id/q4"
@@ -174,7 +174,7 @@
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="@+id/guideline2"
-        app:layout_constraintVertical_bias="0.147" />
+        app:layout_constraintVertical_bias="0.127" />
 
 
     <ImageView
