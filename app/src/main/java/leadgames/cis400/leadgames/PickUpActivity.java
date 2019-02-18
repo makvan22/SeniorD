@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.media.MediaPlayer;
 
 import org.w3c.dom.Text;
 
@@ -47,6 +48,8 @@ public class PickUpActivity extends AppCompatActivity {
     private ImageView p2;
     private ImageView p3;
     private ImageView p4;
+
+    private ImageView submit;
 
     private HashSet<ImageView> animals = new HashSet<ImageView>();
     private HashSet<ImageView> platforms = new HashSet<ImageView>();
@@ -96,10 +99,14 @@ public class PickUpActivity extends AppCompatActivity {
         clearAnimals();
         // Shuffle quadrants to determine randomly assign position of objects
         System.out.println("Running trial: " + trial.getId());
+
         Collections.shuffle(quadrants);
         clearPlatforms();
         clearAnimals();
         // Update xml to display current trail's objects
+        MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.sample);
+        mediaPlayer.start();
+        
         setAnimalView(trial.getTargetAnimal(), quadrants.get(0), TARGET_ANIMAL);
         setPlatformView(trial.getTargetPlatform(), quadrants.get(0), TARGET_PLATFORM);
 
@@ -164,6 +171,16 @@ public class PickUpActivity extends AppCompatActivity {
         platforms.add(p2);
         platforms.add(p3);
         platforms.add(p4);
+
+        //Initialize submit view
+        ImageView submit = (ImageView) findViewById(R.id.submit);
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Submit clicked!");
+                endTrial();
+            }
+        });
     }
 
     private void clearPlatforms() {
@@ -198,9 +215,9 @@ public class PickUpActivity extends AppCompatActivity {
                 "elephant", "balloon", "book",
                 "pan");
         trials.add(t1);
-//      trials.add(t2);
-//      trials.add(t3);
-//      trials.add(t4);
+        trials.add(t2);
+        trials.add(t3);
+        trials.add(t4);
     }
 
     private void setAnimalView(String imageName, int quad, PutObject animalType) {
@@ -317,7 +334,6 @@ public class PickUpActivity extends AppCompatActivity {
                 View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(
                         view);
                 view.startDrag(data, shadowBuilder, view, 0);
-
                 return true;
             } else {
                 return false;
