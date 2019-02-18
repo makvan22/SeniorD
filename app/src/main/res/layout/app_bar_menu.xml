@@ -50,5 +50,4 @@
         android:src="@android:drawable/ic_dialog_info"
         -->
 
-
 </android.support.design.widget.CoordinatorLayout>

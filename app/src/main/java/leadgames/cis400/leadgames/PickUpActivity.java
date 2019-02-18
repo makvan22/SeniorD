@@ -48,6 +48,8 @@ public class PickUpActivity extends AppCompatActivity {
     private ImageView p3;
     private ImageView p4;
 
+    private ImageView submit;
+
     private HashSet<ImageView> animals = new HashSet<ImageView>();
     private HashSet<ImageView> platforms = new HashSet<ImageView>();
     private ArrayList<Integer> quadrants = new ArrayList<>();
@@ -164,6 +166,16 @@ public class PickUpActivity extends AppCompatActivity {
         platforms.add(p2);
         platforms.add(p3);
         platforms.add(p4);
+
+        //Initialize submit view
+        ImageView submit = (ImageView) findViewById(R.id.submit);
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Submit clicked!");
+                endTrial();
+            }
+        });
     }
 
     private void clearPlatforms() {
@@ -198,9 +210,9 @@ public class PickUpActivity extends AppCompatActivity {
                 "elephant", "balloon", "book",
                 "pan");
         trials.add(t1);
-//      trials.add(t2);
-//      trials.add(t3);
-//      trials.add(t4);
+        trials.add(t2);
+        trials.add(t3);
+        trials.add(t4);
     }
 
     private void setAnimalView(String imageName, int quad, PutObject animalType) {
@@ -317,7 +329,6 @@ public class PickUpActivity extends AppCompatActivity {
                 View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(
                         view);
                 view.startDrag(data, shadowBuilder, view, 0);
-
                 return true;
             } else {
                 return false;
