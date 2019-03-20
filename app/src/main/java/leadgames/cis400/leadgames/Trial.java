@@ -61,4 +61,5 @@ public class Trial {
     public String getDistractorPlatform() {
         return distractorPlatform;
     }
+
 }

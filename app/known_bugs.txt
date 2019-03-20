@@ -1,3 +1,10 @@
 PickUpActivity.Java
-- FIXED : app crashes when you move animal more than twice
--
+TO DO:
+- resize images and platforms for a more uniform look
+- get frog image from researchers
+- update database w/ trial results
+    - game win/loss check
+- add feedback views
+
+Known Bugs
+- null object wrapper exception when attempting to load trials from db.

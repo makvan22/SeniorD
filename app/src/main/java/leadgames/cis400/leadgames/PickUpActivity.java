@@ -39,6 +39,7 @@ import static leadgames.cis400.leadgames.PutObject.TARGET_PLATFORM;
 
 public class PickUpActivity extends AppCompatActivity {
 
+    // private FirebaseManager fbm = FirebaseManager.getInstance();
     private ImageView q1;
     private ImageView q2;
     private ImageView q3;
@@ -198,26 +199,27 @@ public class PickUpActivity extends AppCompatActivity {
         }
     }
 
-    //TODO: Load trials from database
-    private void loadTrials() {
+     // TODO: Load trials from database
+     private void loadTrials() {
+
+//        for (Trial t : fbm.getAllPutTrials()) {
+//            trials.add(t);
+//        }
+
         //temporary hardcoded trials
         Trial t1 = new Trial("1", "pig", "towel", "leaf",
                 "dog", "book", "towel");
 
-        Trial t2 = new Trial("2", "frog", "balloon",
-                "frog", "napkin", "box",
-                "balloon");
+        Trial t2 = new Trial("2", "bear", "box", "balloon",
+                "bear", "balloon", "napkin");
 
-        Trial t3 = new Trial("3", "frog", "leaf", "bear",
-                "book", "circle", "leaf");
+        Trial t3 = new Trial("3", "elephant", "circle", "leaf",
+                "bear", "leaf", "book");
 
-        Trial t4 = new Trial("4", "elephant", "pan",
-                "elephant", "balloon", "book",
-                "pan");
+
         trials.add(t1);
         trials.add(t2);
         trials.add(t3);
-        trials.add(t4);
     }
 
     private void setAnimalView(String imageName, int quad, PutObject animalType) {
@@ -292,6 +294,9 @@ public class PickUpActivity extends AppCompatActivity {
                 return R.drawable.dog;
             case "elephant":
                 return R.drawable.elephant;
+                // TODO : get frog image
+//            case "frog":
+//                return R.drawable.frog;
             case "leaf":
                 return R.drawable.leaf;
             case "napkin":
