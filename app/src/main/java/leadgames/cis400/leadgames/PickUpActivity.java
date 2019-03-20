@@ -134,6 +134,8 @@ public class PickUpActivity extends AppCompatActivity {
                 && currPlatform != null && currPlatform == TARGET_GOAL) {
             correct = true;
         }
+        System.out.println("Current animal " + currAnimal);
+        System.out.println("Current platform " + currPlatform);
         System.out.println("Trial result:" + correct);
         //TODO: replace time with actual trial time.
         //TODO: decide on whether or not store putObject
@@ -206,7 +208,7 @@ public class PickUpActivity extends AppCompatActivity {
 //            trials.add(t);
 //        }
 
-        //temporary hardcoded trials
+        // Temporarily hardcoded trials
         Trial t1 = new Trial("1", "pig", "towel", "leaf",
                 "dog", "book", "towel");
 
@@ -370,6 +372,7 @@ public class PickUpActivity extends AppCompatActivity {
                     animalQ.setVisibility(View.VISIBLE);
                     animalQ.setOnTouchListener(new TouchListener());
                     currPath.add(this.platformType);
+                    currPlatform = this.platformType;
                     System.out.println("Curr path: " + currPath.toString());
                     moves += 1;
                     System.out.println("Moves: " + moves);
