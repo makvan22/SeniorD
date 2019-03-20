@@ -17,4 +17,8 @@ public class PutResult {
         this.paths = paths;
     }
 
+    public String toString() {
+        return "Trial ID: " + trialId + "\n" + "Success: " + correct + "\n" +
+                "Time: " + time + "\n" + paths.toString();
+    }
 };

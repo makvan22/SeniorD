@@ -39,7 +39,7 @@ import static leadgames.cis400.leadgames.PutObject.TARGET_PLATFORM;
 
 public class PickUpActivity extends AppCompatActivity {
 
-    // private FirebaseManager fbm = FirebaseManager.getInstance();
+    private FirebaseManager db = FirebaseManager.getInstance();
     private ImageView q1;
     private ImageView q2;
     private ImageView q3;
@@ -134,14 +134,11 @@ public class PickUpActivity extends AppCompatActivity {
                 && currPlatform != null && currPlatform == TARGET_GOAL) {
             correct = true;
         }
-        System.out.println("Current animal " + currAnimal);
-        System.out.println("Current platform " + currPlatform);
-        System.out.println("Trial result:" + correct);
-        //TODO: replace time with actual trial time.
-        //TODO: decide on whether or not store putObject
-        PutResult result = new PutResult(currTrial, correct, 0, trialPath);
-        //TODO: Add game result to DB
 
+        //TODO: replace time with actual trial time.
+        PutResult result = new PutResult(currTrial, correct, 0, trialPath);
+        System.out.println(result.toString());
+        db.addPutResult(result);
         //run next trial
         if (trialIterator.hasNext()) {
             startTrial(trialIterator.next());
