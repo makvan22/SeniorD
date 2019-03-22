@@ -200,5 +200,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
+    <TextView
+        android:id="@+id/feedback"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/green"
+        android:gravity="center"
+        android:visibility="invisible"
+        android:text="@string/trial_done"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="96dp" />
+
 </android.support.constraint.ConstraintLayout>
 
