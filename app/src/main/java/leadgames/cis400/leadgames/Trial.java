@@ -12,8 +12,9 @@ public class Trial {
     private String distractorAnimal;
     private String distractorGoal;
     private String distractorPlatform;
+    private String soundFile;
 
-    public Trial(DataSnapshot dataSnapshot){
+    public Trial (DataSnapshot dataSnapshot) {
         HashMap<String, Object> object = (HashMap<String, Object>) dataSnapshot.getValue();
         this.id = dataSnapshot.getKey();
         this.targetAnimal=object.get("targetAnimal").toString();
@@ -22,6 +23,7 @@ public class Trial {
         this.distractorAnimal=object.get("distractorAnimal").toString();
         this.distractorGoal=object.get("distractorGoal").toString();
         this.distractorPlatform=object.get("distractorPlatform").toString();
+        this.soundFile = object.get("soundFile").toString();
     }
 
 
@@ -61,5 +63,7 @@ public class Trial {
     public String getDistractorPlatform() {
         return distractorPlatform;
     }
+
+    public String getSoundFile() { return soundFile; }
 
 }

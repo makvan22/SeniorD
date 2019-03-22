@@ -9,7 +9,6 @@ public class PutGameDB {
 
     public PutGameDB() {
         trials = new ArrayList<>();
-
     }
 
     public List<Trial> getAllPutTrials() {

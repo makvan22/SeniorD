@@ -58,13 +58,13 @@ public class FirebaseManager {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String id = (String) snapshot.child("/id").getValue();
-                    String targetAnimal = (String) snapshot.child("/targetAnimal").getValue();
-                    String targetGoal = (String) snapshot.child("/targetGoal").getValue();
-                    String targetPlatform = (String) snapshot.child("/targetPlatform").getValue();
-                    String distractorAnimal = (String) snapshot.child("/distractorAnimal").getValue();
-                    String distractorGoal = (String) snapshot.child("/distractorGoal").getValue();
-                    String distractorPlatform = (String) snapshot.child("/distractorPlatform").getValue();
+                    String id = decodeFromFirebaseKey((String) snapshot.child("/id").getValue());
+                    String targetAnimal = (String) snapshot.child("/target").getValue();
+                    String targetGoal = (String) snapshot.child("/goal").getValue();
+                    String targetPlatform = (String) snapshot.child("/target_plaform").getValue();
+                    String distractorAnimal = (String) snapshot.child("/competitor").getValue();
+                    String distractorGoal = (String) snapshot.child("/incorrect_goal").getValue();
+                    String distractorPlatform = (String) snapshot.child("/comp_platform").getValue();
 
                     mPutGame.addPutTrial(new Trial(id, targetAnimal, targetGoal, targetPlatform, distractorAnimal, distractorGoal, distractorPlatform));
                 }
@@ -75,6 +75,18 @@ public class FirebaseManager {
 
             }
         });
+    }
+
+    public String decodeFromFirebaseKey(String s) {
+
+        s = s.replace("_P%ë5nN*", ".")
+                .replace("_D%5nNë*", "$")
+                .replace("_H%ë5Nn*", "#")
+                .replace("_Oë5n%N*", "[")
+                .replace("_5nN*C%ë", "]")
+                .replace("*_S%ë5nN", "/");
+
+        return s;
     }
 
 
