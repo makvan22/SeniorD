@@ -5,6 +5,7 @@ TO DO:
 - update database w/ trial results
     - game win/loss check
 - add feedback views
+- check that db is updating as it should
 
 Known Bugs
 - null object wrapper exception when attempting to load trials from db.

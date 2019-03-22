@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
+import android.os.CountDownTimer;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -51,6 +52,7 @@ public class PickUpActivity extends AppCompatActivity {
     private ImageView p4;
 
     private ImageView submit;
+    private TextView feedback;
 
     private HashSet<ImageView> animals = new HashSet<ImageView>();
     private HashSet<ImageView> platforms = new HashSet<ImageView>();
@@ -141,9 +143,12 @@ public class PickUpActivity extends AppCompatActivity {
         db.addPutResult(result);
         //run next trial
         if (trialIterator.hasNext()) {
+            //display feedback(0)
+            displayFeedback(false);
             startTrial(trialIterator.next());
         } else {
             //TODO: create an end of game display before return to menu page
+            displayFeedback(true);
             Intent mainIntent = new Intent(PickUpActivity.this,MenuActivity.class);
             PickUpActivity.this.startActivity(mainIntent);
             PickUpActivity.this.finish();
@@ -173,7 +178,7 @@ public class PickUpActivity extends AppCompatActivity {
         platforms.add(p4);
 
         //Initialize submit view
-        ImageView submit = (ImageView) findViewById(R.id.submit);
+        submit = (ImageView) findViewById(R.id.submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -181,6 +186,9 @@ public class PickUpActivity extends AppCompatActivity {
                 endTrial();
             }
         });
+
+        //Initialize feedback view
+        feedback = (TextView) findViewById(R.id.feedback);
     }
 
     private void clearPlatforms() {
@@ -309,6 +317,24 @@ public class PickUpActivity extends AppCompatActivity {
             default:
                 return 0;
         }
+    }
+
+    private void displayFeedback(final boolean game_over) {
+        if (game_over) {
+            feedback.setText(R.string.game_done);
+        } else {
+            feedback.setText(R.string.trial_done);
+        }
+        feedback.setVisibility(View.VISIBLE);
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (!game_over) {
+                    feedback.setVisibility(View.INVISIBLE);
+                }
+            }
+        }, 2000);
     }
 
     private final class TouchListener implements View.OnTouchListener {

@@ -14,6 +14,6 @@
     <string name="title_activity_pick_up">PickUpActivity</string>
     <string name="submit_desc">Submission button</string>
     <string name="submit_button">Done!</string>
-
-
+    <string name="trial_done">Well Done!</string>
+    <string name="game_done">Game Complete!</string>
 </resources>
