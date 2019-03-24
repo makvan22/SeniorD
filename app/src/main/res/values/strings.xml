@@ -16,4 +16,6 @@
     <string name="submit_button">Done!</string>
     <string name="trial_done">Well Done!</string>
     <string name="game_done">Game Complete!</string>
+    <string name="animal">animal image view</string>
+    <string name="platform">platform image view</string>
 </resources>
