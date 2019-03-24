@@ -38,6 +38,7 @@ import static leadgames.cis400.leadgames.PutObject.TARGET_ANIMAL;
 import static leadgames.cis400.leadgames.PutObject.TARGET_GOAL;
 import static leadgames.cis400.leadgames.PutObject.TARGET_PLATFORM;
 
+
 public class PickUpActivity extends AppCompatActivity {
 
     private FirebaseManager db = FirebaseManager.getInstance();
@@ -223,10 +224,17 @@ public class PickUpActivity extends AppCompatActivity {
         Trial t3 = new Trial("3", "elephant", "circle", "leaf",
                 "bear", "leaf", "book");
 
+        Trial t4 = new Trial("4", "frog", "circle", "leaf",
+                 "cow", "leaf", "book");
+
+        Trial t5 = new Trial("5", "horse", "circle", "leaf",
+                 "lion", "leaf", "book");
 
         trials.add(t1);
         trials.add(t2);
         trials.add(t3);
+        trials.add(t4);
+        trials.add(t5);
     }
 
     private void setAnimalView(String imageName, int quad, PutObject animalType) {
@@ -245,7 +253,7 @@ public class PickUpActivity extends AppCompatActivity {
                 view = q4;
                 break;
         }
-        view.setImageResource(getImageResource(imageName));
+        view.setImageResource(ImageFinder.getImageResource(imageName));
         //Tag =>  "animalType , imageName"
         view.setTag(animalType + "," + imageName);
         view.setVisibility(View.VISIBLE);
@@ -276,47 +284,13 @@ public class PickUpActivity extends AppCompatActivity {
                 animalQ = q4;
                 break;
         }
-        view.setImageResource(getImageResource(obj));
+        view.setImageResource(ImageFinder.getImageResource(obj));
         view.setVisibility(View.VISIBLE);
         view.setOnDragListener(new DragListener(animalQ, platformType));
         view.setTag(platformType);
         // Sanity check: no platform can be draggable
         view.setClickable(false);
         view.setOnTouchListener(new TouchListener());
-    }
-
-    private int getImageResource(String img) {
-        switch (img) {
-            case "balloon":
-                return R.drawable.balloon;
-            case "bear":
-                return R.drawable.bear;
-            case "book":
-                return R.drawable.book;
-            case "box":
-                return R.drawable.box;
-            case "circle":
-                return R.drawable.circle;
-            case "dog":
-                return R.drawable.dog;
-            case "elephant":
-                return R.drawable.elephant;
-                // TODO : get frog image
-//            case "frog":
-//                return R.drawable.frog;
-            case "leaf":
-                return R.drawable.leaf;
-            case "napkin":
-                return R.drawable.napkin;
-            case "pan":
-                return R.drawable.pan;
-            case "pig":
-                return R.drawable.pig;
-            case "towel":
-                return R.drawable.towel;
-            default:
-                return 0;
-        }
     }
 
     private void displayFeedback(final boolean game_over) {
@@ -391,7 +365,7 @@ public class PickUpActivity extends AppCompatActivity {
                     System.out.println("Tag: " + tag);
                     animalQ.setTag(tag);
                     //Fetch image name from tag
-                    animalQ.setImageResource(getImageResource(tag.split(",")[1]));
+                    animalQ.setImageResource(ImageFinder.getImageResource(tag.split(",")[1]));
                     animalQ.setVisibility(View.VISIBLE);
                     animalQ.setOnTouchListener(new TouchListener());
                     currPath.add(this.platformType);
