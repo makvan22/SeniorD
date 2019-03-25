@@ -21,4 +21,10 @@ public class PutResult {
         return "Trial ID: " + trialId + "\n" + "Success: " + correct + "\n" +
                 "Time: " + time + "\n" + paths.toString();
     }
+
+    public String getTrialId() { return trialId; }
+    public boolean getCorrect() { return correct; }
+    public int getTime() { return time; }
+    public List<PutPath> getPaths() { return paths; }
+
 };

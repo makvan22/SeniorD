@@ -38,7 +38,7 @@ public class FirebaseManager {
         mPutGame = new PutGameDB();
         populatePutGameDb();
 
-        putResultsRef = FirebaseDatabase.getInstance().getReference("put-games");
+        putResultsRef = FirebaseDatabase.getInstance().getReference("put-results");
     }
 
     public void populatePutGameDb() {
@@ -50,6 +50,22 @@ public class FirebaseManager {
     }
 
     public void addPutResult(PutResult putResult) {
+        String trialId = encodeForFirebaseKey("fakeName") + "/"
+                          + encodeForFirebaseKey(putResult.getTrialId());
+        List<PutPath> paths = putResult.getPaths();
+
+        putResultsRef.child(trialId + "/time").setValue(putResult.getTime());
+        putResultsRef.child(trialId + "/correct").setValue(putResult.getCorrect());
+        putResultsRef.child(trialId + "/selectedObject").setValue(paths.get(paths.size() - 1).getPutOjbect());
+
+        int pathInx = 0;
+        for (PutPath path : paths) {
+            String pathId = "path" + pathInx;
+            putResultsRef.child(trialId + "/paths/" + pathId + "/object").setValue(path.getPutOjbect());
+            putResultsRef.child(trialId + "/paths/" + pathId + "/objectPath").setValue(path.getPutObjectPath());
+            pathInx++;
+        }
+
 
     }
 
@@ -75,6 +91,17 @@ public class FirebaseManager {
 
             }
         });
+    }
+
+    public static String encodeForFirebaseKey (String s) {
+        s = s.replace(".", "_P%ë5nN*")
+                .replace("$", "_D%5nNë*")
+                .replace("#", "_H%ë5Nn*")
+                .replace("[", "_Oë5n%N*")
+                .replace("]", "_5nN*C%ë")
+                .replace("/", "*_S%ë5nN")
+        ;
+        return s;
     }
 
     public String decodeFromFirebaseKey(String s) {
