@@ -210,31 +210,9 @@ public class PickUpActivity extends AppCompatActivity {
      // TODO: Load trials from database
      private void loadTrials() {
 
-//        for (Trial t : fbm.getAllPutTrials()) {
-//            trials.add(t);
-//        }
-
-        // Temporarily hardcoded trials
-        Trial t1 = new Trial("1", "pig", "towel", "leaf",
-                "dog", "book", "towel");
-
-        Trial t2 = new Trial("2", "bear", "box", "balloon",
-                "bear", "balloon", "napkin");
-
-        Trial t3 = new Trial("3", "elephant", "circle", "leaf",
-                "bear", "leaf", "book");
-
-        Trial t4 = new Trial("4", "frog", "circle", "leaf",
-                 "cow", "leaf", "book");
-
-        Trial t5 = new Trial("5", "horse", "circle", "leaf",
-                 "lion", "leaf", "book");
-
-        trials.add(t1);
-        trials.add(t2);
-        trials.add(t3);
-        trials.add(t4);
-        trials.add(t5);
+        for (Trial t : db.getAllPutTrials()) {
+            trials.add(t);
+        }
     }
 
     private void setAnimalView(String imageName, int quad, PutObject animalType) {
