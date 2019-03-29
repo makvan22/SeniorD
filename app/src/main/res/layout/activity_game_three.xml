@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/grass_background"
     tools:context="leadgames.cis400.leadgames.GameThreeActivity">
+    <!--android:background="@drawable/grass_background"-->
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"
@@ -42,7 +43,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:contentDescription="@string/platform"
-        android:src="@drawable/lion"
+        android:src="@drawable/bat_sport"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintStart_toStartOf="parent"
@@ -76,7 +77,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:contentDescription="@string/platform"
-        android:src="@drawable/lion"
+        android:src="@drawable/horse"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintStart_toStartOf="parent"
@@ -93,7 +94,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:contentDescription="@string/platform"
-        android:src="@drawable/lion"
+        android:src="@drawable/bat_sport"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline"
