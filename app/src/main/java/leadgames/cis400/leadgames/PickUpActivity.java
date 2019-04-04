@@ -38,7 +38,7 @@ import static leadgames.cis400.leadgames.PutObject.DISTRACTOR_PLATFORM;
 import static leadgames.cis400.leadgames.PutObject.TARGET_ANIMAL;
 import static leadgames.cis400.leadgames.PutObject.TARGET_GOAL;
 import static leadgames.cis400.leadgames.PutObject.TARGET_PLATFORM;
-
+import android.os.SystemClock;
 
 public class PickUpActivity extends AppCompatActivity {
 
@@ -70,7 +70,7 @@ public class PickUpActivity extends AppCompatActivity {
     PutObject currPlatform = null;
     ArrayList<PutObject> currPath = new ArrayList<>();
     ArrayList<PutPath> trialPath = new ArrayList<>();
-
+    long startTime = 0;
 
     Integer moves = 0;
 
@@ -101,6 +101,7 @@ public class PickUpActivity extends AppCompatActivity {
         /* XML is divided into 4 quadrants
            Q1 - upper left  Q2 - upper right  Q3 - bottom left Q4 - bottom right
          */
+        startTime = 0;
         currTrial = trial.getId();
         clearPlatforms();
         clearAnimals();
@@ -113,7 +114,7 @@ public class PickUpActivity extends AppCompatActivity {
         // Update xml to display current trail's objects
         MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.sample);
         mediaPlayer.start();
-        
+        startTime = SystemClock.elapsedRealtime();
         setAnimalView(trial.getTargetAnimal(), quadrants.get(0), TARGET_ANIMAL);
         setPlatformView(trial.getTargetPlatform(), quadrants.get(0), TARGET_PLATFORM);
 
@@ -141,8 +142,11 @@ public class PickUpActivity extends AppCompatActivity {
             correct = true;
         }
 
+        long difference = System.currentTimeMillis() - startTime;
+        System.out.println(difference);
+        int t = (int) (difference / 1000.0);
         //TODO: replace time with actual trial time.
-        PutResult result = new PutResult(currTrial, correct, 0, trialPath);
+        PutResult result = new PutResult(currTrial, correct, t, trialPath);
         System.out.println(result.toString());
         db.addPutResult(result);
         //run next trial
