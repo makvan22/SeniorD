@@ -81,8 +81,10 @@ public class FirebaseManager {
                     String distractorAnimal = (String) snapshot.child("/competitor").getValue();
                     String distractorGoal = (String) snapshot.child("/incorrect_goal").getValue();
                     String distractorPlatform = (String) snapshot.child("/comp_platform").getValue();
+                    //TODO change from hardcode
+                    String soundFile = "sample";
 
-                    mPutGame.addPutTrial(new Trial(id, targetAnimal, targetGoal, targetPlatform, distractorAnimal, distractorGoal, distractorPlatform));
+                    mPutGame.addPutTrial(new Trial(id, targetAnimal, targetGoal, targetPlatform, distractorAnimal, distractorGoal, distractorPlatform, soundFile));
                 }
             }
 

@@ -28,7 +28,7 @@ public class Trial {
 
 
     public Trial (String id, String targetAnimal, String targetGoal, String targetPlatform,
-                  String distractorAnimal, String distractorGoal, String distractorPlatform) {
+                  String distractorAnimal, String distractorGoal, String distractorPlatform, String soundFile) {
         this.id = id;
         this.targetAnimal = targetAnimal;
         this.targetGoal = targetGoal;
@@ -36,6 +36,8 @@ public class Trial {
         this.distractorAnimal = distractorAnimal;
         this.distractorGoal = distractorGoal;
         this.distractorPlatform = distractorPlatform;
+        this.soundFile = soundFile;
+
     }
 
     public String getId (){
@@ -64,6 +66,6 @@ public class Trial {
         return distractorPlatform;
     }
 
-    public String getSoundFile() { return soundFile; }
+    public String getSoundFile() { return soundFile.toLowerCase().replace(".", ""); }
 
 }

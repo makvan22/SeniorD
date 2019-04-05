@@ -39,7 +39,7 @@ import static leadgames.cis400.leadgames.PutObject.TARGET_ANIMAL;
 import static leadgames.cis400.leadgames.PutObject.TARGET_GOAL;
 import static leadgames.cis400.leadgames.PutObject.TARGET_PLATFORM;
 import android.os.SystemClock;
-
+import android.content.Context;
 public class PickUpActivity extends AppCompatActivity {
 
     private FirebaseManager db = FirebaseManager.getInstance();
@@ -64,6 +64,7 @@ public class PickUpActivity extends AppCompatActivity {
 
     private HashSet<Trial> trials = new HashSet<Trial>();
     private Iterator<Trial> trialIterator = null;
+
 
     String currTrial = "";
     PutObject currAnimal = null;
@@ -97,12 +98,23 @@ public class PickUpActivity extends AppCompatActivity {
         }
     }
 
+    public static int getStringIdentifier(Context context, String name) {
+        return context.getResources().getIdentifier(name, "string", context.getPackageName());
+    }
     private void startTrial(Trial trial) {
         /* XML is divided into 4 quadrants
            Q1 - upper left  Q2 - upper right  Q3 - bottom left Q4 - bottom right
          */
+        Context context = this;
         startTime = 0;
+
+        //TODO delete
+        Trial t1 = new Trial("1", "pig", "towel", "leaf",
+                "dog", "book", "towel", "exp_101_1a");
+        trial = t1;
+
         currTrial = trial.getId();
+        String sound = null;//trial.getSoundFile();
         clearPlatforms();
         clearAnimals();
         // Shuffle quadrants to determine randomly assign position of objects
@@ -112,8 +124,12 @@ public class PickUpActivity extends AppCompatActivity {
         clearPlatforms();
         clearAnimals();
         // Update xml to display current trail's objects
-        MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.sample);
-        mediaPlayer.start();
+        //MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.sample);
+        if (sound != null && sound.length() > 0) {
+            MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(),
+                    getStringIdentifier(context, trial.getSoundFile()));
+            mediaPlayer.start();
+        }
         startTime = SystemClock.elapsedRealtime();
         setAnimalView(trial.getTargetAnimal(), quadrants.get(0), TARGET_ANIMAL);
         setPlatformView(trial.getTargetPlatform(), quadrants.get(0), TARGET_PLATFORM);
