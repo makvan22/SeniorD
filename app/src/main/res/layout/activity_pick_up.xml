@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/sand_background"
+    android:background="@drawable/beach_1"
     tools:context="leadgames.cis400.leadgames.PickUpActivity">
 
     <android.support.constraint.Guideline
@@ -178,7 +178,7 @@
     <ImageView
         android:id="@+id/submit"
         android:layout_width="70dp"
-        android:layout_height="65dp"
+        android:layout_height="70dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
@@ -191,6 +191,7 @@
         android:textAlignment="center"
         android:textColor="@color/off_white"
         android:textSize="12sp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.977"

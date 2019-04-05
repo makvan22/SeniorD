@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -36,6 +37,10 @@ public class FishActivity extends AppCompatActivity {
     private ImageView leftButton;
     private ImageView rightButton;
 
+    private TextView feedback_panel;
+    private TextView feedback_text;
+    private LikeButtonView feedback_anim;
+
     private int wins = 0;
     private int plays=0;
     //LEFT = 0, RIGHT = 1;
@@ -60,6 +65,7 @@ public class FishActivity extends AppCompatActivity {
                     Log.d("Played",  "left win");
                 }
                 plays += 1;
+                displayFeedback(false);
                 shuffle();
             }
         });
@@ -74,6 +80,7 @@ public class FishActivity extends AppCompatActivity {
                     Log.d("Played",  "right win");
                 }
                 plays += 1;
+                displayFeedback(false);
                 shuffle();
             }
         });
@@ -98,6 +105,12 @@ public class FishActivity extends AppCompatActivity {
         rightFish = new ArrayList<ImageView>();
         rightFish.add(fish4);
         rightFish.add(fish5);
+
+        //Initialize feedback view
+        feedback_panel = (TextView) findViewById(R.id.feedback_panel);
+        feedback_text = (TextView) findViewById(R.id.feedback_text);
+        feedback_anim = findViewById(R.id.star);
+        feedback_anim.setClickable(false);
     }
 
     private void restartGame() {
@@ -168,5 +181,31 @@ public class FishActivity extends AppCompatActivity {
             fish.setImageResource(getDirection());
         }
         return;
+    }
+    private void displayFeedback(final boolean game_over) {
+        if (game_over) {
+            feedback_text.setText(R.string.game_done);
+            feedback_text.setVisibility(View.VISIBLE);
+        }
+        feedback_panel.setVisibility(View.VISIBLE);
+        feedback_anim.setVisibility(View.VISIBLE);
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                feedback_anim.callOnClick();
+            }
+        }, 1750);
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (!game_over) {
+                    feedback_panel.setVisibility(View.INVISIBLE);
+                    feedback_anim.setVisibility(View.INVISIBLE);
+                    feedback_text.setVisibility(View.INVISIBLE);
+
+                }
+            }
+        }, 4000);
     }
 }
