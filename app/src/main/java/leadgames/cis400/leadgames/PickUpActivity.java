@@ -155,7 +155,7 @@ public class PickUpActivity extends AppCompatActivity {
                     mediaPlayer.start();
                     //}
                 }
-            }, 3700);
+            }, 3800);
         }
         else {
             //shorter delay for first time
