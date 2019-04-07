@@ -33,6 +33,11 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_pick_up"
             android:theme="@style/FullscreenTheme"></activity>
+        <activity
+            android:name=".AmbiguityDetectionActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_amb_game"
+            android:theme="@style/FullscreenTheme"></activity>
     </application>
 
 </manifest>
