@@ -1,6 +1,7 @@
 package leadgames.cis400.leadgames;
 
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -12,9 +13,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 public class FirebaseManager {
@@ -22,7 +26,9 @@ public class FirebaseManager {
 
     private DatabaseReference putGameRef;
     private DatabaseReference putResultsRef;
+
     private PutGameDB mPutGame;
+
 
     public static synchronized FirebaseManager getInstance() {
         if (sFirebaseManager == null) {
@@ -36,7 +42,7 @@ public class FirebaseManager {
     private FirebaseManager(){
         putGameRef = FirebaseDatabase.getInstance().getReference("put-games");
         mPutGame = new PutGameDB();
-        populatePutGameDb();
+        //populatePutGameDb();
 
         putResultsRef = FirebaseDatabase.getInstance().getReference("put-results");
     }
@@ -44,6 +50,17 @@ public class FirebaseManager {
     public void populatePutGameDb() {
         addValueEventListenerToDb("put-games");
     }
+
+    public void populatePutGameDb(InputStream[] streamArr) {
+        for (int i = 0; i < streamArr.length; i++) {
+            try {
+                mPutGame.readTrialFromInputStream(streamArr[i]);
+            } catch (IOException e) {
+                System.out.println(e);
+            }
+        }
+    }
+
 
     public List<Trial> getAllPutTrials() {
         return mPutGame.getAllPutTrials();
@@ -56,7 +73,9 @@ public class FirebaseManager {
 
         putResultsRef.child(trialId + "/time").setValue(putResult.getTime());
         putResultsRef.child(trialId + "/correct").setValue(putResult.getCorrect());
-        putResultsRef.child(trialId + "/selectedObject").setValue(paths.get(paths.size() - 1).getPutOjbect());
+
+        String selectedObj = paths.size() == 0 ? "" : paths.get(paths.size() - 1).getPutOjbect();
+        putResultsRef.child(trialId + "/selectedObject").setValue(selectedObj);
 
         int pathInx = 0;
         for (PutPath path : paths) {

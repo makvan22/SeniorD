@@ -6,6 +6,15 @@ import java.util.HashMap;
 
 public class Trial {
     private String id;
+    private int list;
+    private String item;
+    private int trial;
+    private String sentence;
+    private int referents;
+    private String ambiguity;
+    private String typeOfTrial;
+    private PUT_LOCATION targetLocation, targetGoalLocation, distractorPlatformLocation, competitorLocation;
+
     private String targetAnimal;
     private String targetGoal;
     private String targetPlatform;
@@ -26,6 +35,34 @@ public class Trial {
         this.soundFile = object.get("soundFile").toString();
     }
 
+    public Trial (String id, int list, String item, int trial, String soundFile, String sentence,
+                  int referents, String ambiguity, String typeOfTrial, String target, String targetPlatform,
+                  String goal, String incorrectGoal, String competitorPlatform, String competitor,
+                  String targetLocation, String goalLocation,
+                  String incorrectGoalLocation, String competitorLocation) {
+        this.id = id;
+        this.list = list;
+        this.item = item;
+        this.trial = trial;
+        this.sentence = sentence;
+        this.referents = referents;
+        this.ambiguity = ambiguity;
+        this.typeOfTrial = typeOfTrial;
+
+        this.targetAnimal = target;
+        this.targetGoal = goal;
+        this.targetPlatform = targetPlatform;
+        this.distractorAnimal = competitor;
+        this.distractorGoal = incorrectGoal;
+        this.distractorPlatform = competitorPlatform;
+        this.soundFile = soundFile;
+
+        this.targetLocation = locationToEnum(targetLocation);
+        this.targetGoalLocation = locationToEnum(goalLocation);
+        this.distractorPlatformLocation = locationToEnum(incorrectGoalLocation);
+        this.competitorLocation = locationToEnum(competitorLocation);
+    }
+
 
     public Trial (String id, String targetAnimal, String targetGoal, String targetPlatform,
                   String distractorAnimal, String distractorGoal, String distractorPlatform, String soundFile) {
@@ -43,6 +80,8 @@ public class Trial {
     public String getId (){
         return this.id;
     }
+
+    public int getList() { return this.list; }
 
     public String getTargetAnimal() {return targetAnimal; }
 
@@ -67,5 +106,25 @@ public class Trial {
     }
 
     public String getSoundFile() { return soundFile.toLowerCase().replace(".", ""); }
+
+    private PUT_LOCATION locationToEnum(String location) {
+        PUT_LOCATION ret = PUT_LOCATION.UPPER_LEFT;
+        switch (location) {
+            case "Upper Left":
+                ret = PUT_LOCATION.UPPER_LEFT;
+                break;
+            case "Upper Right":
+                ret = PUT_LOCATION.UPPER_RIGHT;
+                break;
+            case "Lower Left":
+                ret = PUT_LOCATION.LOWER_LEFT;
+                break;
+            case "Lower Right":
+                ret = PUT_LOCATION.LOWER_RIGHT;
+                break;
+        }
+
+        return ret;
+    }
 
 }
