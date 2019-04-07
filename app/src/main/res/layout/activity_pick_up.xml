@@ -186,7 +186,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:contentDescription="@string/submit_desc"
-        android:src="@drawable/starfish"
+        android:src="@drawable/starfish_brown"
         android:text="@string/submit_button"
         android:textAlignment="center"
         android:textColor="@color/off_white"

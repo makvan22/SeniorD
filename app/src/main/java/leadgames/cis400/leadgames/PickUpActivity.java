@@ -164,6 +164,7 @@ public class PickUpActivity extends AppCompatActivity {
         //TODO: replace time with actual trial time.
         PutResult result = new PutResult(currTrial, correct, t, trialPath);
         System.out.println(result.toString());
+        //TODO: add warning suppress
         db.addPutResult(result);
         //run next trial
         if (trialIterator.hasNext()) {
