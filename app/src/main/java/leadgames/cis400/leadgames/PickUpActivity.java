@@ -64,9 +64,10 @@ public class PickUpActivity extends AppCompatActivity {
 
     private HashSet<Trial> trials = new HashSet<Trial>();
     private Iterator<Trial> trialIterator = null;
+    boolean not_first = false;
+    MediaPlayer mediaPlayer = null;
 
-
-    String currTrial = "";
+            String currTrial = "";
     PutObject currAnimal = null;
     PutObject currPlatform = null;
     ArrayList<PutObject> currPath = new ArrayList<>();
@@ -98,9 +99,16 @@ public class PickUpActivity extends AppCompatActivity {
         }
     }
 
-    public static int getStringIdentifier(Context context, String name) {
-        return context.getResources().getIdentifier(name, "string", context.getPackageName());
+    public int getResourceId(String pVariableName, String pResourcename, String pPackageName)
+    {
+        try {
+            return getResources().getIdentifier(pVariableName, pResourcename, pPackageName);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
     }
+
     private void startTrial(Trial trial) {
         /* XML is divided into 4 quadrants
            Q1 - upper left  Q2 - upper right  Q3 - bottom left Q4 - bottom right
@@ -109,12 +117,17 @@ public class PickUpActivity extends AppCompatActivity {
         startTime = 0;
 
         //TODO delete
+        /* haha hardcoding
         Trial t1 = new Trial("1", "pig", "towel", "leaf",
-                "dog", "book", "towel", "exp_101_1a");
-        trial = t1;
+                "dog", "book", "towel", "sample");
 
+        trial = t1;
+        */
         currTrial = trial.getId();
-        String sound = null;//trial.getSoundFile();
+        //removing the 'wav' at the end
+        String sound = trial.getSoundFile();
+        sound = sound.substring(0, sound.length() - 3);
+
         clearPlatforms();
         clearAnimals();
         // Shuffle quadrants to determine randomly assign position of objects
@@ -123,13 +136,48 @@ public class PickUpActivity extends AppCompatActivity {
         Collections.shuffle(quadrants);
         clearPlatforms();
         clearAnimals();
+        //Log.d("myTag2", sound);
+        int soundid = getResourceId(sound, "raw", getPackageName());
+        //Log.d("myTag2", Integer.toString(getResourceId(t1.getSoundFile(), "raw", getPackageName())));
+        //Log.d("myTag3", Integer.toString(soundid));
         // Update xml to display current trail's objects
         //MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.sample);
-        if (sound != null && sound.length() > 0) {
-            MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(),
-                    getStringIdentifier(context, trial.getSoundFile()));
-            mediaPlayer.start();
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), soundid);
+        if (not_first) {
+            Log.d("not first", "not first");
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //Do something after 3000ms
+                    //if (sound != null && sound.length() > 0) {
+
+                    mediaPlayer.start();
+                    //}
+                }
+            }, 3700);
         }
+        else {
+            //shorter delay for first time
+            Log.d("first", "first time");
+            not_first = true;
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //Do something after 3000ms
+                    //if (sound != null && sound.length() > 0) {
+
+                    mediaPlayer.start();
+                    //}
+                }
+            }, 1000);
+        }
+
+
+        //MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.sample);
+        //mediaPlayer.start();
+
         startTime = SystemClock.elapsedRealtime();
         setAnimalView(trial.getTargetAnimal(), quadrants.get(0), TARGET_ANIMAL);
         setPlatformView(trial.getTargetPlatform(), quadrants.get(0), TARGET_PLATFORM);
