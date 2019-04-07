@@ -17,6 +17,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import java.io.InputStream;
+
 public class MenuActivity extends AppCompatActivity {
 
     @Override
@@ -26,6 +28,18 @@ public class MenuActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FirebaseManager fbm = FirebaseManager.getInstance();
+        fbm.populatePutGameDb(new InputStream[]{
+                getResources().openRawResource(R.raw.putlist_1),
+                getResources().openRawResource(R.raw.putlist_2),
+                getResources().openRawResource(R.raw.putlist_3),
+                getResources().openRawResource(R.raw.putlist_4),
+                getResources().openRawResource(R.raw.putlist_5),
+                getResources().openRawResource(R.raw.putlist_6),
+                getResources().openRawResource(R.raw.putlist_7),
+                getResources().openRawResource(R.raw.putlist_8)
+                }
+        );
+        System.out.println("done");
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
