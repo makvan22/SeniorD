@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/grass_background"
-    tools:context="leadgames.cis400.leadgames.GameThreeActivity">
+    tools:context="leadgames.cis400.leadgames.AmbiguityDetectionActivity">
     <!--android:background="@drawable/grass_background"-->
 
     <android.support.constraint.Guideline
@@ -34,16 +34,14 @@
 
     <ImageView
         android:id="@+id/q1"
-        android:layout_width="300dp"
-        android:layout_height="250dp"
+        android:layout_width="400dp"
+        android:layout_height="330dp"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
-        android:contentDescription="@string/platform"
-        android:src="@drawable/bat_sport"
+        android:contentDescription="@string/scene"
+        android:src="@drawable/house_scene"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,16 +49,14 @@
 
     <ImageView
         android:id="@+id/q2"
-        android:layout_width="300dp"
-        android:layout_height="250dp"
+        android:layout_width="400dp"
+        android:layout_height="330dp"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
-        android:contentDescription="@string/platform"
-        android:src="@drawable/lion"
+        android:contentDescription="@string/scene"
+        android:src="@drawable/bat_scene_1"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline"
@@ -68,16 +64,14 @@
 
     <ImageView
         android:id="@+id/q3"
-        android:layout_width="300dp"
-        android:layout_height="250dp"
+        android:layout_width="400dp"
+        android:layout_height="330dp"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
-        android:contentDescription="@string/platform"
-        android:src="@drawable/horse"
+        android:contentDescription="@string/scene"
+        android:src="@drawable/cat_fence_scene"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintStart_toStartOf="parent"
@@ -85,20 +79,41 @@
 
     <ImageView
         android:id="@+id/q4"
-        android:layout_width="300dp"
-        android:layout_height="250dp"
+        android:layout_width="400dp"
+        android:layout_height="330dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="@string/scene"
+        android:src="@drawable/bat_scene_2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/guideline2" />
+
+    <ImageView
+        android:id="@+id/submit"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
-        android:contentDescription="@string/platform"
-        android:src="@drawable/bat_sport"
+        android:contentDescription="@string/submit_desc"
+        android:src="@drawable/red_ball"
+        android:text="@string/submit_button"
+        android:textAlignment="center"
+        android:textColor="@color/off_white"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/guideline2" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
 </android.support.constraint.ConstraintLayout>
 

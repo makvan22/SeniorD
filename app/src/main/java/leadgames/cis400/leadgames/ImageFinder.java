@@ -1,6 +1,7 @@
 package leadgames.cis400.leadgames;
 
 public final class ImageFinder {
+
     public static int getImageResource(String img) {
         switch (img) {
             case "balloon":
@@ -35,6 +36,30 @@ public final class ImageFinder {
                 return R.drawable.pig;
             case "towel":
                 return R.drawable.towel;
+            case "apple_scene":
+                return R.drawable.apple_scene;
+            case "bat_scene_1":
+                return R.drawable.bat_scene_1;
+            case "bat_scene_2":
+                return R.drawable.bat_scene_2;
+            case "bird_scene":
+                return R.drawable.bird_scene;
+            case "cat_brush_scene":
+                return R.drawable.cat_brush_scene;
+            case "cat_fence_scene":
+                return R.drawable.cat_fence_scene;
+            case "dog_scene_1":
+                return R.drawable.dog_scene_1;
+            case "dog_scene_2":
+                return R.drawable.dog_scene_2;
+            case "feather_scene":
+                return R.drawable.feather_scene;
+            case "girl_brush_scene":
+                return R.drawable.girl_brush_scene;
+            case "house_scene":
+                return R.drawable.house_scene;
+            case "mouse_scene":
+                return R.drawable.mouse_scene;
             default:
                 return 0;
         }

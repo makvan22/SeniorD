@@ -18,4 +18,7 @@
     <string name="game_done">Game Complete!</string>
     <string name="animal">animal image view</string>
     <string name="platform">platform image view</string>
+
+    <string name="title_amb_game">Ambiguity Detection Game</string>
+    <string name="scene">scene image view </string>
 </resources>
