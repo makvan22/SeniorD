@@ -80,7 +80,8 @@ public class MenuActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent mainIntent = new Intent(MenuActivity.this,FishActivity.class);
+                Intent mainIntent = new Intent(MenuActivity.this,
+                        AmbiguityDetectionActivity.class);
                 MenuActivity.this.startActivity(mainIntent);
                 MenuActivity.this.finish();
             }
