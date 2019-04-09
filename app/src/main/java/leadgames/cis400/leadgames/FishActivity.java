@@ -22,8 +22,8 @@ import java.util.ArrayList;
 
 
 public class FishActivity extends AppCompatActivity {
-    final int rightImgId = R.mipmap.righty;
-    final int leftImgId = R.mipmap.lefty;
+    final int rightImgId = R.drawable.righty;
+    final int leftImgId = R.drawable.lefty;
 
     private ArrayList<ImageView> allFish;
     private ArrayList<ImageView> leftFish;

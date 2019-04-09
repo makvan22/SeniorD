@@ -5,13 +5,13 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
 
-    <string name="game_title">Lexical Ambiguity Detection Games</string>
+    <string name="game_title">Digitizing Language Development Games</string>
     <string name="authors">Alice Zhou, Neha Goswami, Vanessa Makuvaro</string>
-    <string name="title_activity_fish">FishActivity</string>
+    <string name="title_activity_fish">Flanker Game</string>
     <string name="fish_desc">Fish Descriptor</string>
     <string name="fish_prompt">Which way is the middle fish going?</string>
 
-    <string name="title_activity_pick_up">PickUpActivity</string>
+    <string name="title_activity_pick_up">PickUp Game</string>
     <string name="submit_desc">Submission button</string>
     <string name="submit_button">Done!</string>
     <string name="trial_done">Well Done!</string>
