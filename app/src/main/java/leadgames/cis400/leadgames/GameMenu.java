@@ -28,7 +28,6 @@ public class GameMenu extends AppCompatActivity {
                 Intent mainIntent = new Intent(GameMenu.this,FishActivity.class);
                 mainIntent.putExtra("participant", participant);
                 GameMenu.this.startActivity(mainIntent);
-                GameMenu.this.finish();
             }
         });
 
@@ -39,7 +38,6 @@ public class GameMenu extends AppCompatActivity {
                 Intent mainIntent = new Intent(GameMenu.this,PickUpActivity.class);
                 mainIntent.putExtra("participant", participant);
                 GameMenu.this.startActivity(mainIntent);
-                GameMenu.this.finish();
             }
         });
 
@@ -47,10 +45,9 @@ public class GameMenu extends AppCompatActivity {
         matchingView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent mainIntent = new Intent(GameMenu.this,FishActivity.class);
+                Intent mainIntent = new Intent(GameMenu.this,AmbiguityDetectionActivity.class);
                 mainIntent.putExtra("participant", participant);
                 GameMenu.this.startActivity(mainIntent);
-                GameMenu.this.finish();
             }
         });
     }

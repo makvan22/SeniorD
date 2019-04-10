@@ -10,5 +10,6 @@
     <color name="green">#8BC34A</color>
     <color name="go_green">#61b030</color>
     <color name="off_white">#F9F8EF</color>
+    <color name="black">#000000</color>
     <color name="yellow">#FFD800</color>
 </resources>
