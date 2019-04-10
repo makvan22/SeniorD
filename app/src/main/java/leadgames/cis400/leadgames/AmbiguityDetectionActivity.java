@@ -163,7 +163,7 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
             public void run() {
                 feedback_anim.callOnClick();
             }
-        }, 500);
+        }, 1750);
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -176,7 +176,7 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
                     backToMenu();
                 }
             }
-        }, 2000);
+        }, 4000);
     }
 
     @Override
