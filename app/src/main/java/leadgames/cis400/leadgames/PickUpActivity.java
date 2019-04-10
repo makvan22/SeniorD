@@ -141,7 +141,7 @@ public class PickUpActivity extends AppCompatActivity {
                     mediaPlayer.start();
                     //}
                 }
-            }, 3800);
+            }, 3000);
         }
         else {
             //shorter delay for first time
@@ -345,7 +345,7 @@ public class PickUpActivity extends AppCompatActivity {
             public void run() {
                 feedback_anim.callOnClick();
             }
-        }, 1750);
+        }, 500);
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -356,7 +356,7 @@ public class PickUpActivity extends AppCompatActivity {
 
                 }
             }
-        }, 4000);
+        }, 2000);
     }
 
     private final class TouchListener implements View.OnTouchListener {
