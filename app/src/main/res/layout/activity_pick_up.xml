@@ -186,7 +186,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:contentDescription="@string/submit_desc"
-        android:src="@drawable/starfish_brown"
+        android:src="@drawable/starfish"
         android:text="@string/submit_button"
         android:textAlignment="center"
         android:textColor="@color/off_white"
@@ -212,13 +212,11 @@
 
     <TextView
         android:id="@+id/feedback_text"
-        android:layout_width="400dp"
+        android:layout_width="927dp"
         android:layout_height="200dp"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:textColor="@color/off_white"
         android:textSize="96sp"
         android:visibility="invisible"

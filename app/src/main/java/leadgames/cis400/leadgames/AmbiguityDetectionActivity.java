@@ -3,11 +3,12 @@ package leadgames.cis400.leadgames;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 
 
@@ -27,6 +28,10 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
     private Scene s4;
 
     private ImageView submit;
+    private TextView feedback_panel;
+    private TextView feedback_text;
+    private LikeButtonView feedback_anim;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +87,11 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
                 endTrial();
             }
         });
+
+        //Initialize feedback view
+        feedback_panel = (TextView) findViewById(R.id.feedback_panel);
+        feedback_text = (TextView) findViewById(R.id.feedback_text);
+        feedback_anim = findViewById(R.id.star);
     }
 
     private void loadTrials() {
@@ -115,14 +125,13 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
     }
 
     public void endTrial() {
-        //TODO: add end trial
+        //TODO: add timing and correctness then store results
         if (trialIterator.hasNext()) {
-            //TODO: add feedback screen
-            //display feedback(0)
+            displayFeedback(false);
             startTrial(trialIterator.next());
         } else {
             //TODO: add feedback
-            //displayFeedback(true);
+            displayFeedback(true);
             Intent mainIntent = new Intent(
                     AmbiguityDetectionActivity.this,LoginActivity.class);
             AmbiguityDetectionActivity.this.startActivity(mainIntent);
@@ -130,4 +139,35 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
         }
     }
 
+    private void displayFeedback(final boolean game_over) {
+        feedback_panel.setVisibility(View.VISIBLE);
+        feedback_anim.setVisibility(View.VISIBLE);
+        if (game_over) {
+            feedback_text.setText(R.string.game_done);
+            feedback_text.setVisibility(View.VISIBLE);
+        }
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                feedback_anim.callOnClick();
+            }
+        }, 1750);
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (!game_over) {
+                    feedback_panel.setVisibility(View.INVISIBLE);
+                    feedback_anim.setVisibility(View.INVISIBLE);
+                    feedback_text.setVisibility(View.INVISIBLE);
+
+                } else {
+                    Intent mainIntent = new Intent(
+                            AmbiguityDetectionActivity.this,MenuActivity.class);
+                    AmbiguityDetectionActivity.this.startActivity(mainIntent);
+                    AmbiguityDetectionActivity.this.finish();
+                }
+            }
+        }, 4000);
+    }
 }
