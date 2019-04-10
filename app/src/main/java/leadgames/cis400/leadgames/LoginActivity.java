@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.regex.Matcher;
@@ -38,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
                         getResources().openRawResource(R.raw.putlist_8)
                 }
         );
+        fbm.populateFlankerDb(getResources().openRawResource(R.raw.flanker));
 
         Button submit = findViewById(R.id.button);
         submit.setOnClickListener(new View.OnClickListener() {

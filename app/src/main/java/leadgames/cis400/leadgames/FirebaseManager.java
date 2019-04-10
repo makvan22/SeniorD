@@ -31,6 +31,7 @@ public class FirebaseManager {
     private DatabaseReference putResultsRef;
 
     private PutGameDB mPutGame;
+    private FlankerDB mFlanker;
 
 
     public static synchronized FirebaseManager getInstance() {
@@ -45,6 +46,7 @@ public class FirebaseManager {
     private FirebaseManager(){
         putGameRef = FirebaseDatabase.getInstance().getReference("put-games");
         mPutGame = new PutGameDB();
+        mFlanker = new FlankerDB();
         //populatePutGameDb();
 
         putResultsRef = FirebaseDatabase.getInstance().getReference("put-results");
@@ -64,9 +66,32 @@ public class FirebaseManager {
         }
     }
 
+    public void populateFlankerDb(InputStream stream) {
+        try {
+            mFlanker.readTrialFromInputStream(stream);
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+    }
+
 
     public List<Trial> getAllPutTrials() {
         return mPutGame.getAllPutTrials();
+    }
+
+    public List<FlankerTrial> getAllFlankerTrials() { return mFlanker.getAllTrials(); }
+
+    public void addFlankerResult(FlankerResult flankerResult) {
+        //TODO: ADD TO FIREBASE
+        Participant participant = flankerResult.getParticipant();
+        String studentId = participant.getStudentId();
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        String date = dateFormat.format(new Date());
+
+        //TODO: FIX FOR FIREBASE
+        String trialId = encodeForFirebaseKey(studentId) + "/"
+                + encodeForFirebaseKey(date);
     }
 
     public void addPutResult(PutResult putResult) {
