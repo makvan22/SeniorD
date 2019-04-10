@@ -222,7 +222,7 @@ public class PickUpActivity extends AppCompatActivity {
         } else {
             //TODO: create an end of game display before return to menu page
             displayFeedback(true);
-            Intent mainIntent = new Intent(PickUpActivity.this,MenuActivity.class);
+            Intent mainIntent = new Intent(PickUpActivity.this,LoginActivity.class);
             PickUpActivity.this.startActivity(mainIntent);
             PickUpActivity.this.finish();
         }

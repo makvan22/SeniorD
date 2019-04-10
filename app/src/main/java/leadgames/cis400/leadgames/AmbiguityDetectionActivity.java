@@ -124,7 +124,7 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
             //TODO: add feedback
             //displayFeedback(true);
             Intent mainIntent = new Intent(
-                    AmbiguityDetectionActivity.this,MenuActivity.class);
+                    AmbiguityDetectionActivity.this,LoginActivity.class);
             AmbiguityDetectionActivity.this.startActivity(mainIntent);
             AmbiguityDetectionActivity.this.finish();
         }
