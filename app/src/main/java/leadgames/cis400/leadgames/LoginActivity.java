@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -96,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (cleanInput) {
                     Participant p = new Participant(firstName, lastName, gender, dob, studentId);
                     Intent mainIntent = new Intent(LoginActivity.this,GameMenu.class);
-                    mainIntent.putExtra("participant", p);
+                    mainIntent.putExtra("participant", (Serializable) p);
                     LoginActivity.this.startActivity(mainIntent);
                     LoginActivity.this.finish();
                 }

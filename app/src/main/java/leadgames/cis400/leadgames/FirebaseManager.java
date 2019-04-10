@@ -67,7 +67,11 @@ public class FirebaseManager {
     }
 
     public void addPutResult(PutResult putResult) {
-        String trialId = encodeForFirebaseKey("fakeName") + "/"
+        Participant participant = putResult.getParticipant();
+        String studentId = participant.getStudentId();
+
+        //TODO: FIX FOR FIREBASE
+        String trialId = encodeForFirebaseKey(studentId) + "/"
                           + encodeForFirebaseKey(putResult.getTrialId());
         List<PutPath> paths = putResult.getPaths();
 

@@ -9,6 +9,8 @@ import android.widget.ImageView;
 
 public class GameMenu extends AppCompatActivity {
 
+    private Participant participant;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -16,11 +18,15 @@ public class GameMenu extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        Intent intent = getIntent();
+        this.participant = (Participant) intent.getExtras().getSerializable("participant");
+
         ImageView flankerView = findViewById(R.id.imageView2);
         flankerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent mainIntent = new Intent(GameMenu.this,FishActivity.class);
+                mainIntent.putExtra("participant", participant);
                 GameMenu.this.startActivity(mainIntent);
                 GameMenu.this.finish();
             }
@@ -31,6 +37,7 @@ public class GameMenu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent mainIntent = new Intent(GameMenu.this,PickUpActivity.class);
+                mainIntent.putExtra("participant", participant);
                 GameMenu.this.startActivity(mainIntent);
                 GameMenu.this.finish();
             }
@@ -41,6 +48,7 @@ public class GameMenu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent mainIntent = new Intent(GameMenu.this,FishActivity.class);
+                mainIntent.putExtra("participant", participant);
                 GameMenu.this.startActivity(mainIntent);
                 GameMenu.this.finish();
             }

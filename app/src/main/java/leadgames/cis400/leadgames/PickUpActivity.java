@@ -43,6 +43,8 @@ import android.content.Context;
 public class PickUpActivity extends AppCompatActivity {
 
     private FirebaseManager db = FirebaseManager.getInstance();
+    private Participant participant;
+
     private ImageView q1;
     private ImageView q2;
     private ImageView q3;
@@ -80,6 +82,9 @@ public class PickUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pick_up);
+
+        Intent intent = getIntent();
+        this.participant = (Participant) intent.getExtras().getSerializable("participant");
 
         // Load quadrants
         for (int i = 1; i <= 4; i++) {
@@ -210,7 +215,7 @@ public class PickUpActivity extends AppCompatActivity {
         System.out.println(difference);
         int t = (int) (difference / 1000.0);
         //TODO: replace time with actual trial time.
-        PutResult result = new PutResult(currTrial, correct, t, trialPath);
+        PutResult result = new PutResult(currTrial, correct, t, trialPath, participant);
         System.out.println(result.toString());
         //TODO: add warning suppress
         db.addPutResult(result);
@@ -220,7 +225,7 @@ public class PickUpActivity extends AppCompatActivity {
             displayFeedback(false);
             startTrial(trialIterator.next());
         } else {
-            //TODO: create an end of game display before return to menu page
+            //TODO: create an end of game display before return to login page
             displayFeedback(true);
             Intent mainIntent = new Intent(PickUpActivity.this,LoginActivity.class);
             PickUpActivity.this.startActivity(mainIntent);
