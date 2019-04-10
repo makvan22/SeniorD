@@ -198,7 +198,7 @@ public class FishActivity extends AppCompatActivity {
             public void run() {
                 feedback_anim.callOnClick();
             }
-        }, 1750);
+        }, 500);
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -209,6 +209,6 @@ public class FishActivity extends AppCompatActivity {
 
                 }
             }
-        }, 4000);
+        }, 2000);
     }
 }
