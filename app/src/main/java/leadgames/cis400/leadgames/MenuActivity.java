@@ -91,7 +91,8 @@ public class MenuActivity extends AppCompatActivity {
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent mainIntent = new Intent(MenuActivity.this,PickUpActivity.class);
+                Intent mainIntent = new Intent(MenuActivity.this,
+                        PickUpActivity.class);
                 MenuActivity.this.startActivity(mainIntent);
                 MenuActivity.this.finish();
             }

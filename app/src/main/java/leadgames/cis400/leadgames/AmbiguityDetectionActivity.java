@@ -32,6 +32,7 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
     private TextView feedback_text;
     private LikeButtonView feedback_anim;
 
+    private int num_selected = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,22 +56,29 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
         private ImageView imageView;
         private boolean selected;
 
-        public Scene (ImageView imageView, String img_src) {
+        public Scene (ImageView iv, String img_src) {
             this.selected = false;
-            this.imageView = imageView;
+            this.imageView = iv;
+
             imageView.setImageResource(ImageFinder.getImageResource(img_src));
+            imageView.setBackgroundColor(getResources().getColor(R.color.white));
+            imageView.setClickable(true);
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                selected = !selected;
+                    if (num_selected >= 2 ) {
+                        return;
+                    }
+                    if (!selected) {
+                        selected = true;
+                        num_selected += 1;
+                    }
+                    imageView.setBackgroundColor(getResources().getColor(R.color.green));
+                    System.out.println("View clicked!");
                 }
             });
         }
     };
-
-    public static int getStringIdentifier(Context context, String name) {
-        return context.getResources().getIdentifier(name, "string", context.getPackageName());
-    }
 
     public void initViews() {
         //Initialize animal views
@@ -93,6 +101,8 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
         feedback_text = (TextView) findViewById(R.id.feedback_text);
         feedback_anim = findViewById(R.id.star);
     }
+
+
 
     private void loadTrials() {
         //TODO : get more trials from researchers
@@ -130,7 +140,6 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
             displayFeedback(false);
             startTrial(trialIterator.next());
         } else {
-            //TODO: add feedback
             displayFeedback(true);
         }
     }
