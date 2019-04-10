@@ -11,11 +11,11 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".GameMenu"
-            android:label="@string/title_activity_game_menu"
+            android:label="@string/participant_info"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login"
+            android:label="@string/participant_info"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,12 +26,12 @@
         <activity
             android:name=".FishActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_fish"
+            android:label="@string/flanker"
             android:theme="@style/FullscreenTheme" />
         <activity
             android:name=".PickUpActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_pick_up"
+            android:label="@string/put_task"
             android:theme="@style/FullscreenTheme" />
         <activity
             android:name=".AmbiguityDetectionActivity"
