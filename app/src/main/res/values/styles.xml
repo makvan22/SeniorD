@@ -1,11 +1,29 @@
 <resources>
 
     <!-- Base application theme. -->
+    <style name="TextHintAppearance" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/off_white</item>
+        <item name="android:textColorHint">@color/yellow</item>
+        <item name="android:textSize">20sp</item>
+        <item name="colorAccent">@color/yellow</item>
+        <item name="colorControlNormal">@color/off_white</item>
+        <item name="colorControlActivated">@color/off_white</item>
+        <item name="colorControlHighlight">@color/off_white</item>
+    </style>
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/yellow</item>
+        <item name="android:textColor">@color/off_white</item>
+        <item name="android:textColorHint">@color/off_white</item>
+        <!--<item name="colorAccent">@color/yellow</item>-->
+        <item name="colorControlNormal">@color/off_white</item>
+        <item name="colorControlActivated">@color/off_white</item>
+        <item name="colorControlHighlight">@color/off_white</item>
+        <item name="boxStrokeColor">@color/off_white</item>
+        <item name="boxStrokeWidth">2dp</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -28,5 +46,6 @@
     <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
         <item name="android:background">@color/black_overlay</item>
     </style>
+
 
 </resources>

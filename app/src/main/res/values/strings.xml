@@ -11,7 +11,19 @@
     <string name="fish_desc">Fish Descriptor</string>
     <string name="fish_prompt">Which way is the middle fish going?</string>
 
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="dob">Date of Birth</string>
+    <string name="gender">Gender</string>
+    <string name="studentID">Student ID</string>
+    <string name="participant_info">Participant Information</string>
+    <string name="submit">SUBMIT</string>
+
+    <string name="flanker">Flanker</string>
+    <string name="put_task">Put Task</string>
+    <string name="ambiguity_matching">Ambiguity Matching</string>
     <string name="title_activity_pick_up">PickUp Game</string>
+
     <string name="submit_desc">Submission button</string>
     <string name="submit_button">Done!</string>
     <string name="trial_done">Well Done!</string>
@@ -21,4 +33,6 @@
 
     <string name="title_amb_game">Ambiguity Detection Game</string>
     <string name="scene">scene image view </string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_game_menu">GameMenu</string>
 </resources>
