@@ -104,6 +104,9 @@ public class PickUpActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() { }
+
     public int getResourceId(String pVariableName, String pResourcename, String pPackageName)
     {
         try {
