@@ -51,6 +51,9 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
         }
         //TODO: record trials / update database
     }
+
+    @Override
+    public void onBackPressed() { }
     
     private final class Scene {
         private ImageView imageView;

@@ -99,7 +99,6 @@ public class LoginActivity extends AppCompatActivity {
                     Intent mainIntent = new Intent(LoginActivity.this,GameMenu.class);
                     mainIntent.putExtra("participant", (Serializable) p);
                     LoginActivity.this.startActivity(mainIntent);
-                    LoginActivity.this.finish();
                 }
             }
         });

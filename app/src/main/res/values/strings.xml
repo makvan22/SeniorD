@@ -14,7 +14,7 @@
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="dob">Date of Birth</string>
-    <string name="gender">Gender</string>
+    <string name="gender">Sex</string>
     <string name="studentID">Student ID</string>
     <string name="participant_info">Participant Information</string>
     <string name="submit">SUBMIT</string>

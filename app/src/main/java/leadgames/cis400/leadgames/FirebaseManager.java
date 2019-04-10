@@ -15,6 +15,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,9 +73,12 @@ public class FirebaseManager {
         Participant participant = putResult.getParticipant();
         String studentId = participant.getStudentId();
 
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        String date = dateFormat.format(new Date());
+
         //TODO: FIX FOR FIREBASE
         String trialId = encodeForFirebaseKey(studentId) + "/"
-                          + encodeForFirebaseKey(putResult.getTrialId());
+                          + encodeForFirebaseKey(date);
         List<PutPath> paths = putResult.getPaths();
 
         putResultsRef.child(trialId + "/time").setValue(putResult.getTime());

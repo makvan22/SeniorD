@@ -54,6 +54,9 @@ public class FishActivity extends AppCompatActivity {
         init();
     }
 
+    @Override
+    public void onBackPressed() { }
+
     private void init() {
         leftButton = (ImageView) findViewById(R.id.left_arrow);
         leftButton.setClickable(true);
