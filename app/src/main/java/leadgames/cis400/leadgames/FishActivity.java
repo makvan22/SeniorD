@@ -1,6 +1,7 @@
 package leadgames.cis400.leadgames;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.ActionBar;
@@ -14,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -46,11 +48,19 @@ public class FishActivity extends AppCompatActivity {
     //LEFT = 0, RIGHT = 1;
     private int midFishDir = 0;
 
+    private List<FlankerTrial> trials;
+    private Participant participant;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fish);
+        FirebaseManager db = FirebaseManager.getInstance();
+        trials = db.getAllFlankerTrials();
+
+        Intent intent = getIntent();
+        this.participant = (Participant) intent.getExtras().getSerializable("participant");
         init();
     }
 
@@ -58,6 +68,9 @@ public class FishActivity extends AppCompatActivity {
     public void onBackPressed() { }
 
     private void init() {
+        //TODO: send FlankerResult back to db.addFlankerResult
+        //db.addFlankerResult(new FlankerResult(trial, 1, 100, "left", participant);
+        System.out.println(trials.get(0).getDirection());
         leftButton = (ImageView) findViewById(R.id.left_arrow);
         leftButton.setClickable(true);
         leftButton.setOnClickListener(new View.OnClickListener() {

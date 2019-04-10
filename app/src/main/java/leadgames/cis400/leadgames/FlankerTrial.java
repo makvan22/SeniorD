@@ -12,6 +12,7 @@ public class FlankerTrial {
     String block;
 
     private String id;
+    private String condition;
 
 
     public FlankerTrial (DataSnapshot dataSnapshot) {
@@ -20,16 +21,16 @@ public class FlankerTrial {
         this.image=object.get("image").toString();
         this.direction=object.get("direction").toString();
         this.block=object.get("block").toString();
+        this.condition=object.get("condition").toString();
     }
 
-    public FlankerTrial (String id, String image, String direction, String block) {
+    public FlankerTrial (String id, String image, String direction, String block, String condition) {
         this.id = id;
         this.image=image;
         this.direction=direction;
         this.block=block;
+        this.condition=condition;
     }
-
-
 
     public String getId (){
         return this.id;
@@ -42,6 +43,8 @@ public class FlankerTrial {
     public String getBlock() {
         return block;
     }
+
+    public String getCondition() { return condition; }
 
 
 }
