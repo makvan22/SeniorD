@@ -1,37 +1,23 @@
 package leadgames.cis400.leadgames;
 
-import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Point;
-import android.graphics.drawable.Drawable;
-import android.os.CountDownTimer;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.Display;
 import android.view.DragEvent;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.media.MediaPlayer;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 
-import static java.lang.Enum.valueOf;
 import static leadgames.cis400.leadgames.PutObject.DISTRACTOR_ANIMAL;
 import static leadgames.cis400.leadgames.PutObject.DISTRACTOR_GOAL;
 import static leadgames.cis400.leadgames.PutObject.DISTRACTOR_PLATFORM;
@@ -95,8 +81,7 @@ public class PickUpActivity extends AppCompatActivity {
         initViews();
         loadTrials();
         if (trials.isEmpty()) {
-            //TODO: decide on null behaviour & implement
-            return;
+            backToMenu();
         }
         trialIterator = trials.iterator();
         if (trialIterator.hasNext()) {
@@ -121,13 +106,6 @@ public class PickUpActivity extends AppCompatActivity {
         Context context = this;
         startTime = 0;
 
-        //TODO delete
-        /* haha hardcoding
-        Trial t1 = new Trial("1", "pig", "towel", "leaf",
-                "dog", "book", "towel", "sample");
-
-        trial = t1;
-        */
         currTrial = trial.getId();
         //removing the 'wav' at the end
         String sound = trial.getSoundFile();
@@ -196,14 +174,14 @@ public class PickUpActivity extends AppCompatActivity {
     }
 
     public void endTrial() {
-
+        //Gather Trial results
         //Store last path animal path
         if (currAnimal != null) {
             PutPath animalPath = new PutPath(currAnimal, currPath);
             trialPath.add(animalPath);
             System.out.println("Trial path: " + trialPath.toString());
         }
-        //Gather Trial results
+
         //Determine correctness of trial
         Boolean correct = false;
         if (currAnimal != null && currAnimal == TARGET_ANIMAL
@@ -214,7 +192,6 @@ public class PickUpActivity extends AppCompatActivity {
         long difference = System.currentTimeMillis() - startTime;
         System.out.println(difference);
         int t = (int) (difference / 1000.0);
-        //TODO: replace time with actual trial time.
         PutResult result = new PutResult(currTrial, correct, t, trialPath, participant);
         System.out.println(result.toString());
         //TODO: add warning suppress
@@ -225,11 +202,8 @@ public class PickUpActivity extends AppCompatActivity {
             displayFeedback(false);
             startTrial(trialIterator.next());
         } else {
-            //TODO: create an end of game display before return to login page
             displayFeedback(true);
-            Intent mainIntent = new Intent(PickUpActivity.this,LoginActivity.class);
-            PickUpActivity.this.startActivity(mainIntent);
-            PickUpActivity.this.finish();
+            backToMenu();
         }
     }
 
@@ -287,9 +261,7 @@ public class PickUpActivity extends AppCompatActivity {
         }
     }
 
-     // TODO: Load trials from database
      private void loadTrials() {
-
         for (Trial t : db.getAllPutTrials()) {
             trials.add(t);
         }
@@ -349,6 +321,12 @@ public class PickUpActivity extends AppCompatActivity {
         // Sanity check: no platform can be draggable
         view.setClickable(false);
         view.setOnTouchListener(new TouchListener());
+    }
+
+    private void backToMenu() {
+        Intent mainIntent = new Intent(PickUpActivity.this, GameMenu.class);
+        PickUpActivity.this.startActivity(mainIntent);
+        PickUpActivity.this.finish();
     }
 
     private void displayFeedback(final boolean game_over) {

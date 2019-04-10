@@ -1,11 +1,9 @@
 package leadgames.cis400.leadgames;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,12 +37,11 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ambiguity_detection);
-        //TODO: init views
+
         initViews();
         loadTrials();
         if (trials.isEmpty()) {
-            //TODO: decide on null behaviour & implement
-            return;
+             backToMenu();
         }
         trialIterator = trials.iterator();
         if (trialIterator.hasNext()) {
@@ -52,7 +49,7 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
         }
         //TODO: record trials / update database
     }
-    
+
     private final class Scene {
         private ImageView imageView;
         private boolean selected;
@@ -81,7 +78,7 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
         }
     };
 
-    public void initViews() {
+    private void initViews() {
         //Initialize animal views
         q1 = (ImageView) findViewById(R.id.q1);
         q2 = (ImageView) findViewById(R.id.q2);
@@ -128,24 +125,28 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
        trials.add(t3);
     }
 
-    public void startTrial(AmbiguityDetectionTrial trial) {
+    private void backToMenu() {
+        Intent mainIntent = new Intent(
+                AmbiguityDetectionActivity.this, LoginActivity.class);
+        AmbiguityDetectionActivity.this.startActivity(mainIntent);
+        AmbiguityDetectionActivity.this.finish();
+    }
+
+    private void startTrial(AmbiguityDetectionTrial trial) {
         s1 = new Scene(q1, trial.getImg_1());
         s2 = new Scene(q2, trial.getImg_2());
         s3 = new Scene(q3, trial.getImg_3());
         s4 = new Scene(q4, trial.getImg_4());
     }
 
-    public void endTrial() {
+    private void endTrial() {
         //TODO: add timing and correctness then store results
         if (trialIterator.hasNext()) {
             displayFeedback(false);
             startTrial(trialIterator.next());
         } else {
             displayFeedback(true);
-            Intent mainIntent = new Intent(
-                    AmbiguityDetectionActivity.this,LoginActivity.class);
-            AmbiguityDetectionActivity.this.startActivity(mainIntent);
-            AmbiguityDetectionActivity.this.finish();
+            backToMenu();
         }
     }
 
@@ -172,10 +173,7 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
                     feedback_text.setVisibility(View.INVISIBLE);
 
                 } else {
-                    Intent mainIntent = new Intent(
-                            AmbiguityDetectionActivity.this, LoginActivity.class);
-                    AmbiguityDetectionActivity.this.startActivity(mainIntent);
-                    AmbiguityDetectionActivity.this.finish();
+                    backToMenu();
                 }
             }
         }, 4000);
