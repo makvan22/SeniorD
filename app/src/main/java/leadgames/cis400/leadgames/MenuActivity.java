@@ -24,9 +24,9 @@ public class MenuActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.app_bar_menu);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //setContentView(R.layout.app_bar_menu);
+        //Toolbar toolbar = findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
         FirebaseManager fbm = FirebaseManager.getInstance();
         fbm.populatePutGameDb(new InputStream[]{
                 getResources().openRawResource(R.raw.putlist_1),
@@ -65,18 +65,18 @@ public class MenuActivity extends AppCompatActivity {
                 "fonts/walterturncoat.ttf";
 
         // text view label
-        TextView welcome_msg = findViewById(R.id.welcome_text);
-        TextView authors_msg = findViewById(R.id.authors);
-
-        // Loading Font Face
-        Typeface tf = Typeface.createFromAsset(getAssets(), fontPath);
-
-        // Applying font
-        welcome_msg.setTypeface(tf);
-        authors_msg.setTypeface(tf);
+//        TextView welcome_msg = findViewById(R.id.welcome_text);
+//        TextView authors_msg = findViewById(R.id.authors);
+//
+//        // Loading Font Face
+//        Typeface tf = Typeface.createFromAsset(getAssets(), fontPath);
+//
+//        // Applying font
+//        welcome_msg.setTypeface(tf);
+//        authors_msg.setTypeface(tf);
         //FirebaseManager.writeScore(null);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+        /*FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
