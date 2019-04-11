@@ -157,8 +157,6 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
     }
 
     private void endTrial() {
-        //TODO: Determine correctness
-        //TODO: Upload result to database
         System.out.println("fs: " + first_selection);
         System.out.println("ss: " + second_selection);
         System.out.println("fs_time: " + fs_time);
@@ -171,7 +169,6 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
                 fs_time, ss_time, score(),  participant
         );
 
-        //TODO: STORE RESULTS (this should be it?? - neha <3 )
         db.addAmbiguityDetectionResult(result);
 
         if (trialIterator.hasNext()) {

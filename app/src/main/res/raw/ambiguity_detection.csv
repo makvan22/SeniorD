@@ -1,4 +1,4 @@
 ﻿Subject,Trial,Condition,Item,Match_1,Match_2,Distractor_1,Distractor_2,Sentence
-S1,1,Filler,dog,Filler_dog1,Filler_dog2,Filler_mouse,Filler_bird,The girl is showing a dog to her brother
-S2,2,Lexical_Amb,bat,Bat_Animal,Bat_Baseball,Bat_Distractor_Animal,Bat_Distractor_Object,The children saw a bat lying by the fence
-S3,3,Structural_Amb,with_brush,Cat_with_brush,lady_with_brush,lady_with_feather,cat_with_apple,The girl tickled the cat with the brush
+S1,1,Filler,dog,filler_dog1,filler_dog2,filler_mouse,filler_bird,The girl is showing a dog to her brother
+S2,2,Lexical_Amb,bat,bat_animal,bat_baseball,bat_distractor_animal,bat_distractor_object,The children saw a bat lying by the fence
+S3,3,Structural_Amb,with_brush,cat_with_brush,lady_with_brush,lady_with_feather,cat_with_apple,The girl tickled the cat with the brush

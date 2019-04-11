@@ -36,30 +36,30 @@ public final class ImageFinder {
                 return R.drawable.pig;
             case "towel":
                 return R.drawable.towel;
-            case "apple_scene":
-                return R.drawable.apple_scene;
-            case "bat_scene_1":
-                return R.drawable.bat_scene_1;
-            case "bat_scene_2":
-                return R.drawable.bat_scene_2;
-            case "bird_scene":
-                return R.drawable.bird_scene;
-            case "cat_brush_scene":
-                return R.drawable.cat_brush_scene;
-            case "cat_fence_scene":
-                return R.drawable.cat_fence_scene;
-            case "dog_scene_1":
-                return R.drawable.dog_scene_1;
-            case "dog_scene_2":
-                return R.drawable.dog_scene_2;
-            case "feather_scene":
-                return R.drawable.feather_scene;
-            case "girl_brush_scene":
-                return R.drawable.girl_brush_scene;
-            case "house_scene":
-                return R.drawable.house_scene;
-            case "mouse_scene":
-                return R.drawable.mouse_scene;
+            case "cat_with_apple":
+                return R.drawable.cat_with_apple;
+            case "bat_animal":
+                return R.drawable.bat_animal;
+            case "bat_baseball":
+                return R.drawable.bat_baseball;
+            case "filler_bird":
+                return R.drawable.filler_bird;
+            case "cat_with_brush":
+                return R.drawable.cat_with_brush;
+            case "bat_distractor_animal":
+                return R.drawable.bat_distractor_animal;
+            case "filler_dog1":
+                return R.drawable.filler_dog1;
+            case "filler_dog2":
+                return R.drawable.filler_dog2;
+            case "lady_with_feather":
+                return R.drawable.lady_with_feather;
+            case "lady_with_brush":
+                return R.drawable.lady_with_brush;
+            case "bat_distractor_object":
+                return R.drawable.bat_distractor_object;
+            case "filler_mouse":
+                return R.drawable.filler_mouse;
             default:
                 return 0;
         }
