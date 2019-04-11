@@ -9,11 +9,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 
 public class AmbiguityDetectionActivity extends AppCompatActivity {
 
-    private ArrayList<AmbiguityDetectionTrial> trials = new ArrayList<AmbiguityDetectionTrial>();
+    private List<AmbiguityDetectionTrial> trials = new ArrayList<AmbiguityDetectionTrial>();
     private Iterator<AmbiguityDetectionTrial> trialIterator = null;
 
     private ImageView q1;
@@ -32,11 +33,18 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
     private LikeButtonView feedback_anim;
 
     private int num_selected = 0;
+    private Participant participant;
+
+    private FirebaseManager db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ambiguity_detection);
+
+        Intent intent = getIntent();
+        this.participant = (Participant) intent.getExtras().getSerializable("participant");
+        db = FirebaseManager.getInstance();
 
         initViews();
         loadTrials();
@@ -103,26 +111,9 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
 
 
     private void loadTrials() {
-        //TODO : get more trials from researchers
-        AmbiguityDetectionTrial t1 = new  AmbiguityDetectionTrial("1","Filler",
-                "S1",  "dog", "dog_scene_1", "dog_scene_2",
-                "bird_scene", "dog_scene_1", "dog_scene_2",
-                "mouse_scene");
-
-        AmbiguityDetectionTrial t2 = new  AmbiguityDetectionTrial("2","Lexical_Amb",
-                "S1",  "bat", "bat_scene_1", "bat_scene_2",
-                "bat_scene_1", "house_scene", "cat_fence_scene",
-                "bat_scene_2");
-
-
-        AmbiguityDetectionTrial t3 = new  AmbiguityDetectionTrial("3","Structural",
-                "S1",  "with_brush", "cat_brush_scene",
-                "girl_brush_scene","cat_brush_scene", "apple_scene",
-                "feather_scene", "girl_brush_scene");
-
-       trials.add(t1);
-       trials.add(t2);
-       trials.add(t3);
+        trials = db.getAllAmbiguityDetectionTrials();
+        System.out.println(trials.get(0));
+        System.out.println(trials.get(1));
     }
 
     private void backToMenu() {

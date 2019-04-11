@@ -32,6 +32,7 @@ public class FirebaseManager {
 
     private PutGameDB mPutGame;
     private FlankerDB mFlanker;
+    private AmbiguityDetectionDB mAmbiguity;
 
 
     public static synchronized FirebaseManager getInstance() {
@@ -47,6 +48,7 @@ public class FirebaseManager {
         putGameRef = FirebaseDatabase.getInstance().getReference("put-games");
         mPutGame = new PutGameDB();
         mFlanker = new FlankerDB();
+        mAmbiguity = new AmbiguityDetectionDB();
         //populatePutGameDb();
 
         putResultsRef = FirebaseDatabase.getInstance().getReference("put-results");
@@ -74,12 +76,22 @@ public class FirebaseManager {
         }
     }
 
+    public void populateAmbiguityDB(InputStream stream) {
+        try {
+            mAmbiguity.readTrialFromInputStream(stream);
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+    }
+
 
     public List<Trial> getAllPutTrials() {
         return mPutGame.getAllPutTrials();
     }
 
     public List<FlankerTrial> getAllFlankerTrials() { return mFlanker.getAllTrials(); }
+
+    public List<AmbiguityDetectionTrial> getAllAmbiguityDetectionTrials() { return mAmbiguity.getAllTrials(); }
 
     public void addFlankerResult(FlankerResult flankerResult) {
         //TODO: ADD TO FIREBASE

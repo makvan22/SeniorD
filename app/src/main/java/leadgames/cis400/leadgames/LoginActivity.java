@@ -40,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
         );
         fbm.populateFlankerDb(getResources().openRawResource(R.raw.flanker));
+        fbm.populateAmbiguityDB(getResources().openRawResource(R.raw.ambiguity_detection));
 
         Button submit = findViewById(R.id.button);
         submit.setOnClickListener(new View.OnClickListener() {
