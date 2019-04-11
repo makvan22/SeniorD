@@ -132,7 +132,10 @@ public class FirebaseManager {
             pathInx++;
         }
 
+    }
 
+    public void addAmbiguityDetectionResult(AmbiguityDetectionResult result) {
+        // TODO: ADD TO DB
     }
 
     public void addValueEventListenerToDb(String db) {
