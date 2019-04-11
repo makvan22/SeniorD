@@ -10,12 +10,12 @@ public class AmbiguityDetectionResult {
     private String second_selection;
     private int fs_time;
     private int ss_time;
-    private int correct;
+    private int score;
+    private Participant participant;
 
     public AmbiguityDetectionResult(String subject, String item, String  trial, String condition,
                                     String first_selection, String second_selection, int fs_time,
-                                    int ss_time, int correct) {
-
+                                    int ss_time, int score, Participant participant) {
         this.subject = subject;
         this.item = item;
         this.trial = trial;
@@ -24,6 +24,7 @@ public class AmbiguityDetectionResult {
         this.second_selection = second_selection;
         this.fs_time = fs_time;
         this.ss_time = ss_time;
-        this.correct = correct;
+        this.score = score;
+        this.participant = participant;
     }
 }

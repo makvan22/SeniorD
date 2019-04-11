@@ -3,6 +3,7 @@ package leadgames.cis400.leadgames;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,7 +13,6 @@ import java.util.Iterator;
 
 
 public class AmbiguityDetectionActivity extends AppCompatActivity {
-
     private ArrayList<AmbiguityDetectionTrial> trials = new ArrayList<AmbiguityDetectionTrial>();
     private Iterator<AmbiguityDetectionTrial> trialIterator = null;
 
@@ -31,7 +31,15 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
     private TextView feedback_text;
     private LikeButtonView feedback_anim;
 
+    int fs_time = 0;
+    int ss_time = 0;
+    long startTime = 0;
+    String first_selection = "";
+    String second_selection = "";
     private int num_selected = 0;
+    private Participant participant = null;
+    private AmbiguityDetectionTrial currTrial = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,16 +55,17 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
         if (trialIterator.hasNext()) {
             startTrial(trialIterator.next());
         }
-        //TODO: record trials / update database
     }
 
     private final class Scene {
         private ImageView imageView;
         private boolean selected;
+        private String image;
 
-        public Scene (ImageView iv, String img_src) {
+        public Scene (ImageView iv, final String img_src) {
             this.selected = false;
             this.imageView = iv;
+            this.image = img_src;
 
             imageView.setImageResource(ImageFinder.getImageResource(img_src));
             imageView.setBackgroundColor(getResources().getColor(R.color.white));
@@ -70,6 +79,15 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
                     if (!selected) {
                         selected = true;
                         num_selected += 1;
+                        if (num_selected == 1) {
+                            long difference = System.currentTimeMillis() - startTime;
+                            fs_time = (int) (difference / 1000.0);
+                            first_selection = image;
+                        } else {
+                            second_selection = image;
+                            long difference = System.currentTimeMillis() - startTime;
+                            ss_time = (int) (difference / 1000.0);
+                        }
                     }
                     imageView.setBackgroundColor(getResources().getColor(R.color.green));
                     System.out.println("View clicked!");
@@ -100,10 +118,8 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
         feedback_anim = findViewById(R.id.star);
     }
 
-
-
     private void loadTrials() {
-        //TODO : get more trials from researchers
+        //TODO: get more trials from researchers
         AmbiguityDetectionTrial t1 = new  AmbiguityDetectionTrial("1","Filler",
                 "S1",  "dog", "dog_scene_1", "dog_scene_2",
                 "bird_scene", "dog_scene_1", "dog_scene_2",
@@ -133,20 +149,69 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
     }
 
     private void startTrial(AmbiguityDetectionTrial trial) {
+        // TODO: add sounds
+        //reset scenes
+        this.currTrial = trial;
         s1 = new Scene(q1, trial.getImg_1());
         s2 = new Scene(q2, trial.getImg_2());
         s3 = new Scene(q3, trial.getImg_3());
         s4 = new Scene(q4, trial.getImg_4());
+
+        //reset  trial variables
+        fs_time = 0;
+        ss_time = 0;
+        int correct = 0;
+        num_selected = 0;
+        first_selection = "";
+        second_selection = "";
+        startTime = SystemClock.elapsedRealtime();
     }
 
     private void endTrial() {
-        //TODO: add timing and correctness then store results
+        //TODO: Determine correctness
+        //TODO: Upload result to database
+        System.out.println("fs: " + first_selection);
+        System.out.println("ss: " + second_selection);
+        System.out.println("fs_time: " + fs_time);
+        System.out.println("ss_time: " + ss_time);
+        System.out.println("score: " + score());
+
+        AmbiguityDetectionResult result = new AmbiguityDetectionResult(
+                currTrial.getSubject(), currTrial.getItem(), currTrial.getTrial(),
+                currTrial.getCondition(), first_selection, second_selection,
+                fs_time, ss_time, score(),  participant
+        );
+        //TODO: Store results
         if (trialIterator.hasNext()) {
             displayFeedback(false);
             startTrial(trialIterator.next());
         } else {
             displayFeedback(true);
             backToMenu();
+        }
+    }
+
+    private int score() {
+        /* 2 correct w/o prompt -> 4
+         * 2 correct w/ prompt -> 2
+         * 1 correct -> 1
+         * 0 correct -> 0
+         */
+        int num_correct = 0;
+        if (first_selection.equals(currTrial.getCorrect_1()) ||
+                first_selection.equals(currTrial.getCorrect_2())) {
+            num_correct += 1;
+        }
+        if (second_selection.equals(currTrial.getCorrect_1()) ||
+                second_selection.equals(currTrial.getCorrect_2())) {
+            num_correct += 1;
+        }
+        if (num_correct < 2) {
+            return num_correct;
+        } else {
+            //TODO: implement prompting for second choice.
+            //Assuming no prompt for now
+            return 4;
         }
     }
 
@@ -171,7 +236,6 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
                     feedback_panel.setVisibility(View.INVISIBLE);
                     feedback_anim.setVisibility(View.INVISIBLE);
                     feedback_text.setVisibility(View.INVISIBLE);
-
                 } else {
                     backToMenu();
                 }

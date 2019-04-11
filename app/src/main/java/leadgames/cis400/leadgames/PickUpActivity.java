@@ -55,7 +55,7 @@ public class PickUpActivity extends AppCompatActivity {
     boolean not_first = false;
     MediaPlayer mediaPlayer = null;
 
-            String currTrial = "";
+    String currTrial = "";
     PutObject currAnimal = null;
     PutObject currPlatform = null;
     ArrayList<PutObject> currPath = new ArrayList<>();
