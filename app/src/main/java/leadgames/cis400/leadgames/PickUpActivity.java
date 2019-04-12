@@ -25,7 +25,6 @@ import static leadgames.cis400.leadgames.PutObject.TARGET_ANIMAL;
 import static leadgames.cis400.leadgames.PutObject.TARGET_GOAL;
 import static leadgames.cis400.leadgames.PutObject.TARGET_PLATFORM;
 import android.os.SystemClock;
-import android.content.Context;
 public class PickUpActivity extends AppCompatActivity {
 
     private FirebaseManager db = FirebaseManager.getInstance();
@@ -108,9 +107,8 @@ public class PickUpActivity extends AppCompatActivity {
         /* XML is divided into 4 quadrants
            Q1 - upper left  Q2 - upper right  Q3 - bottom left Q4 - bottom right
          */
-        Context context = this;
-        startTime = 0;
 
+        startTime = 0;
         currTrial = trial.getId();
         //removing the 'wav' at the end
         String sound = trial.getSoundFile();
@@ -209,26 +207,32 @@ public class PickUpActivity extends AppCompatActivity {
             startTrial(currentTrial);
         } else {
             displayFeedback(true);
-            backToMenu();
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    backToMenu();
+                }
+            }, 1500);
         }
     }
 
     private void initViews() {
         //Initialize animal views
-        q1 = (ImageView) findViewById(R.id.q1);
-        q2 = (ImageView) findViewById(R.id.q2);
-        q3 = (ImageView) findViewById(R.id.q3);
-        q4 = (ImageView) findViewById(R.id.q4);
+        q1 = findViewById(R.id.q1);
+        q2 = findViewById(R.id.q2);
+        q3 = findViewById(R.id.q3);
+        q4 = findViewById(R.id.q4);
         animals.add(q1);
         animals.add(q2);
         animals.add(q3);
         animals.add(q4);
 
         //Initialize platform views
-        p1 = (ImageView) findViewById(R.id.p1);
-        p2 = (ImageView) findViewById(R.id.p2);
-        p3 = (ImageView) findViewById(R.id.p3);
-        p4 = (ImageView) findViewById(R.id.p4);
+        p1 = findViewById(R.id.p1);
+        p2 = findViewById(R.id.p2);
+        p3 = findViewById(R.id.p3);
+        p4 = findViewById(R.id.p4);
 
         platforms.add(p1);
         platforms.add(p2);
@@ -236,7 +240,7 @@ public class PickUpActivity extends AppCompatActivity {
         platforms.add(p4);
 
         //Initialize submit view
-        submit = (ImageView) findViewById(R.id.submit);
+        submit = findViewById(R.id.submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -246,8 +250,8 @@ public class PickUpActivity extends AppCompatActivity {
         });
 
         //Initialize feedback view
-        feedback_panel = (TextView) findViewById(R.id.feedback_panel);
-        feedback_text = (TextView) findViewById(R.id.feedback_text);
+        feedback_panel = findViewById(R.id.feedback_panel);
+        feedback_text = findViewById(R.id.feedback_text);
         feedback_anim = findViewById(R.id.star);
 
     }

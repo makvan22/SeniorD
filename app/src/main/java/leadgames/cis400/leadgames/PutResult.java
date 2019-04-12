@@ -73,4 +73,4 @@ public class PutResult implements ResultTrial {
         params.put("responseTime", Integer.toString(time));
         return params;
     }
-};
+}

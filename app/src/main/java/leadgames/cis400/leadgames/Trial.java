@@ -36,8 +36,9 @@ public class Trial {
     }
 
     public Trial (String id, int list, String item, int trial, String soundFile, String sentence,
-                  int referents, String ambiguity, String typeOfTrial, String target, String targetPlatform,
-                  String goal, String incorrectGoal, String competitorPlatform, String competitor,
+                  int referents, String ambiguity, String typeOfTrial, String target,
+                  String targetPlatform,String goal, String incorrectGoal,
+                  String competitorPlatform, String competitor,
                   String targetLocation, String goalLocation,
                   String incorrectGoalLocation, String competitorLocation) {
         this.id = id;
@@ -65,7 +66,8 @@ public class Trial {
 
 
     public Trial (String id, String targetAnimal, String targetGoal, String targetPlatform,
-                  String distractorAnimal, String distractorGoal, String distractorPlatform, String soundFile) {
+                  String distractorAnimal, String distractorGoal, String distractorPlatform,
+                  String soundFile) {
         this.id = id;
         this.targetAnimal = targetAnimal;
         this.targetGoal = targetGoal;
@@ -125,7 +127,9 @@ public class Trial {
         return distractorPlatform;
     }
 
-    public String getSoundFile() { return soundFile.toLowerCase().replace(".", ""); }
+    public String getSoundFile() {
+        return soundFile.toLowerCase().replace(".", "");
+    }
 
     private PUT_LOCATION locationToEnum(String location) {
         PUT_LOCATION ret = PUT_LOCATION.UPPER_LEFT;

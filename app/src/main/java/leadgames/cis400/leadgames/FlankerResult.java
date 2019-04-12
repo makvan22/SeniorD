@@ -4,7 +4,6 @@ import java.util.Map;
 
 public class FlankerResult implements ResultTrial{
 
-
     private FlankerTrial trial;
     private boolean correct;
     private int time;
