@@ -36,8 +36,8 @@ public class AmbiguityDetectionResult implements ResultTrial {
     public Map<String, String> addToParams(Map<String, String> params) {
         params.put("action", "addAmbiguity");
         params.put("studentID", participant.getStudentId());
-        params.put("first_name", participant.getFirstName());
-        params.put("last_name", participant.getLastName());
+        params.put("firstName", participant.getFirstName());
+        params.put("lastName", participant.getLastName());
         params.put("dob", participant.getDob());
         params.put("sex", participant.getGender());
         params.put("condition", condition);

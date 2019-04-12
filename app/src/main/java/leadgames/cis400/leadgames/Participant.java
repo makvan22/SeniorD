@@ -12,8 +12,8 @@ public class Participant implements Serializable {
     private String id;
 
     public Participant(String first, String last, String gender, String dob, String id) {
-        firstName = first;
-        lastName = last;
+        this.firstName = first;
+        this.lastName = last;
         this.gender = gender;
         this.dob = dob;
         this.id = id;
