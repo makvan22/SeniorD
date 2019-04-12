@@ -3,6 +3,7 @@ package leadgames.cis400.leadgames;
 import com.google.firebase.database.DataSnapshot;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class FlankerTrial {
     String image;
@@ -45,6 +46,5 @@ public class FlankerTrial {
     }
 
     public String getCondition() { return condition; }
-
 
 }

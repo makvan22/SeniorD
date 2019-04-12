@@ -1,6 +1,8 @@
 package leadgames.cis400.leadgames;
 
-public class FlankerResult {
+import java.util.Map;
+
+public class FlankerResult implements ResultTrial{
 
 
     private FlankerTrial trial;
@@ -31,4 +33,24 @@ public class FlankerResult {
     public int getTime() { return time; }
     public String getResponse() { return response; }
     public Participant getParticipant() { return participant; }
+
+    @Override
+    public Map<String, String> addToParams(Map<String, String> params) {
+        params.put("action", "addFlanker");
+        params.put("studentID", participant.getStudentId());
+        params.put("first_name", participant.getFirstName());
+        params.put("last_name", participant.getLastName());
+        params.put("dob", participant.getDob());
+        params.put("sex", participant.getGender());
+        params.put("block", trial.getBlock());
+        params.put("image", trial.getImage());
+        params.put("condition", trial.getCondition());
+        params.put("direction", trial.getDirection());
+        params.put("response", response);
+        params.put("correct", correct ? "1" : "0");
+        params.put("switched", "placeholder");
+        params.put("switchType", "placeholder");
+        params.put("responseTime", Integer.toString(time));
+        return params;
+    }
 }

@@ -172,7 +172,7 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
         );
 
         //TODO: STORE RESULTS (this should be it?? - neha <3 )
-        db.addAmbiguityDetectionResult(result);
+        db.addAmbiguityDetectionResult(result, getApplicationContext());
 
         if (trialIterator.hasNext()) {
             displayFeedback(false);

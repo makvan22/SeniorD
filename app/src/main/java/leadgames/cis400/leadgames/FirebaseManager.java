@@ -6,6 +6,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -93,49 +101,51 @@ public class FirebaseManager {
 
     public List<AmbiguityDetectionTrial> getAllAmbiguityDetectionTrials() { return mAmbiguity.getAllTrials(); }
 
-    public void addFlankerResult(FlankerResult flankerResult) {
+    public void addFlankerResult(FlankerResult flankerResult, Context context) {
+        addItemToSheet(flankerResult, context);
         //TODO: ADD TO FIREBASE
-        Participant participant = flankerResult.getParticipant();
-        String studentId = participant.getStudentId();
-
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-        String date = dateFormat.format(new Date());
-
-        //TODO: FIX FOR FIREBASE
-        String trialId = encodeForFirebaseKey(studentId) + "/"
-                + encodeForFirebaseKey(date);
+//        Participant participant = flankerResult.getParticipant();
+//        String studentId = participant.getStudentId();
+//
+//        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+//        String date = dateFormat.format(new Date());
+//
+//        //TODO: FIX FOR FIREBASE
+//        String trialId = encodeForFirebaseKey(studentId) + "/"
+//                + encodeForFirebaseKey(date);
     }
 
-    public void addPutResult(PutResult putResult) {
-        Participant participant = putResult.getParticipant();
-        String studentId = participant.getStudentId();
-
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-        String date = dateFormat.format(new Date());
-
-        //TODO: FIX FOR FIREBASE
-        String trialId = encodeForFirebaseKey(studentId) + "/"
-                          + encodeForFirebaseKey(date);
-        List<PutPath> paths = putResult.getPaths();
-
-        putResultsRef.child(trialId + "/time").setValue(putResult.getTime());
-        putResultsRef.child(trialId + "/correct").setValue(putResult.getCorrect());
-
-        String selectedObj = paths.size() == 0 ? "" : paths.get(paths.size() - 1).getPutOjbect();
-        putResultsRef.child(trialId + "/selectedObject").setValue(selectedObj);
-
-        int pathInx = 0;
-        for (PutPath path : paths) {
-            String pathId = "path" + pathInx;
-            putResultsRef.child(trialId + "/paths/" + pathId + "/object").setValue(path.getPutOjbect());
-            putResultsRef.child(trialId + "/paths/" + pathId + "/objectPath").setValue(path.getPutObjectPath());
-            pathInx++;
-        }
+    public void addPutResult(PutResult putResult, Context context) {
+        addItemToSheet(putResult, context);
+//        Participant participant = putResult.getParticipant();
+//        String studentId = participant.getStudentId();
+//
+//        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+//        String date = dateFormat.format(new Date());
+//
+//        //TODO: FIX FOR FIREBASE
+//        String trialId = encodeForFirebaseKey(studentId) + "/"
+//                          + encodeForFirebaseKey(date);
+//        List<PutPath> paths = putResult.getPaths();
+//
+//        putResultsRef.child(trialId + "/time").setValue(putResult.getTime());
+//        putResultsRef.child(trialId + "/correct").setValue(putResult.getCorrect());
+//
+//        String selectedObj = paths.size() == 0 ? "" : paths.get(paths.size() - 1).getPutOjbect();
+//        putResultsRef.child(trialId + "/selectedObject").setValue(selectedObj);
+//
+//        int pathInx = 0;
+//        for (PutPath path : paths) {
+//            String pathId = "path" + pathInx;
+//            putResultsRef.child(trialId + "/paths/" + pathId + "/object").setValue(path.getPutOjbect());
+//            putResultsRef.child(trialId + "/paths/" + pathId + "/objectPath").setValue(path.getPutObjectPath());
+//            pathInx++;
+//        }
 
     }
 
-    public void addAmbiguityDetectionResult(AmbiguityDetectionResult result) {
-        // TODO: ADD TO DB
+    public void addAmbiguityDetectionResult(AmbiguityDetectionResult result, Context context) {
+        addItemToSheet(result, context);
     }
 
     public void addValueEventListenerToDb(String db) {
@@ -162,6 +172,35 @@ public class FirebaseManager {
 
             }
         });
+    }
+
+    private void addItemToSheet(ResultTrial trial, Context context) {
+        final Map<String, String> params = trial.addToParams(new HashMap<String, String>());
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://script.google.com/macros/s/AKfycbxK4t30QzBnhjLx30gqGoNlLUUuzZSY6tFEOsqu-mR_69215TI/exec",
+            new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) { }
+            },
+            new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) { }
+            }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                return params;
+            }
+        };
+
+        int socketTimeOut = 50000;// u can change this .. here it is 50 seconds
+
+        RetryPolicy retryPolicy = new DefaultRetryPolicy(socketTimeOut, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        stringRequest.setRetryPolicy(retryPolicy);
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+        queue.add(stringRequest);
+
     }
 
     public static String encodeForFirebaseKey (String s) {

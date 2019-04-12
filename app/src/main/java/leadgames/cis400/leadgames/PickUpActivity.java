@@ -52,6 +52,7 @@ public class PickUpActivity extends AppCompatActivity {
 
     private HashSet<Trial> trials = new HashSet<Trial>();
     private Iterator<Trial> trialIterator = null;
+    private Trial currentTrial;
     boolean not_first = false;
     MediaPlayer mediaPlayer = null;
 
@@ -85,7 +86,8 @@ public class PickUpActivity extends AppCompatActivity {
         }
         trialIterator = trials.iterator();
         if (trialIterator.hasNext()) {
-            startTrial(trialIterator.next());
+            currentTrial = trialIterator.next();
+            startTrial(currentTrial);
         }
     }
 
@@ -195,15 +197,16 @@ public class PickUpActivity extends AppCompatActivity {
         long difference = System.currentTimeMillis() - startTime;
         System.out.println(difference);
         int t = (int) (difference / 1000.0);
-        PutResult result = new PutResult(currTrial, correct, t, trialPath, participant);
+        PutResult result = new PutResult(currTrial, correct, t, trialPath, participant, currentTrial);
         System.out.println(result.toString());
         //TODO: add warning suppress
-        db.addPutResult(result);
+        db.addPutResult(result, getApplicationContext());
         //run next trial
         if (trialIterator.hasNext()) {
             //display feedback(0)
             displayFeedback(false);
-            startTrial(trialIterator.next());
+            currentTrial = trialIterator.next();
+            startTrial(currentTrial);
         } else {
             displayFeedback(true);
             backToMenu();

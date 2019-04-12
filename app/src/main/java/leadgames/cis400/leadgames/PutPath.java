@@ -16,7 +16,7 @@ public class PutPath {
         return "Put Object: " + putObject + " Object path: " + path.toString();
     }
 
-    public String getPutOjbect() { return putObject.toString(); }
+    public String getPutObject() { return putObject.toString(); }
 
     public String getPutObjectPath() {
         if (path.isEmpty()) return "";
