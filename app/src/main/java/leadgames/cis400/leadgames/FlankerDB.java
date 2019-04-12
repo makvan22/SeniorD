@@ -27,14 +27,18 @@ public class FlankerDB {
             String line = br.readLine();
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",");
-                if (values.length < 4) continue;
+                if (values.length < 7) continue;
 
                 String id = "";
                 String block = values[0];
                 String image = values[1];
                 String condition = values[2];
                 String direction = values[3];
-                trials.add(new FlankerTrial(id, image, direction, block, condition));
+                String expectedResponse = values[4];
+                String switched = values[5];
+                String switchType = values[6];
+                trials.add(new FlankerTrial(id, image, direction, block, condition, expectedResponse,
+                        switched, switchType));
             }
 
         }

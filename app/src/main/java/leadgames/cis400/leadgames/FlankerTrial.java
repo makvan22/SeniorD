@@ -13,6 +13,9 @@ public class FlankerTrial {
 
     private String id;
     private String condition;
+    private String expectedResponse;
+    private String switched;
+    private String switchType;
 
 
     public FlankerTrial (DataSnapshot dataSnapshot) {
@@ -24,12 +27,16 @@ public class FlankerTrial {
         this.condition=object.get("condition").toString();
     }
 
-    public FlankerTrial (String id, String image, String direction, String block, String condition) {
+    public FlankerTrial (String id, String image, String direction, String block, String condition,
+                         String expectedResponse, String switched, String switchType) {
         this.id = id;
         this.image=image;
         this.direction=direction;
         this.block=block;
         this.condition=condition;
+        this.expectedResponse=expectedResponse;
+        this.switched = switched;
+        this.switchType = switchType;
     }
 
     public String getId (){
@@ -45,5 +52,11 @@ public class FlankerTrial {
     }
 
     public String getCondition() { return condition; }
+
+    public String getExpectedResponse() { return expectedResponse; }
+
+    public String getSwitched() { return switched; }
+
+    public String getSwitchType() { return switchType; }
 
 }

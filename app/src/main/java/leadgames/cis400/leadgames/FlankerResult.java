@@ -45,10 +45,11 @@ public class FlankerResult implements ResultTrial{
         params.put("image", trial.getImage());
         params.put("condition", trial.getCondition());
         params.put("direction", trial.getDirection());
+        params.put("expectedResponse", trial.getExpectedResponse());
         params.put("response", response);
         params.put("correct", correct ? "1" : "0");
-        params.put("switched", "placeholder");
-        params.put("switchType", "placeholder");
+        params.put("switched", trial.getSwitched());
+        params.put("switchType", trial.getSwitchType());
         params.put("responseTime", Integer.toString(time));
         return params;
     }
