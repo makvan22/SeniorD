@@ -1,9 +1,9 @@
 ﻿block,image,condition,direction
 practice,left_fish.jpg,null,left
 practice,right_fish.jpg,null,right
-practice,bowl.jpg,null,
+practice,bowl.jpg,null,null,
 practice,right_fish.jpg,null,right
-practice,bowl.jpg,null,
+practice,bowl.jpg,null,null,
 practice,left_fish.jpg,null,left
 practice,con_left_practice.jpg,congruent,left
 practice,in_left_practice.jpg,incongruent,left

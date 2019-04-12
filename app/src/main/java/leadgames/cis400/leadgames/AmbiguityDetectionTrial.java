@@ -14,11 +14,11 @@ public class AmbiguityDetectionTrial {
     private String img_2;
     private String img_3;
     private String img_4;
-    private String sentence;
+    private String soundFile;
 
     public AmbiguityDetectionTrial(String trial, String condition, String subject, String item,
                                    String correct_1, String correct_2, String img_1, String img_2,
-                                   String img_3, String img_4, String sentence) {
+                                   String img_3, String img_4, String soundFile) {
         this.trial = trial;
         this.condition = condition;
         this.subject = subject;
@@ -29,7 +29,7 @@ public class AmbiguityDetectionTrial {
         this.img_2 = img_2;
         this.img_3 = img_3;
         this.img_4 = img_4;
-        this.sentence = sentence;
+        this.soundFile = soundFile;
 
     }
 
@@ -61,7 +61,7 @@ public class AmbiguityDetectionTrial {
         return img_4;
     }
 
-    public String getSentence() { return sentence; }
+    public String getSoundFile() { return soundFile; }
 
     @Override
     public String toString() { return "Trial: " + trial + " Correct1: " + correct_1 + "img3: " + img_3; }
