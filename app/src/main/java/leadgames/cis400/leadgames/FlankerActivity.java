@@ -53,6 +53,7 @@ public class FlankerActivity extends AppCompatActivity {
     private int midFishDir = 0;
 
     private Participant participant;
+    private Handler handler;
 
 
     @Override
@@ -96,16 +97,66 @@ public class FlankerActivity extends AppCompatActivity {
         for (ImageView fish : allFish) {
             fish.setImageResource(imageid);
         }
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //Do something after 5000ms
+
+/*
+        final Runnable runnable = new Runnable() {
+            @Override public void run() {
+                // Replace with your logic.
+                leftButton.setOnClickListener(null);
+                rightButton.setOnClickListener(null);
                 endTrial(5, "NA");
-                //}
             }
-        }, 7500);
+        };
+        leftButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                displayFeedback(false);
+                endTrial((int)(SystemClock.elapsedRealtime()-startTime / 1000.0), "left");
+                leftButton.removeCallbacks(runnable);
+            }
+        });
+        */
+       /*
+        leftButton.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(final View view) {
+                //Removing 5 Seconds timer which will remove click listener.
+                leftButton.removeCallbacks(runnable);
+            }
+        });*/
+
+        //Removed Click Listener after 5 Seconds.
+        /*
+        leftButton.postDelayed(runnable, 7500);
+
+        rightButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                displayFeedback(false);
+                endTrial((int)(SystemClock.elapsedRealtime()-startTime / 1000.0), "right");
+                rightButton.removeCallbacks(runnable);
+            }
+        });
+        rightButton.postDelayed(runnable, 7500);
+*/
+        if (image.equals("bowl") || image.charAt(0) == 'n') {
+            handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //Do something after 5000ms
+                    endTrial(5, "NA");
+                    //}
+                }
+            }, 7500);
+        }
+        else {
+            if (handler != null) {
+                handler.removeCallbacksAndMessages(null);
+            }
+        }
+
         //reset  trial variables
+
         int correct = 0;
         startTime = SystemClock.elapsedRealtime();
     }
@@ -128,6 +179,7 @@ public class FlankerActivity extends AppCompatActivity {
         //System.out.println(trials.get(0).getDirection());
         leftButton = (ImageView) findViewById(R.id.left_arrow);
         leftButton.setClickable(true);
+
         leftButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,6 +190,7 @@ public class FlankerActivity extends AppCompatActivity {
 
         rightButton = (ImageView) findViewById(R.id.right_arrow);
         rightButton.setClickable(true);
+
         rightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -164,7 +217,9 @@ public class FlankerActivity extends AppCompatActivity {
         //TODO: Upload result to database
         //TODO: send FlankerResult back to db.addFlankerResult
         //db.addFlankerResult(new FlankerResult(trial, 1, 100, "left", participant);
-
+        if (handler != null) {
+            handler.removeCallbacksAndMessages(null);
+        }
         FlankerResult result = new FlankerResult(
                 currTrial, response.equals(currTrial.direction), time,
                 response,  participant
@@ -200,58 +255,6 @@ public class FlankerActivity extends AppCompatActivity {
         return rightImgId;
     }
 
-    private void shuffle() {
-        int dir1;
-        int dir2;
-        //all in same direction
-        if (wins < 4) {
-            dir1 = setMidDirection();
-            for (ImageView fish : allFish) {
-                fish.setImageResource(dir1);
-            }
-            return;
-        }
-        //surrounding in opposite side
-        /*
-        if (wins < 7 ) {
-            dir1 = setMidDirection();
-            if (dir1 == rightImgId) {
-                dir2 = leftImgId;
-            } else {
-                dir2 = rightImgId;
-            }
-            fish3.setImageResource(dir1);
-            for (ImageView fish : leftFish) {
-                fish.setImageResource(dir2);
-            }
-            for (ImageView fish : rightFish) {
-                fish.setImageResource(dir2);
-            }
-            return;
-        }
-        //left and right not necessarily in same direction
-        if (wins < 11) {
-            dir1 = setMidDirection();
-            dir2 = getDirection();
-            int dir3 = getDirection();
-            fish3.setImageResource(dir1);
-            fish2.setImageResource(dir2);
-            fish4.setImageResource(dir2);
-            fish1.setImageResource(dir3);
-            fish5.setImageResource(dir3);
-            return;
-        }
-        //fully randomized
-        fish3.setImageResource(setMidDirection());
-        for (ImageView fish : leftFish) {
-            fish.setImageResource(getDirection());
-        }
-        for (ImageView fish : leftFish) {
-            fish.setImageResource(getDirection());
-        }
-        */
-        return;
-    }
     private void displayFeedback(final boolean game_over) {
         if (game_over) {
             feedback_text.setText(R.string.game_done);
