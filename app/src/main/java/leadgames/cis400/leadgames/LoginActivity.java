@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import java.io.InputStream;
 import java.util.regex.Matcher;
@@ -46,7 +47,10 @@ public class LoginActivity extends AppCompatActivity {
                 String lastName = ((EditText) findViewById(R.id.last_name)).getText().toString();
                 String studentId = ((EditText) findViewById(R.id.id)).getText().toString();
                 String dob = ((EditText) findViewById(R.id.dob)).getText().toString();
-                String gender = ((EditText) findViewById(R.id.gender)).getText().toString();
+                //String gender = ((EditText) findViewById(R.id.spnGift)).getText().toString();
+
+                Spinner mySpinner = (Spinner) findViewById(R.id.spnGender);
+                String gender = mySpinner.getSelectedItem().toString();
 
                 TextInputLayout firstNamelayout = findViewById(R.id.first_name_layout);
                 if (firstName == null || firstName.equals("")) {
