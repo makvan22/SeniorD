@@ -98,46 +98,6 @@ public class FlankerActivity extends AppCompatActivity {
             fish.setImageResource(imageid);
         }
 
-/*
-        final Runnable runnable = new Runnable() {
-            @Override public void run() {
-                // Replace with your logic.
-                leftButton.setOnClickListener(null);
-                rightButton.setOnClickListener(null);
-                endTrial(5, "NA");
-            }
-        };
-        leftButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                displayFeedback(false);
-                endTrial((int)(SystemClock.elapsedRealtime()-startTime / 1000.0), "left");
-                leftButton.removeCallbacks(runnable);
-            }
-        });
-        */
-       /*
-        leftButton.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(final View view) {
-                //Removing 5 Seconds timer which will remove click listener.
-                leftButton.removeCallbacks(runnable);
-            }
-        });*/
-
-        //Removed Click Listener after 5 Seconds.
-        /*
-        leftButton.postDelayed(runnable, 7500);
-
-        rightButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                displayFeedback(false);
-                endTrial((int)(SystemClock.elapsedRealtime()-startTime / 1000.0), "right");
-                rightButton.removeCallbacks(runnable);
-            }
-        });
-        rightButton.postDelayed(runnable, 7500);
-*/
         if (image.equals("bowl") || image.charAt(0) == 'n') {
             handler = new Handler();
             handler.postDelayed(new Runnable() {
@@ -232,8 +192,14 @@ public class FlankerActivity extends AppCompatActivity {
             displayFeedback(false);
             startTrial(trialIterator.next());
         } else {
-            displayFeedback(true);
-            backToMenu();
+                displayFeedback(true);
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        backToMenu();
+                    }
+                }, 1500);
         }
     }
     private void restartGame() {
