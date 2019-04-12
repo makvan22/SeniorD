@@ -11,6 +11,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -143,14 +146,21 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
 
     private void startTrial(AmbiguityDetectionTrial trial) {
         // TODO: add sounds
-        //reset scenes
-        this.currTrial = trial;
-        s1 = new Scene(q1, trial.getImg_1());
-        s2 = new Scene(q2, trial.getImg_2());
-        s3 = new Scene(q3, trial.getImg_3());
-        s4 = new Scene(q4, trial.getImg_4());
+        //Reset scenes
+        List<String> trial_imgs = new ArrayList<String>();
+        trial_imgs.add(trial.getImg_1());
+        trial_imgs.add(trial.getImg_2());
+        trial_imgs.add(trial.getImg_3());
+        trial_imgs.add(trial.getImg_4());
+        Collections.shuffle(trial_imgs);
 
-        //reset  trial variables
+        this.currTrial = trial;
+        s1 = new Scene(q1, trial_imgs.get(0));
+        s2 = new Scene(q2, trial_imgs.get(1));
+        s3 = new Scene(q3, trial_imgs.get(2));
+        s4 = new Scene(q4, trial_imgs.get(3));
+
+        //Reset  trial variables
         fs_time = 0;
         ss_time = 0;
         int correct = 0;
