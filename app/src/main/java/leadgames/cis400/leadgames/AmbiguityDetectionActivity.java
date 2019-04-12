@@ -6,14 +6,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -109,16 +106,16 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
                 }
             });
         }
-    };
+    }
 
     private void initViews() {
         //Initialize animal views
-        q1 = (ImageView) findViewById(R.id.q1);
-        q2 = (ImageView) findViewById(R.id.q2);
-        q3 = (ImageView) findViewById(R.id.q3);
-        q4 = (ImageView) findViewById(R.id.q4);
+        q1 = findViewById(R.id.q1);
+        q2 = findViewById(R.id.q2);
+        q3 = findViewById(R.id.q3);
+        q4 = findViewById(R.id.q4);
 
-        submit =  (ImageView) findViewById(R.id.submit);
+        submit = findViewById(R.id.submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,8 +125,8 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
         });
 
         //Initialize feedback view
-        feedback_panel = (TextView) findViewById(R.id.feedback_panel);
-        feedback_text = (TextView) findViewById(R.id.feedback_text);
+        feedback_panel = findViewById(R.id.feedback_panel);
+        feedback_text = findViewById(R.id.feedback_text);
         feedback_anim = findViewById(R.id.star);
     }
 

@@ -1,7 +1,5 @@
 package leadgames.cis400.leadgames;
 
-import java.util.ArrayList;
-
 public class AmbiguityDetectionTrial {
     //TODO: fetch inputs from researchers in order to model this class
     private String trial;

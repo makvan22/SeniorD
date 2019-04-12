@@ -1,15 +1,10 @@
 package leadgames.cis400.leadgames;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -71,7 +66,7 @@ public class FishActivity extends AppCompatActivity {
         //TODO: send FlankerResult back to db.addFlankerResult
         //db.addFlankerResult(new FlankerResult(trial, 1, 100, "left", participant);
         System.out.println(trials.get(0).getDirection());
-        leftButton = (ImageView) findViewById(R.id.left_arrow);
+        leftButton = findViewById(R.id.left_arrow);
         leftButton.setClickable(true);
         leftButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,7 +81,7 @@ public class FishActivity extends AppCompatActivity {
             }
         });
 
-        rightButton = (ImageView) findViewById(R.id.right_arrow);
+        rightButton = findViewById(R.id.right_arrow);
         rightButton.setClickable(true);
         rightButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,11 +96,11 @@ public class FishActivity extends AppCompatActivity {
             }
         });
 
-        fish1 = (ImageView) findViewById(R.id.fish1);
-        fish2 = (ImageView) findViewById(R.id.fish2);
-        fish3 = (ImageView) findViewById(R.id.fish3);
-        fish4 = (ImageView) findViewById(R.id.fish4);
-        fish5 = (ImageView) findViewById(R.id.fish5);
+        fish1 = findViewById(R.id.fish1);
+        fish2 = findViewById(R.id.fish2);
+        fish3 = findViewById(R.id.fish3);
+        fish4 = findViewById(R.id.fish4);
+        fish5 = findViewById(R.id.fish5);
 
         allFish = new ArrayList<ImageView>();
         allFish.add(fish1);
@@ -123,8 +118,8 @@ public class FishActivity extends AppCompatActivity {
         rightFish.add(fish5);
 
         //Initialize feedback view
-        feedback_panel = (TextView) findViewById(R.id.feedback_panel);
-        feedback_text = (TextView) findViewById(R.id.feedback_text);
+        feedback_panel = findViewById(R.id.feedback_panel);
+        feedback_text = findViewById(R.id.feedback_text);
         feedback_anim = findViewById(R.id.star);
         feedback_anim.setClickable(false);
     }
