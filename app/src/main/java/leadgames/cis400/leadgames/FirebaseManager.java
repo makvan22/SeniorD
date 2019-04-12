@@ -103,45 +103,10 @@ public class FirebaseManager {
 
     public void addFlankerResult(FlankerResult flankerResult, Context context) {
         addItemToSheet(flankerResult, context);
-        //TODO: ADD TO FIREBASE
-//        Participant participant = flankerResult.getParticipant();
-//        String studentId = participant.getStudentId();
-//
-//        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-//        String date = dateFormat.format(new Date());
-//
-//        //TODO: FIX FOR FIREBASE
-//        String trialId = encodeForFirebaseKey(studentId) + "/"
-//                + encodeForFirebaseKey(date);
     }
 
     public void addPutResult(PutResult putResult, Context context) {
         addItemToSheet(putResult, context);
-//        Participant participant = putResult.getParticipant();
-//        String studentId = participant.getStudentId();
-//
-//        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-//        String date = dateFormat.format(new Date());
-//
-//        //TODO: FIX FOR FIREBASE
-//        String trialId = encodeForFirebaseKey(studentId) + "/"
-//                          + encodeForFirebaseKey(date);
-//        List<PutPath> paths = putResult.getPaths();
-//
-//        putResultsRef.child(trialId + "/time").setValue(putResult.getTime());
-//        putResultsRef.child(trialId + "/correct").setValue(putResult.getCorrect());
-//
-//        String selectedObj = paths.size() == 0 ? "" : paths.get(paths.size() - 1).getPutOjbect();
-//        putResultsRef.child(trialId + "/selectedObject").setValue(selectedObj);
-//
-//        int pathInx = 0;
-//        for (PutPath path : paths) {
-//            String pathId = "path" + pathInx;
-//            putResultsRef.child(trialId + "/paths/" + pathId + "/object").setValue(path.getPutOjbect());
-//            putResultsRef.child(trialId + "/paths/" + pathId + "/objectPath").setValue(path.getPutObjectPath());
-//            pathInx++;
-//        }
-
     }
 
     public void addAmbiguityDetectionResult(AmbiguityDetectionResult result, Context context) {

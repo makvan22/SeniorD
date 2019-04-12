@@ -185,7 +185,6 @@ public class FlankerActivity extends AppCompatActivity {
                 response,  participant
         );
 
-        //TODO: STORE RESULTS (this should be it?? - neha <3 )
         db.addFlankerResult(result, context);
 
         if (trialIterator.hasNext()) {
