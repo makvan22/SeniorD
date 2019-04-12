@@ -195,7 +195,13 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
             startTrial(trialIterator.next());
         } else {
             displayFeedback(true);
-            backToMenu();
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    backToMenu();
+                }
+            }, 1500);
         }
     }
 
@@ -244,8 +250,6 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
                     feedback_panel.setVisibility(View.INVISIBLE);
                     feedback_anim.setVisibility(View.INVISIBLE);
                     feedback_text.setVisibility(View.INVISIBLE);
-                } else {
-                    backToMenu();
                 }
             }
         }, 2000);

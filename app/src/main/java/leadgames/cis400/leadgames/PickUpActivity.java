@@ -205,7 +205,13 @@ public class PickUpActivity extends AppCompatActivity {
             startTrial(trialIterator.next());
         } else {
             displayFeedback(true);
-            backToMenu();
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    backToMenu();
+                }
+            }, 1500);
         }
     }
 
