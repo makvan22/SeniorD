@@ -1,10 +1,12 @@
 package leadgames.cis400.leadgames;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -42,8 +44,10 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
 
     private Participant participant;
     private FirebaseManager db;
+    MediaPlayer mediaPlayer = null;
 
     private AmbiguityDetectionTrial currTrial = null;
+    private boolean isFirst = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,6 +158,21 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
         first_selection = "";
         second_selection = "";
         startTime = SystemClock.elapsedRealtime();
+
+        //removing the 'wav' at the end
+        String sound = trial.getSoundFile();
+        sound = sound.substring(0, sound.length() - 4);
+        int soundid = getResourceId(sound, "raw", getPackageName());
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), soundid);
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mediaPlayer.start();
+                    //}
+                }
+            }, isFirst ? 500 : 3000);
+        isFirst = false;
     }
 
     private void endTrial() {
@@ -234,4 +253,13 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() { }
+        public int getResourceId(String pVariableName, String pResourcename, String pPackageName)
+        {
+            try {
+                return getResources().getIdentifier(pVariableName, pResourcename, pPackageName);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return -1;
+            }
+        }
 }

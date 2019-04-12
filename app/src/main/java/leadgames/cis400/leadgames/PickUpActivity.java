@@ -106,9 +106,8 @@ public class PickUpActivity extends AppCompatActivity {
         /* XML is divided into 4 quadrants
            Q1 - upper left  Q2 - upper right  Q3 - bottom left Q4 - bottom right
          */
-        Context context = this;
-        startTime = 0;
 
+        startTime = 0;
         currTrial = trial.getId();
         //removing the 'wav' at the end
         String sound = trial.getSoundFile();
