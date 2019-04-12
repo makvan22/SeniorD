@@ -1,16 +1,11 @@
 package leadgames.cis400.leadgames;
 
-import android.os.Environment;
-
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class PutGameDB {
@@ -31,10 +26,6 @@ public class PutGameDB {
         return new ArrayList<>(localTrials.get(1));
     }
 
-    public List<Trial> getPutTrialFromList(int i) {
-        return new ArrayList<>(localTrials.get(i - 1));
-    }
-
     public void addPutTrial(Trial trial) {
         trials.add(trial);
     }
@@ -43,7 +34,7 @@ public class PutGameDB {
 
         List<Trial> listTrials = new ArrayList<>();
 
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF8"))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
             String line = br.readLine();
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",");

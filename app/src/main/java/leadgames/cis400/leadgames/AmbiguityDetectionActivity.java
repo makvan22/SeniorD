@@ -1,6 +1,7 @@
 package leadgames.cis400.leadgames;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -42,8 +44,10 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
 
     private Participant participant;
     private FirebaseManager db;
+    MediaPlayer mediaPlayer = null;
 
     private AmbiguityDetectionTrial currTrial = null;
+    private boolean isFirst = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,16 +106,16 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
                 }
             });
         }
-    };
+    }
 
     private void initViews() {
         //Initialize animal views
-        q1 = (ImageView) findViewById(R.id.q1);
-        q2 = (ImageView) findViewById(R.id.q2);
-        q3 = (ImageView) findViewById(R.id.q3);
-        q4 = (ImageView) findViewById(R.id.q4);
+        q1 = findViewById(R.id.q1);
+        q2 = findViewById(R.id.q2);
+        q3 = findViewById(R.id.q3);
+        q4 = findViewById(R.id.q4);
 
-        submit =  (ImageView) findViewById(R.id.submit);
+        submit = findViewById(R.id.submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,8 +125,8 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
         });
 
         //Initialize feedback view
-        feedback_panel = (TextView) findViewById(R.id.feedback_panel);
-        feedback_text = (TextView) findViewById(R.id.feedback_text);
+        feedback_panel = findViewById(R.id.feedback_panel);
+        feedback_text = findViewById(R.id.feedback_text);
         feedback_anim = findViewById(R.id.star);
     }
 
@@ -139,14 +143,21 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
 
     private void startTrial(AmbiguityDetectionTrial trial) {
         // TODO: add sounds
-        //reset scenes
-        this.currTrial = trial;
-        s1 = new Scene(q1, trial.getImg_1());
-        s2 = new Scene(q2, trial.getImg_2());
-        s3 = new Scene(q3, trial.getImg_3());
-        s4 = new Scene(q4, trial.getImg_4());
+        //Reset scenes
+        List<String> trial_imgs = new ArrayList<String>();
+        trial_imgs.add(trial.getImg_1());
+        trial_imgs.add(trial.getImg_2());
+        trial_imgs.add(trial.getImg_3());
+        trial_imgs.add(trial.getImg_4());
+        Collections.shuffle(trial_imgs);
 
-        //reset  trial variables
+        this.currTrial = trial;
+        s1 = new Scene(q1, trial_imgs.get(0));
+        s2 = new Scene(q2, trial_imgs.get(1));
+        s3 = new Scene(q3, trial_imgs.get(2));
+        s4 = new Scene(q4, trial_imgs.get(3));
+
+        //Reset  trial variables
         fs_time = 0;
         ss_time = 0;
         int correct = 0;
@@ -154,11 +165,24 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
         first_selection = "";
         second_selection = "";
         startTime = SystemClock.elapsedRealtime();
+
+        //removing the 'wav' at the end
+        String sound = trial.getSoundFile();
+        sound = sound.substring(0, sound.length() - 4);
+        int soundid = getResourceId(sound, "raw", getPackageName());
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), soundid);
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mediaPlayer.start();
+                    //}
+                }
+            }, isFirst ? 500 : 3000);
+        isFirst = false;
     }
 
     private void endTrial() {
-        //TODO: Determine correctness
-        //TODO: Upload result to database
         System.out.println("fs: " + first_selection);
         System.out.println("ss: " + second_selection);
         System.out.println("fs_time: " + fs_time);
@@ -171,7 +195,6 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
                 fs_time, ss_time, score(),  participant
         );
 
-        //TODO: STORE RESULTS (this should be it?? - neha <3 )
         db.addAmbiguityDetectionResult(result);
 
         if (trialIterator.hasNext()) {
@@ -179,7 +202,13 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
             startTrial(trialIterator.next());
         } else {
             displayFeedback(true);
-            backToMenu();
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    backToMenu();
+                }
+            }, 1500);
         }
     }
 
@@ -228,8 +257,6 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
                     feedback_panel.setVisibility(View.INVISIBLE);
                     feedback_anim.setVisibility(View.INVISIBLE);
                     feedback_text.setVisibility(View.INVISIBLE);
-                } else {
-                    backToMenu();
                 }
             }
         }, 2000);
@@ -237,4 +264,13 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() { }
+        public int getResourceId(String pVariableName, String pResourcename, String pPackageName)
+        {
+            try {
+                return getResources().getIdentifier(pVariableName, pResourcename, pPackageName);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return -1;
+            }
+        }
 }

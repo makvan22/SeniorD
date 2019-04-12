@@ -3,7 +3,7 @@ package leadgames.cis400.leadgames;
 import java.util.List;
 
 public class PutPath {
-
+    
     private PutObject putObject;
     private List<PutObject> path;
 

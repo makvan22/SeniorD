@@ -1,8 +1,7 @@
 package leadgames.cis400.leadgames;
 
 public class FlankerResult {
-
-
+    
     private FlankerTrial trial;
     private boolean correct;
     private int time;

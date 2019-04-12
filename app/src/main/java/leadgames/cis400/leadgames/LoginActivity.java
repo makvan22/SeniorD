@@ -2,19 +2,15 @@ package leadgames.cis400.leadgames;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -51,7 +47,10 @@ public class LoginActivity extends AppCompatActivity {
                 String lastName = ((EditText) findViewById(R.id.last_name)).getText().toString();
                 String studentId = ((EditText) findViewById(R.id.id)).getText().toString();
                 String dob = ((EditText) findViewById(R.id.dob)).getText().toString();
-                String gender = ((EditText) findViewById(R.id.gender)).getText().toString();
+                //String gender = ((EditText) findViewById(R.id.spnGift)).getText().toString();
+
+                Spinner mySpinner = (Spinner) findViewById(R.id.spnGender);
+                String gender = mySpinner.getSelectedItem().toString();
 
                 TextInputLayout firstNamelayout = findViewById(R.id.first_name_layout);
                 if (firstName == null || firstName.equals("")) {
@@ -100,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (cleanInput) {
                     Participant p = new Participant(firstName, lastName, gender, dob, studentId);
                     Intent mainIntent = new Intent(LoginActivity.this,GameMenu.class);
-                    mainIntent.putExtra("participant", (Serializable) p);
+                    mainIntent.putExtra("participant", p);
                     LoginActivity.this.startActivity(mainIntent);
                 }
             }
