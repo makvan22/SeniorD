@@ -23,7 +23,7 @@ public class PutGameDB {
             return trials;
         }
 
-        return new ArrayList<>(localTrials.get(1));
+        return new ArrayList<>(localTrials.get(0));
     }
 
     public void addPutTrial(Trial trial) {

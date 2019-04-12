@@ -164,7 +164,7 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
         num_selected = 0;
         first_selection = "";
         second_selection = "";
-        startTime = SystemClock.elapsedRealtime();
+        startTime = System.currentTimeMillis();
 
         //removing the 'wav' at the end
         String sound = trial.getSoundFile();
@@ -176,7 +176,6 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     mediaPlayer.start();
-                    //}
                 }
             }, isFirst ? 500 : 3000);
         isFirst = false;

@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 import static leadgames.cis400.leadgames.PutObject.DISTRACTOR_ANIMAL;
 import static leadgames.cis400.leadgames.PutObject.DISTRACTOR_GOAL;
@@ -49,7 +51,7 @@ public class PickUpActivity extends AppCompatActivity {
     private HashSet<ImageView> platforms = new HashSet<ImageView>();
     private ArrayList<Integer> quadrants = new ArrayList<>();
 
-    private HashSet<Trial> trials = new HashSet<Trial>();
+    private List<Trial> trials = new LinkedList<>(); // = new HashSet<Trial>();
     private Iterator<Trial> trialIterator = null;
     boolean not_first = false;
     MediaPlayer mediaPlayer = null;
@@ -80,7 +82,7 @@ public class PickUpActivity extends AppCompatActivity {
         initViews();
         loadTrials();
         if (trials.isEmpty()) {
-            backToMenu();
+            //backToMenu();
         }
         trialIterator = trials.iterator();
         if (trialIterator.hasNext()) {
@@ -108,9 +110,6 @@ public class PickUpActivity extends AppCompatActivity {
 
         startTime = 0;
         currTrial = trial.getId();
-        //removing the 'wav' at the end
-        String sound = trial.getSoundFile();
-        sound = sound.substring(0, sound.length() - 3);
 
         clearPlatforms();
         clearAnimals();
@@ -121,11 +120,15 @@ public class PickUpActivity extends AppCompatActivity {
         clearPlatforms();
         clearAnimals();
         //Log.d("myTag2", sound);
-        int soundid = getResourceId(sound, "raw", getPackageName());
+        //removing the 'wav' at the end
         //Log.d("myTag2", Integer.toString(getResourceId(t1.getSoundFile(), "raw", getPackageName())));
         //Log.d("myTag3", Integer.toString(soundid));
-        // Update xml to display current trail's objects
+        //Update xml to display current trail's objects
         //MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.sample);
+
+        String sound = trial.getSoundFile();
+        sound = sound.substring(0, sound.length() - 3);
+        int soundid = getResourceId(sound, "raw", getPackageName());
         mediaPlayer = MediaPlayer.create(getApplicationContext(), soundid);
         if (not_first) {
             Log.d("not first", "not first");
@@ -158,11 +161,10 @@ public class PickUpActivity extends AppCompatActivity {
             }, 1000);
         }
 
-
         //MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.sample);
         //mediaPlayer.start();
 
-        startTime = SystemClock.elapsedRealtime();
+        startTime = System.currentTimeMillis();//SystemClock.elapsedRealtime();
         setAnimalView(trial.getTargetAnimal(), quadrants.get(0), TARGET_ANIMAL);
         setPlatformView(trial.getTargetPlatform(), quadrants.get(0), TARGET_PLATFORM);
 
@@ -196,14 +198,13 @@ public class PickUpActivity extends AppCompatActivity {
         PutResult result = new PutResult(currTrial, correct, t, trialPath, participant);
         System.out.println(result.toString());
         //TODO: add warning suppress
-        db.addPutResult(result);
+         db.addPutResult(result);
         //run next trial
         if (trialIterator.hasNext()) {
             //display feedback(0)
             displayFeedback(false);
             startTrial(trialIterator.next());
         } else {
-            displayFeedback(true);
             final Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -242,6 +243,10 @@ public class PickUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 System.out.println("Submit clicked!");
+                if (mediaPlayer != null) {
+                    mediaPlayer.stop();
+                    mediaPlayer.release();
+                }
                 endTrial();
             }
         });
@@ -269,6 +274,7 @@ public class PickUpActivity extends AppCompatActivity {
     }
 
      private void loadTrials() {
+        trials =  db.getAllPutTrials();
         for (Trial t : db.getAllPutTrials()) {
             trials.add(t);
         }

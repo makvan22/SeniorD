@@ -119,7 +119,7 @@
         android:id="@+id/gender_layout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="250dp"
-        android:layout_height="88dp"
+        android:layout_height="86dp"
         app:hintTextAppearance="@style/TextHintAppearance"
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
@@ -140,7 +140,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="48dp"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="5dp"
@@ -154,22 +154,22 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:entries="@array/spinnerItems"
-                    android:popupBackground="@android:color/transparent"
                     android:overlapAnchor="false"
+                    android:popupBackground="@android:color/transparent"
                     android:spinnerMode="dropdown" />
             </LinearLayout>
 
             <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="9dp"-->
-                <!--android:layout_marginTop="-5dp"-->
-                <!--android:background="@android:color/transparent"-->
-                <!--android:paddingLeft="3dp"-->
-                <!--android:paddingRight="3dp"-->
-                <!--android:text="Sex"-->
-                <!--android:textColor="@color/off_white"-->
-                <!--android:textSize="16dp" />-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="9dp"-->
+            <!--android:layout_marginTop="-5dp"-->
+            <!--android:background="@android:color/transparent"-->
+            <!--android:paddingLeft="3dp"-->
+            <!--android:paddingRight="3dp"-->
+            <!--android:text="Sex"-->
+            <!--android:textColor="@color/off_white"-->
+            <!--android:textSize="16dp" />-->
         </RelativeLayout>
 
     </android.support.design.widget.TextInputLayout>

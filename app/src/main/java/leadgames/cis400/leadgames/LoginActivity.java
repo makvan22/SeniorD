@@ -85,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 TextInputLayout genderLayout = findViewById(R.id.gender_layout);
                 if (dob == null || dob.equals("")) {
-                    dobLayout.setError("Must enter gender: female, male, N/A");
+                    dobLayout.setError("Must be in MM/DD/YYYY");
                     cleanInput = false;
                 }
 
