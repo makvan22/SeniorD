@@ -45,6 +45,7 @@ public class FlankerActivity extends AppCompatActivity {
     private LikeButtonView feedback_anim;
     private FirebaseManager db;
     long startTime = 0;
+    Context context = null;
 
     private int wins = 0;
     private int plays=0;
@@ -86,7 +87,7 @@ public class FlankerActivity extends AppCompatActivity {
     }
 
     private void startTrial(FlankerTrial trial) {
-        Context context = this;
+        context = this;
         this.currTrial = trial;
         String image = trial.getImage();
         image = image.substring(0, image.length() - 4);
@@ -95,7 +96,15 @@ public class FlankerActivity extends AppCompatActivity {
         for (ImageView fish : allFish) {
             fish.setImageResource(imageid);
         }
-        startTime = SystemClock.elapsedRealtime();
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //Do something after 5000ms
+                endTrial(5, "NA");
+                //}
+            }
+        }, 7500);
         //reset  trial variables
         int correct = 0;
         startTime = SystemClock.elapsedRealtime();
@@ -162,7 +171,7 @@ public class FlankerActivity extends AppCompatActivity {
         );
 
         //TODO: STORE RESULTS (this should be it?? - neha <3 )
-        db.addFlankerResult(result);
+        db.addFlankerResult(result, context);
 
         if (trialIterator.hasNext()) {
             displayFeedback(false);
