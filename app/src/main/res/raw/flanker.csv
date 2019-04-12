@@ -1,4 +1,4 @@
-﻿block,image,condition,direction,response,switch,switchType
+block,image,condition,direction,response,switch,switchType
 practice,left_fish.jpg,null,left,left,NA,NA
 practice,right_fish.jpg,null,right,right,NA,NA
 practice,bowl.jpg,null,,NA,NA,NA

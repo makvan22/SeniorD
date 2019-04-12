@@ -25,7 +25,7 @@ public class GameMenu extends AppCompatActivity {
         flankerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent mainIntent = new Intent(GameMenu.this,FishActivity.class);
+                Intent mainIntent = new Intent(GameMenu.this,FlankerActivity.class);
                 mainIntent.putExtra("participant", participant);
                 GameMenu.this.startActivity(mainIntent);
             }
