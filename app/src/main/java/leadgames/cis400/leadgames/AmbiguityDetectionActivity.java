@@ -194,7 +194,7 @@ public class AmbiguityDetectionActivity extends AppCompatActivity {
                 fs_time, ss_time, score(),  participant
         );
 
-        db.addAmbiguityDetectionResult(result);
+        db.addAmbiguityDetectionResult(result, getApplicationContext());
 
         if (trialIterator.hasNext()) {
             displayFeedback(false);

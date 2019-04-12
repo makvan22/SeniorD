@@ -2,7 +2,9 @@ package leadgames.cis400.leadgames;
 
 import android.provider.Telephony;
 
-public class AmbiguityDetectionResult {
+import java.util.Map;
+
+public class AmbiguityDetectionResult implements ResultTrial {
     //TODO: fetch inputs from researchers in order to model this class
     private String subject;
     private String item;
@@ -28,5 +30,23 @@ public class AmbiguityDetectionResult {
         this.ss_time = ss_time;
         this.score = score;
         this.participant = participant;
+    }
+
+    @Override
+    public Map<String, String> addToParams(Map<String, String> params) {
+        params.put("action", "addAmbiguity");
+        params.put("studentID", participant.getStudentId());
+        params.put("firstName", participant.getFirstName());
+        params.put("lastName", participant.getLastName());
+        params.put("dob", participant.getDob());
+        params.put("sex", participant.getGender());
+        params.put("condition", condition);
+        params.put("item", item);
+        params.put("First_Picture_Selected", first_selection);
+        params.put("Second_Picture_Selected", second_selection);
+        params.put("Time_for_picture_selection_1", Integer.toString(fs_time));
+        params.put("Time_for_picture_selection_2", Integer.toString(ss_time));
+        params.put("score", Integer.toString(score));
+        return params;
     }
 }

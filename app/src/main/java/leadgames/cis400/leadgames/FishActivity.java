@@ -20,7 +20,7 @@ import java.util.List;
 
 public class FishActivity extends AppCompatActivity {
     final int rightImgId = R.drawable.righty;
-    final int leftImgId = R.drawable.lefty;
+    final int leftImgId = R.drawable.bowl;
 
     private ArrayList<ImageView> allFish;
     private ArrayList<ImageView> leftFish;
@@ -51,6 +51,7 @@ public class FishActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fish);
+        //setContentView(R.layout.flanker_layout);
         FirebaseManager db = FirebaseManager.getInstance();
         trials = db.getAllFlankerTrials();
 

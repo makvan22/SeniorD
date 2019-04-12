@@ -85,6 +85,26 @@ public class Trial {
 
     public int getList() { return this.list; }
 
+    public String getItem() { return this.item; }
+
+    public int getTrial() { return this.trial; }
+
+    public String getSentence() { return this.sentence; }
+
+    public int getReferents() { return this.referents; }
+
+    public String getAmbiguity() { return this.ambiguity; }
+
+    public String getTypeOfTrial() { return this.typeOfTrial; }
+
+    public PUT_LOCATION getTargetLocation() { return this.targetLocation; }
+
+    public PUT_LOCATION getTargetGoalLocation() { return this.targetGoalLocation; }
+
+    public PUT_LOCATION getDistractorPlatformLocation() { return this.distractorPlatformLocation; }
+
+    public PUT_LOCATION getCompetitorLocation() { return this.competitorLocation; }
+
     public String getTargetAnimal() {return targetAnimal; }
 
     public String getTargetGoal() {
