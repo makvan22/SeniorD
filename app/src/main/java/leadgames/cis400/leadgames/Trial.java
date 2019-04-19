@@ -131,7 +131,7 @@ public class Trial {
         return soundFile.toLowerCase().replace(".", "");
     }
 
-    private PUT_LOCATION locationToEnum(String location) {
+    public PUT_LOCATION locationToEnum(String location) {
         PUT_LOCATION ret = PUT_LOCATION.UPPER_LEFT;
         switch (location) {
             case "Upper Left":

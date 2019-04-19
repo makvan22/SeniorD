@@ -14,7 +14,6 @@ import android.widget.TextView;
 import android.media.MediaPlayer;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -26,7 +25,7 @@ import static leadgames.cis400.leadgames.PutObject.DISTRACTOR_PLATFORM;
 import static leadgames.cis400.leadgames.PutObject.TARGET_ANIMAL;
 import static leadgames.cis400.leadgames.PutObject.TARGET_GOAL;
 import static leadgames.cis400.leadgames.PutObject.TARGET_PLATFORM;
-import android.os.SystemClock;
+
 public class PickUpActivity extends AppCompatActivity {
 
     private FirebaseManager db = FirebaseManager.getInstance();
@@ -47,11 +46,9 @@ public class PickUpActivity extends AppCompatActivity {
     private TextView feedback_text;
     private LikeButtonView feedback_anim;
 
-    private HashSet<ImageView> animals = new HashSet<ImageView>();
-    private HashSet<ImageView> platforms = new HashSet<ImageView>();
-    private ArrayList<Integer> quadrants = new ArrayList<>();
+    private HashSet<ImageView> quadrantViews = new HashSet<ImageView>();
 
-    private List<Trial> trials = new LinkedList<>(); // = new HashSet<Trial>();
+    private List<Trial> trials = new LinkedList<>();
     private Iterator<Trial> trialIterator = null;
     private Trial currentTrial;
     boolean not_first = false;
@@ -74,10 +71,6 @@ public class PickUpActivity extends AppCompatActivity {
         Intent intent = getIntent();
         this.participant = (Participant) intent.getExtras().getSerializable("participant");
 
-        // Load quadrants
-        for (int i = 1; i <= 4; i++) {
-            quadrants.add(i);
-        }
         // Initialize views
         // Update xml to display current trail's objects
         initViews();
@@ -112,21 +105,9 @@ public class PickUpActivity extends AppCompatActivity {
 
         startTime = 0;
         currTrial = trial.getId();
+        clearQuadrantViews();
 
-        clearPlatforms();
-        clearAnimals();
-        // Shuffle quadrants to determine randomly assign position of objects
         System.out.println("Running trial: " + trial.getId());
-
-        Collections.shuffle(quadrants);
-        clearPlatforms();
-        clearAnimals();
-        //Log.d("myTag2", sound);
-        //removing the 'wav' at the end
-        //Log.d("myTag2", Integer.toString(getResourceId(t1.getSoundFile(), "raw", getPackageName())));
-        //Log.d("myTag3", Integer.toString(soundid));
-        //Update xml to display current trail's objects
-        //MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.sample);
 
         String sound = trial.getSoundFile();
         sound = sound.substring(0, sound.length() - 3);
@@ -140,13 +121,11 @@ public class PickUpActivity extends AppCompatActivity {
                 public void run() {
                     //Do something after 3000ms
                     //if (sound != null && sound.length() > 0) {
-
                     mediaPlayer.start();
                     //}
                 }
             }, 3000);
-        }
-        else {
+        } else {
             //shorter delay for first time
             Log.d("first", "first time");
             not_first = true;
@@ -156,25 +135,21 @@ public class PickUpActivity extends AppCompatActivity {
                 public void run() {
                     //Do something after 3000ms
                     //if (sound != null && sound.length() > 0) {
-
                     mediaPlayer.start();
                     //}
                 }
             }, 1000);
         }
 
-        //MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.sample);
-        //mediaPlayer.start();
+        setAnimalView(trial.getTargetAnimal(), trial.getTargetLocation(), TARGET_ANIMAL);
+        setPlatformView(trial.getTargetPlatform(), trial.getTargetLocation(), TARGET_PLATFORM);
 
-        startTime = System.currentTimeMillis();//SystemClock.elapsedRealtime();
-        setAnimalView(trial.getTargetAnimal(), quadrants.get(0), TARGET_ANIMAL);
-        setPlatformView(trial.getTargetPlatform(), quadrants.get(0), TARGET_PLATFORM);
+        setAnimalView(trial.getDistractorAnimal(), trial.getDistractorPlatformLocation(), DISTRACTOR_ANIMAL);
+        setPlatformView(trial.getDistractorPlatform(), trial.getDistractorPlatformLocation(), DISTRACTOR_PLATFORM);
 
-        setAnimalView(trial.getDistractorAnimal(), quadrants.get(1), DISTRACTOR_ANIMAL);
-        setPlatformView(trial.getDistractorPlatform(), quadrants.get(1), DISTRACTOR_PLATFORM);
-
-        setPlatformView(trial.getTargetGoal(), quadrants.get(2), TARGET_GOAL);
-        setPlatformView(trial.getDistractorGoal(), quadrants.get(3), DISTRACTOR_GOAL);
+        setPlatformView(trial.getTargetGoal(), trial.getTargetGoalLocation(), TARGET_GOAL);
+        setPlatformView(trial.getDistractorGoal(),trial.getCompetitorLocation(), DISTRACTOR_GOAL);
+        startTime = System.currentTimeMillis();
 
     }
 
@@ -224,10 +199,6 @@ public class PickUpActivity extends AppCompatActivity {
         q2 = findViewById(R.id.q2);
         q3 = findViewById(R.id.q3);
         q4 = findViewById(R.id.q4);
-        animals.add(q1);
-        animals.add(q2);
-        animals.add(q3);
-        animals.add(q4);
 
         //Initialize platform views
         p1 = findViewById(R.id.p1);
@@ -235,10 +206,14 @@ public class PickUpActivity extends AppCompatActivity {
         p3 = findViewById(R.id.p3);
         p4 = findViewById(R.id.p4);
 
-        platforms.add(p1);
-        platforms.add(p2);
-        platforms.add(p3);
-        platforms.add(p4);
+        quadrantViews.add(q1);
+        quadrantViews.add(q2);
+        quadrantViews.add(q3);
+        quadrantViews.add(q4);
+        quadrantViews.add(p1);
+        quadrantViews.add(p2);
+        quadrantViews.add(p3);
+        quadrantViews.add(p4);
 
         //Initialize submit view
         submit = findViewById(R.id.submit);
@@ -258,18 +233,10 @@ public class PickUpActivity extends AppCompatActivity {
         feedback_panel = findViewById(R.id.feedback_panel);
         feedback_text = findViewById(R.id.feedback_text);
         feedback_anim = findViewById(R.id.star);
-
     }
 
-    private void clearPlatforms() {
-        for (ImageView view : platforms) {
-            view.setOnDragListener(null);
-            view.setOnTouchListener(null);
-            view.setVisibility(View.INVISIBLE);
-        }
-    }
-    private void clearAnimals() {
-        for (ImageView view : animals) {
+    private void clearQuadrantViews() {
+        for (ImageView view : quadrantViews) {
             view.setOnTouchListener(null);
             view.setOnDragListener(null);
             view.setVisibility(View.INVISIBLE);
@@ -283,16 +250,16 @@ public class PickUpActivity extends AppCompatActivity {
         }
     }
 
-    private void setAnimalView(String imageName, int quad, PutObject animalType) {
+    private void setAnimalView(String imageName, PUT_LOCATION loc, PutObject animalType) {
         ImageView view;
-        switch (quad) {
-            case 1:
+        switch (loc) {
+            case UPPER_LEFT:
                 view = q1;
                 break;
-            case 2:
+            case UPPER_RIGHT:
                 view = q2;
                 break;
-            case 3:
+            case LOWER_LEFT:
                 view = q3;
                 break;
             default:
@@ -309,7 +276,37 @@ public class PickUpActivity extends AppCompatActivity {
         view.setOnDragListener(null);
     }
 
-    private void setPlatformView(String obj, int quad, PutObject platformType) {
+    private void setPlatformView(String obj, PUT_LOCATION loc, PutObject platformType) {
+        ImageView view;
+        ImageView animalQ;
+        switch (loc) {
+            case UPPER_LEFT :
+                view = p1;
+                animalQ = q1;
+                break;
+            case UPPER_RIGHT:
+                view = p2;
+                animalQ = q2;
+                break;
+            case LOWER_LEFT:
+                view = p3;
+                animalQ = q3;
+                break;
+            default:
+                view = p4;
+                animalQ = q4;
+                break;
+        }
+        view.setImageResource(ImageFinder.getImageResource(obj));
+        view.setVisibility(View.VISIBLE);
+        view.setOnDragListener(new DragListener(animalQ, platformType));
+        view.setTag(platformType);
+        // Sanity check: no platform can be draggable
+        view.setClickable(false);
+        view.setOnTouchListener(new TouchListener());
+    }
+
+    private void setQuadrantView(String obj, int quad, PutObject platformType) {
         ImageView view;
         ImageView animalQ;
         switch (quad) {
@@ -440,6 +437,39 @@ public class PickUpActivity extends AppCompatActivity {
             }
             return true;
         }
+    }
+
+    private final class QuadrantView {
+        private ImageView imageView;
+        private PutObject putObject;
+        private String occupant;
+
+        public QuadrantView(ImageView iv, PutObject platform, String occupant) {
+            this.imageView = iv;
+            this.putObject = platform;
+            this.occupant = occupant;
+        }
+
+        public void setOccupant(String occupant) {
+           this.occupant = occupant;
+        }
+
+        public void setPlatform(PutObject putObject) {
+            this.putObject = putObject;
+        }
+
+        public String getOccupant() {
+            return this.occupant;
+        }
+
+        public PutObject getPlatform() {
+            return this.putObject;
+        }
+
+        public ImageView getImageView() {
+            return this.imageView;
+        }
+
     }
 }
 
