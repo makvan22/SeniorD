@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 public class GameMenu extends AppCompatActivity {
@@ -35,9 +36,11 @@ public class GameMenu extends AppCompatActivity {
         putView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent mainIntent = new Intent(GameMenu.this,PickUpActivity.class);
-                mainIntent.putExtra("participant", participant);
-                GameMenu.this.startActivity(mainIntent);
+                view.setAlpha(0.3f);
+                showListButtions();
+//                Intent mainIntent = new Intent(GameMenu.this,PickUpActivity.class);
+//                mainIntent.putExtra("participant", participant);
+//                GameMenu.this.startActivity(mainIntent);
             }
         });
 
@@ -51,6 +54,36 @@ public class GameMenu extends AppCompatActivity {
             }
         });
     }
+
+    private void showListButtions() {
+        Button[] buttons = { findViewById(R.id.list1_button)
+                ,findViewById(R.id.list2_button)
+                ,findViewById(R.id.list3_button)
+                ,findViewById(R.id.list4_button)
+                ,findViewById(R.id.list5_button)
+                ,findViewById(R.id.list6_button)
+                ,findViewById(R.id.list7_button)
+                ,findViewById(R.id.list8_button) };
+
+        for (int i = 0; i < buttons.length; i++) {
+            buttons[i].setVisibility(View.VISIBLE);
+            final int currList = i;
+            buttons[i].setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    participant.setListSelection(currList);
+                    Intent mainIntent = new Intent(GameMenu.this,PickUpActivity.class);
+                    mainIntent.putExtra("participant", participant);
+                    GameMenu.this.startActivity(mainIntent);
+                }
+            });
+
+        }
+
+    }
+
+
 
 
 }

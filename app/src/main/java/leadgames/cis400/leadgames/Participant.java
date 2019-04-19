@@ -10,6 +10,7 @@ public class Participant implements Serializable {
     private String gender;
     private String dob;
     private String id;
+    private int list;
 
     public Participant(String first, String last, String gender, String dob, String id) {
         this.firstName = first;
@@ -24,5 +25,7 @@ public class Participant implements Serializable {
     public String getGender() { return gender; }
     public String getDob() { return dob; }
     public String getStudentId() { return id; }
+    public int getListSelection() { return list; }
+    public void setListSelection(int l) { this.list = l; }
 
 }
