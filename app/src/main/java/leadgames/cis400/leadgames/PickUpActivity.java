@@ -46,7 +46,7 @@ public class PickUpActivity extends AppCompatActivity {
     private TextView feedback_text;
     private LikeButtonView feedback_anim;
 
-    private HashSet<ImageView> quadrantViews = new HashSet<ImageView>();
+    private List<ImageView> quadrantViews = new LinkedList<ImageView>();
 
     private List<Trial> trials = new LinkedList<>();
     private Iterator<Trial> trialIterator = null;
@@ -98,6 +98,33 @@ public class PickUpActivity extends AppCompatActivity {
         }
     }
 
+
+    private void loadTrialViews(Trial trial) {
+        setQuadrantView(trial.getTargetAnimal(), trial.getTargetLocation(), TARGET_ANIMAL);
+        setQuadrantView(trial.getTargetPlatform(), trial.getTargetLocation(), TARGET_PLATFORM);
+
+        setQuadrantView(trial.getDistractorAnimal(), trial.getDistractorPlatformLocation(), DISTRACTOR_ANIMAL);
+        setQuadrantView(trial.getDistractorPlatform(), trial.getDistractorPlatformLocation(), DISTRACTOR_PLATFORM);
+
+        setQuadrantView(trial.getTargetGoal(), trial.getTargetGoalLocation(), TARGET_GOAL);
+        setQuadrantView(trial.getDistractorGoal(),trial.getCompetitorLocation(), DISTRACTOR_GOAL);
+    }
+
+    private void identifyViews() {
+        hideQuadrantViews();
+        Iterator<ImageView> views = quadrantViews.iterator();
+        ImageView currView = null;
+        while (views.hasNext()) {
+            currView = views.next();
+            currView.setVisibility(View.VISIBLE);
+            String sound = (String) currView.getTag();
+            sound = sound.split(",")[1];
+            int soundid = getResourceId(sound, "raw", getPackageName());
+            mediaPlayer = MediaPlayer.create(getApplicationContext(), soundid);
+            mediaPlayer.start();
+        }
+    }
+
     private void startTrial(Trial trial) {
         /* XML is divided into 4 quadrants
            Q1 - upper left  Q2 - upper right  Q3 - bottom left Q4 - bottom right
@@ -140,17 +167,8 @@ public class PickUpActivity extends AppCompatActivity {
                 }
             }, 1000);
         }
-
-        setAnimalView(trial.getTargetAnimal(), trial.getTargetLocation(), TARGET_ANIMAL);
-        setPlatformView(trial.getTargetPlatform(), trial.getTargetLocation(), TARGET_PLATFORM);
-
-        setAnimalView(trial.getDistractorAnimal(), trial.getDistractorPlatformLocation(), DISTRACTOR_ANIMAL);
-        setPlatformView(trial.getDistractorPlatform(), trial.getDistractorPlatformLocation(), DISTRACTOR_PLATFORM);
-
-        setPlatformView(trial.getTargetGoal(), trial.getTargetGoalLocation(), TARGET_GOAL);
-        setPlatformView(trial.getDistractorGoal(),trial.getCompetitorLocation(), DISTRACTOR_GOAL);
+        loadTrialViews(trial);
         startTime = System.currentTimeMillis();
-
     }
 
     public void endTrial() {
@@ -206,14 +224,15 @@ public class PickUpActivity extends AppCompatActivity {
         p3 = findViewById(R.id.p3);
         p4 = findViewById(R.id.p4);
 
-        quadrantViews.add(q1);
-        quadrantViews.add(q2);
-        quadrantViews.add(q3);
-        quadrantViews.add(q4);
         quadrantViews.add(p1);
         quadrantViews.add(p2);
         quadrantViews.add(p3);
         quadrantViews.add(p4);
+        quadrantViews.add(q1);
+        quadrantViews.add(q2);
+        quadrantViews.add(q3);
+        quadrantViews.add(q4);
+
 
         //Initialize submit view
         submit = findViewById(R.id.submit);
@@ -243,6 +262,12 @@ public class PickUpActivity extends AppCompatActivity {
         }
     }
 
+    private void hideQuadrantViews() {
+        for (ImageView view : quadrantViews) {
+            view.setVisibility(View.INVISIBLE);
+        }
+    }
+
      private void loadTrials() {
         trials =  db.getAllPutTrials();
         for (Trial t : db.getAllPutTrials()) {
@@ -250,90 +275,56 @@ public class PickUpActivity extends AppCompatActivity {
         }
     }
 
-    private void setAnimalView(String imageName, PUT_LOCATION loc, PutObject animalType) {
-        ImageView view;
-        switch (loc) {
-            case UPPER_LEFT:
-                view = q1;
-                break;
-            case UPPER_RIGHT:
-                view = q2;
-                break;
-            case LOWER_LEFT:
-                view = q3;
-                break;
-            default:
-                view = q4;
-                break;
-        }
-        view.setImageResource(ImageFinder.getImageResource(imageName));
-        //Tag =>  "animalType , imageName"
-        view.setTag(animalType + "," + imageName);
-        view.setVisibility(View.VISIBLE);
-        view.setClickable(true);
-        view.setOnTouchListener(new TouchListener());
-        // Sanity check: no animal should act as a drop zone
-        view.setOnDragListener(null);
-    }
 
-    private void setPlatformView(String obj, PUT_LOCATION loc, PutObject platformType) {
-        ImageView view;
-        ImageView animalQ;
+
+    public void setQuadrantView(String occupant, PUT_LOCATION loc, PutObject objectType) {
+//        this.objectType = objectType;
+//        this.occupant = occupant;
+        Boolean isPlatform = (objectType == TARGET_PLATFORM ||
+                objectType == DISTRACTOR_PLATFORM  ||
+                objectType == TARGET_GOAL ||
+                objectType == DISTRACTOR_GOAL);
+
+        ImageView platformView;
+        ImageView animalView;
+
         switch (loc) {
             case UPPER_LEFT :
-                view = p1;
-                animalQ = q1;
+                platformView = p1;
+                animalView = q1;
                 break;
             case UPPER_RIGHT:
-                view = p2;
-                animalQ = q2;
+                platformView = p2;
+                animalView = q2;
                 break;
             case LOWER_LEFT:
-                view = p3;
-                animalQ = q3;
+                platformView = p3;
+                animalView = q3;
                 break;
             default:
-                view = p4;
-                animalQ = q4;
+                platformView = p4;
+                animalView = q4;
                 break;
         }
-        view.setImageResource(ImageFinder.getImageResource(obj));
-        view.setVisibility(View.VISIBLE);
-        view.setOnDragListener(new DragListener(animalQ, platformType));
-        view.setTag(platformType);
-        // Sanity check: no platform can be draggable
-        view.setClickable(false);
-        view.setOnTouchListener(new TouchListener());
-    }
 
-    private void setQuadrantView(String obj, int quad, PutObject platformType) {
-        ImageView view;
-        ImageView animalQ;
-        switch (quad) {
-            case 1:
-                view = p1;
-                animalQ = q1;
-                break;
-            case 2:
-                view = p2;
-                animalQ = q2;
-                break;
-            case 3:
-                view = p3;
-                animalQ = q3;
-                break;
-            default:
-                view = p4;
-                animalQ = q4;
-                break;
+        if (isPlatform) {
+            platformView.setImageResource(ImageFinder.getImageResource(occupant));
+            platformView.setVisibility(View.VISIBLE);
+            platformView.setOnDragListener(new DragListener(animalView, objectType));
+            platformView.setTag(objectType + "," + occupant);
+            // Sanity check: no platform can be draggable
+            platformView.setClickable(false);
+            platformView.setOnTouchListener(new TouchListener());
+        } else {
+            animalView.setImageResource(ImageFinder.getImageResource(occupant));
+            //Tag =>  "animalType , imageName"
+            animalView.setTag(objectType + "," + occupant);
+            animalView.setVisibility(View.VISIBLE);
+            animalView.setClickable(true);
+            animalView.setOnTouchListener(new TouchListener());
+            // Sanity check: no animal should act as a drop zone
+            animalView.setOnDragListener(null);
         }
-        view.setImageResource(ImageFinder.getImageResource(obj));
-        view.setVisibility(View.VISIBLE);
-        view.setOnDragListener(new DragListener(animalQ, platformType));
-        view.setTag(platformType);
-        // Sanity check: no platform can be draggable
-        view.setClickable(false);
-        view.setOnTouchListener(new TouchListener());
     }
 
     private void backToMenu() {
@@ -403,6 +394,46 @@ public class PickUpActivity extends AppCompatActivity {
         }
     }
 
+//    private final class TouchListener implements View.OnTouchListener {
+//        private QuadrantView qView;
+//        public TouchListener(QuadrantView qView) {
+//            this.qView = qView;
+//        }
+//
+//        public boolean onTouch(ImageView imageView, MotionEvent motionEvent) {
+//            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+//                //Set curr animal to view being selected
+//                String tag = qView.getOccupant();
+//                System.out.println("Tag: " + tag);
+//                //Fetch animal type from tag
+//                PutObject animalUp = PutObject.valueOf(tag);
+//                if (currAnimal == null) {
+//                    currAnimal = animalUp;
+//                    currPath = new ArrayList<PutObject>();
+//                } else if (currAnimal != animalUp) {
+//                    //previous animal's path initiate new animal's path
+//                    PutPath animalPath = new PutPath(currAnimal, currPath);
+//                    trialPath.add(animalPath);
+//                    System.out.println("Trial path: " + trialPath.toString());
+//                    currAnimal = animalUp;
+//                    currPath = new ArrayList<PutObject>();
+//                }
+//                System.out.println("Animal up: " + animalUp);
+//                System.out.println("Currpath: " + currPath.toString());
+//
+//                //Start drag
+//                ClipData data = ClipData.newPlainText("", "");
+//                ImageView view = qView.getImageView();
+//                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(
+//                      view);
+//                view.startDrag(data, shadowBuilder, view, 0);
+//                return true;
+//            } else {
+//                return false;
+//            }
+//        }
+//    }
+
     private final class DragListener implements View.OnDragListener {
         private ImageView animalQ;
         private PutObject platformType;
@@ -441,13 +472,13 @@ public class PickUpActivity extends AppCompatActivity {
 
     private final class QuadrantView {
         private ImageView imageView;
-        private PutObject putObject;
+        private PutObject objectType;
         private String occupant;
 
-        public QuadrantView(ImageView iv, PutObject platform, String occupant) {
-            this.imageView = iv;
-            this.putObject = platform;
+        public QuadrantView(PUT_LOCATION loc, PutObject objectType, String occupant) {
+            this.objectType = objectType;
             this.occupant = occupant;
+            setQuadrantView(occupant, loc, objectType);
         }
 
         public void setOccupant(String occupant) {
@@ -455,15 +486,15 @@ public class PickUpActivity extends AppCompatActivity {
         }
 
         public void setPlatform(PutObject putObject) {
-            this.putObject = putObject;
+            this.objectType = putObject;
         }
 
         public String getOccupant() {
             return this.occupant;
         }
 
-        public PutObject getPlatform() {
-            return this.putObject;
+        public PutObject getObjectType() {
+            return this.objectType;
         }
 
         public ImageView getImageView() {
