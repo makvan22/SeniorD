@@ -5,7 +5,6 @@ import android.provider.Telephony;
 import java.util.Map;
 
 public class AmbiguityDetectionResult implements ResultTrial {
-    //TODO: fetch inputs from researchers in order to model this class
     private String subject;
     private String item;
     private String trial;
@@ -17,6 +16,7 @@ public class AmbiguityDetectionResult implements ResultTrial {
     private int score;
     private Participant participant;
 
+    /** Constructor for participant results */
     public AmbiguityDetectionResult(String subject, String item, String  trial, String condition,
                                     String first_selection, String second_selection, int fs_time,
                                     int ss_time, int score, Participant participant) {
@@ -32,6 +32,11 @@ public class AmbiguityDetectionResult implements ResultTrial {
         this.participant = participant;
     }
 
+    /**
+     * Creates a map of all parameters of the trial - from parameter title to value
+     * @param params
+     * @return
+     */
     @Override
     public Map<String, String> addToParams(Map<String, String> params) {
         params.put("action", "addAmbiguity");

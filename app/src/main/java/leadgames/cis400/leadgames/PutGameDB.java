@@ -30,6 +30,11 @@ public class PutGameDB {
         trials.add(trial);
     }
 
+    /**
+     * Reads trial information from input stream and parses information from a CSV
+     * @param is
+     * @throws IOException
+     */
     public void readTrialFromInputStream(InputStream is) throws IOException {
 
         List<Trial> listTrials = new ArrayList<>();

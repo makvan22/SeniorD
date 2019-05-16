@@ -32,6 +32,11 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+/**
+ * FirebaseManager controls access to database resources and acts as a "one-stop-shop" for reading
+ * and writing trial and experimental data.
+ */
+
 public class FirebaseManager {
     private volatile static FirebaseManager sFirebaseManager;
 
@@ -43,6 +48,10 @@ public class FirebaseManager {
     private AmbiguityDetectionDB mAmbiguity;
 
 
+    /**
+     * Singleton getter
+     * @return
+     */
     public static synchronized FirebaseManager getInstance() {
         if (sFirebaseManager == null) {
             synchronized (FirebaseManager.class) {
@@ -52,20 +61,22 @@ public class FirebaseManager {
         return sFirebaseManager;
     }
 
+    /**
+     * Singleton constructor. Sets up the access points and data structures for all 3 games.
+     */
     private FirebaseManager(){
         putGameRef = FirebaseDatabase.getInstance().getReference("put-games");
         mPutGame = new PutGameDB();
         mFlanker = new FlankerDB();
         mAmbiguity = new AmbiguityDetectionDB();
-        //populatePutGameDb();
 
         putResultsRef = FirebaseDatabase.getInstance().getReference("put-results");
     }
 
-    public void populatePutGameDb() {
-        addValueEventListenerToDb("put-games");
-    }
-
+    /**
+     * Reads input streams
+     * @param streamArr
+     */
     public void populatePutGameDb(InputStream[] streamArr) {
         for (int i = 0; i < streamArr.length; i++) {
             try {
@@ -76,6 +87,11 @@ public class FirebaseManager {
         }
     }
 
+    /**
+     * Reads input streams
+     * @param stream
+     */
+
     public void populateFlankerDb(InputStream stream) {
         try {
             mFlanker.readTrialFromInputStream(stream);
@@ -83,6 +99,11 @@ public class FirebaseManager {
             System.out.println(e);
         }
     }
+
+    /**
+     * Reads input streams
+     * @param stream
+     */
 
     public void populateAmbiguityDB(InputStream stream) {
         try {
@@ -93,14 +114,12 @@ public class FirebaseManager {
     }
 
 
-    public List<Trial> getAllPutTrials() {
-        return mPutGame.getAllPutTrials();
-    }
-
+    /** returns trials from individual data storages */
+    public List<Trial> getAllPutTrials() { return mPutGame.getAllPutTrials(); }
     public List<FlankerTrial> getAllFlankerTrials() { return mFlanker.getAllTrials(); }
-
     public List<AmbiguityDetectionTrial> getAllAmbiguityDetectionTrials() { return mAmbiguity.getAllTrials(); }
 
+    /** adds trial results to Google sheet */
     public void addFlankerResult(FlankerResult flankerResult, Context context) {
         addItemToSheet(flankerResult, context);
     }
@@ -113,36 +132,16 @@ public class FirebaseManager {
         addItemToSheet(result, context);
     }
 
-    public void addValueEventListenerToDb(String db) {
-        putGameRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String id = decodeFromFirebaseKey((String) snapshot.child("/id").getValue());
-                    String targetAnimal = (String) snapshot.child("/target").getValue();
-                    String targetGoal = (String) snapshot.child("/goal").getValue();
-                    String targetPlatform = (String) snapshot.child("/target_plaform").getValue();
-                    String distractorAnimal = (String) snapshot.child("/competitor").getValue();
-                    String distractorGoal = (String) snapshot.child("/incorrect_goal").getValue();
-                    String distractorPlatform = (String) snapshot.child("/comp_platform").getValue();
-                    //TODO change from hardcode
-                    String soundFile = "sample";
-
-                    mPutGame.addPutTrial(new Trial(id, targetAnimal, targetGoal, targetPlatform, distractorAnimal, distractorGoal, distractorPlatform, soundFile));
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
+    /**
+     * Issues a post request to a Google script which writes into the Google Sheet
+     * @param trial
+     * @param context
+     */
     private void addItemToSheet(ResultTrial trial, Context context) {
         final Map<String, String> params = trial.addToParams(new HashMap<String, String>());
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://script.google.com/macros/s/AKfycbxK4t30QzBnhjLx30gqGoNlLUUuzZSY6tFEOsqu-mR_69215TI/exec",
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                "https://script.google.com/macros/s/AKfycbxK4t30QzBnhjLx30gqGoNlLUUuzZSY6tFEOsqu-mR_69215TI/exec",
             new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) { }
@@ -166,34 +165,6 @@ public class FirebaseManager {
         RequestQueue queue = Volley.newRequestQueue(context);
         queue.add(stringRequest);
 
-    }
-
-    public static String encodeForFirebaseKey (String s) {
-        s = s.replace(".", "_P%ë5nN*")
-                .replace("$", "_D%5nNë*")
-                .replace("#", "_H%ë5Nn*")
-                .replace("[", "_Oë5n%N*")
-                .replace("]", "_5nN*C%ë")
-                .replace("/", "*_S%ë5nN")
-        ;
-        return s;
-    }
-
-    public String decodeFromFirebaseKey(String s) {
-
-        s = s.replace("_P%ë5nN*", ".")
-                .replace("_D%5nNë*", "$")
-                .replace("_H%ë5Nn*", "#")
-                .replace("_Oë5n%N*", "[")
-                .replace("_5nN*C%ë", "]")
-                .replace("*_S%ë5nN", "/");
-
-        return s;
-    }
-
-
-    public void destroy() {
-        sFirebaseManager=null;
     }
 
 }

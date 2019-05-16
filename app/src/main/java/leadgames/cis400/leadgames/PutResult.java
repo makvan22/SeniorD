@@ -12,6 +12,15 @@ public class PutResult implements ResultTrial {
     private Participant participant;
     private Trial trial;
 
+    /**
+     * Constructor from game data
+     * @param trialId
+     * @param correct
+     * @param time
+     * @param paths
+     * @param participant
+     * @param trial
+     */
     public PutResult(String trialId, boolean correct, int time,
                      List<PutPath> paths, Participant participant, Trial trial) {
         this.trialId = trialId;
@@ -33,6 +42,11 @@ public class PutResult implements ResultTrial {
     public List<PutPath> getPaths() { return paths; }
     public Participant getParticipant() { return participant; }
 
+    /**
+     * Creates a map of all parameters of the trial - from parameter title to value
+     * @param params
+     * @return
+     */
     @Override
     public Map<String, String> addToParams(Map<String, String> params) {
         params.put("action", "addPut");

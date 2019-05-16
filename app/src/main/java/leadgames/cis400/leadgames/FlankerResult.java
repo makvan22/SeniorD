@@ -11,10 +11,11 @@ public class FlankerResult implements ResultTrial{
     private Participant participant;
 
     /**
+     * Constructor to create the result that will be written to the DB
      *
      * @param trial the OG trial object received from DB
      * @param correct true or false if response was correct
-     * @param time time in MS(??)
+     * @param time time in seconds
      * @param response what the child selected. "left" or "right" or "NA" if avoided for 3 seconds
      * @param participant the participant object received from the intent (see pick up activity for example)
      */
@@ -33,6 +34,11 @@ public class FlankerResult implements ResultTrial{
     public String getResponse() { return response; }
     public Participant getParticipant() { return participant; }
 
+    /**
+     * Creates a map of all parameters of the trial - from parameter title to value
+     * @param params
+     * @return
+     */
     @Override
     public Map<String, String> addToParams(Map<String, String> params) {
         params.put("action", "addFlanker");

@@ -21,6 +21,7 @@ public class FlankerDB {
         return new ArrayList<>(trials);
     }
 
+    /** reads trials from input stream */
     public void readTrialFromInputStream(InputStream is) throws IOException {
 
         try (BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
