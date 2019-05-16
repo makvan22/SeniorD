@@ -21,22 +21,28 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
+
+ Main game logic for Flanker Game
+ This is the controller class, it pulls in views from the XML associated in onCreate,
+ populates it using trial information pulled from the FlankerTrial classes which use the input cvs
+
  */
 
 
 public class FlankerActivity extends AppCompatActivity {
+    //Initializes variables
+    //Initializes fish image by name from the res/drawable folder,
+    // eg R.drawable.left_fish pulls left_fish/png
     final int rightImgId = R.drawable.left_fish;
     final int leftImgId = R.drawable.right_fish;
-
+    //Initializes fish as an Image
     private ArrayList<ImageView> allFish;
     private ImageView fish1;
-
+    //Initializes trials as an Iterator so we can move from one trial to the next easily
     private List<FlankerTrial> trials;
     private Iterator<FlankerTrial> trialIterator = null;
     private FlankerTrial currTrial = null;
-
+    //Declares ImageViews of the buttons
     private ImageView leftButton;
     private ImageView rightButton;
 
@@ -59,9 +65,8 @@ public class FlankerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Sets flanker_layout.xml as the view
         setContentView(R.layout.flanker_layout);
-
-        //trials = db.getAllFlankerTrials();
 
         Intent intent = getIntent();
         this.participant = (Participant) intent.getExtras().getSerializable("participant");
@@ -69,14 +74,20 @@ public class FlankerActivity extends AppCompatActivity {
 
         initViews();
         loadTrials();
+        //If no information from trials pulled from the cvs, return to menu to prevent a crash
         if (trials.isEmpty()) {
             backToMenu();
         }
         trialIterator = trials.iterator();
         if (trialIterator.hasNext()) {
+            //Call startTrial once on each non-empty trial in the trial iterator
             startTrial(trialIterator.next());
         }
     }
+
+    //This function is to convert string names eg with ballon under pVariableName under a certain
+    //folder under the folder pResourceName under res. with eg drawable as pResourcename we would
+    //be looking for R.drawable.ballon under res/drawable/ballon/png
     public int getResourceId(String pVariableName, String pResourcename, String pPackageName)
     {
         try {
@@ -86,44 +97,47 @@ public class FlankerActivity extends AppCompatActivity {
             return -1;
         }
     }
-
+    //This function is one individual trial
     private void startTrial(FlankerTrial trial) {
         context = this;
         this.currTrial = trial;
         String image = trial.getImage();
+        //Trim . and png, eg trim ballon.png to ballon
         image = image.substring(0, image.length() - 4);
         Log.d("image", image);
         int imageid = getResourceId(image, "drawable", getPackageName());
         for (ImageView fish : allFish) {
             fish.setImageResource(imageid);
         }
-
+        //Special situation for bowl where it needs to time out, other screens do not time out
         if (image.equals("bowl") || image.charAt(0) == 'n') {
             handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    //Do something after 5000ms
+                    //Do something after 5000ms, accounting for an additional 2 seconds of the
+                    //star animation
                     endTrial(5, "NA");
                     //}
                 }
-            }, 7500);
+            }, 7000);
         }
         else {
+            //Remove the time out if something else has happened, such as the button being pressed
             if (handler != null) {
                 handler.removeCallbacksAndMessages(null);
             }
         }
-
         //reset  trial variables
-
-        int correct = 0;
-        startTime = SystemClock.elapsedRealtime();
+        startTime = System.currentTimeMillis();
     }
 
+    //Function to get trials from database
     private void loadTrials() {
         trials = db.getAllFlankerTrials();
     }
+
+    //Function to return to menu using intent
     private void backToMenu() {
         Intent mainIntent = new Intent(
                 FlankerActivity.this, LoginActivity.class);
@@ -135,16 +149,14 @@ public class FlankerActivity extends AppCompatActivity {
 
     private void initViews() {
         //TODO: send FlankerResult back to db.addFlankerResult
-        //db.addFlankerResult(new FlankerResult(trial, 1, 100, "left", participant);
-        //System.out.println(trials.get(0).getDirection());
         leftButton = (ImageView) findViewById(R.id.left_arrow);
         leftButton.setClickable(true);
-
+        //Set a clicklistener to record the time after any click and take the difference as
         leftButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 displayFeedback(false);
-                endTrial((int)(SystemClock.elapsedRealtime()-startTime / 1000.0), "left");
+                endTrial((int)((System.currentTimeMillis()-startTime) / 1000.0), "left");
             }
         });
 
@@ -155,28 +167,24 @@ public class FlankerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 displayFeedback(false);
-                endTrial((int)(SystemClock.elapsedRealtime()-startTime / 1000.0), "right");
+                endTrial((int)((System.currentTimeMillis()-startTime) / 1000.0), "right");
             }
         });
 
         fish1 = (ImageView) findViewById(R.id.fish1);
 
-
         allFish = new ArrayList<ImageView>();
         allFish.add(fish1);
 
-
-        //Initialize feedback view
+        //Initialize feedback view for focusing animated star after each trial
         feedback_panel = (TextView) findViewById(R.id.feedback_panel);
         feedback_text = (TextView) findViewById(R.id.feedback_text);
         feedback_anim = findViewById(R.id.star);
         feedback_anim.setClickable(false);
     }
     private void endTrial(int time, String response) {
-        //TODO: Determine correctness
-        //TODO: Upload result to database
-        //TODO: send FlankerResult back to db.addFlankerResult
-        //db.addFlankerResult(new FlankerResult(trial, 1, 100, "left", participant);
+        //Remove handler if there is one, so that the handler doesn't move the trial
+        //to the next screen
         if (handler != null) {
             handler.removeCallbacksAndMessages(null);
         }
@@ -188,9 +196,11 @@ public class FlankerActivity extends AppCompatActivity {
         db.addFlankerResult(result, context);
 
         if (trialIterator.hasNext()) {
+            //If there's more trials move to the next trial 
             displayFeedback(false);
             startTrial(trialIterator.next());
         } else {
+            //else there's no more trials, finish the game and return to menu
                 displayFeedback(true);
                 final Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
@@ -200,24 +210,6 @@ public class FlankerActivity extends AppCompatActivity {
                     }
                 }, 1500);
         }
-    }
-    private void restartGame() {
-        wins = 0;
-    }
-
-    private int setMidDirection() {
-        if (Math.random() < 0.5) {
-            midFishDir = 0;
-            return leftImgId;
-        }
-        midFishDir = 1;
-        return rightImgId;
-    }
-    private int getDirection() {
-        if (Math.random() < 0.5) {
-            return leftImgId;
-        }
-        return rightImgId;
     }
 
     private void displayFeedback(final boolean game_over) {
